@@ -1,0 +1,105 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.Header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background-color: #24292e;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.Header a {
+  color: currentColor;
+}
+
+.Logo {
+  display: flex;
+  align-items: center;
+}
+
+.Logo-icon {
+  margin-right: 10px;
+  color: white;
+}
+
+.Logo-type {
+  font-size: 20px;
+  color: white;
+}
+
+.Loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.Loading_center {
+  margin-top: 30%;
+}
+
+.Repositories {
+  list-style: none;
+  padding: 24px 18px;
+}
+
+.Repository {
+  padding-top: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #eee;
+}
+
+.Repository-placeholder {
+  border-bottom: none;
+}
+
+.Repository-placeholder-name {
+  width: 100%;
+  height: 24px;
+  animation: name-pulse 1s infinite ease-in-out;
+  margin-bottom: 10px;
+}
+
+.Repository-placeholder-text {
+  width: 100%;
+  height: 24px;
+  animation: text-pulse 1s infinite ease-in-out;
+  margin-bottom: 10px;
+}
+
+@keyframes name-pulse {
+  0% {
+    background-color: rgba(3, 102, 214, 0.1);
+  }
+  50% {
+    background-color: rgba(3, 102, 214, 0.3);
+  }
+  100% {
+    background-color: rgba(3, 102, 214, 0.1);
+  }
+}
+@keyframes text-pulse {
+  0% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
+  50% {
+    background-color: rgba(165, 165, 165, 0.3);
+  }
+  100% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
+}
+
+.Issues {
+  list-style: none;
+  padding: 12px 10px;
+}
+
+.Issue {
+  margin-bottom: 16px;
+}

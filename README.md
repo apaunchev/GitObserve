@@ -4,7 +4,7 @@
 
 Implementaion inspired by [GitStar](https://github.com/GraphQLCollege/gitstar) and [Trailer](https://github.com/ptsochantaris/trailer).
 
-## Techologies
+## Technologies
 
 - [React](https://reactjs.org/)
 - [Gatekeeper](https://github.com/prose/gatekeeper)

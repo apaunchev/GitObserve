@@ -44,8 +44,8 @@ body {
 }
 
 .Repositories {
+  margin-bottom: 24px;
   list-style: none;
-  padding: 24px 18px;
 }
 
 .Repository {
@@ -54,19 +54,23 @@ body {
   border-bottom: 1px solid #eee;
 }
 
+.Repository:first-child {
+  padding-top: 8px;
+}
+
 .Repository-placeholder {
   border-bottom: none;
 }
 
 .Repository-placeholder-name {
-  width: 100%;
+  width: 150px;
   height: 24px;
   animation: name-pulse 1s infinite ease-in-out;
   margin-bottom: 10px;
 }
 
 .Repository-placeholder-text {
-  width: 100%;
+  max-width: 600px;
   height: 24px;
   animation: text-pulse 1s infinite ease-in-out;
   margin-bottom: 10px;

@@ -1,113 +1,120 @@
 import _ from "lodash";
 import axios from "axios";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
-import Issues from "./Issues";
+import RepositoriesList from "./RepositoriesList";
+import RepositoriesPlaceholder from "./RepositoriesPlaceholder";
+import FetchMore from "./FetchMore";
 
-import { STATUS, GITHUB_GRAPHQL_API, LOCAL_STORAGE_KEY } from "./consts";
-import { GET_WATCHED_REPOSITORIES } from "./queries";
-
-dayjs.extend(relativeTime);
+import { GITHUB_GRAPHQL_API, LOCAL_STORAGE_KEY } from "./consts";
+import { getWatchedRepositories } from "./queries";
 
 class Repositories extends Component {
   state = {
-    repositories: []
+    data: null,
+    error: false,
+    loading: true
   };
 
   componentDidMount() {
-    const storedToken = localStorage.getItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN);
-
-    if (storedToken) {
-      this.setState({
-        status: STATUS.LOADING
-      });
-
-      axios
-        .post(
-          GITHUB_GRAPHQL_API,
-          { query: GET_WATCHED_REPOSITORIES },
-          {
-            headers: {
-              Authorization: `Bearer ${storedToken}`
-            }
-          }
-        )
-        .then(response => {
-          const { viewer } = response.data.data;
-          const repositories = _.map(viewer.watching.edges, "node");
-
-          this.setState({
-            repositories,
-            status: STATUS.READY
-          });
-        })
-        .catch(error => console.error(`Error fetching watched repositories: ${error}`));
-    }
+    this.fetchData();
   }
 
-  render() {
-    const { status, repositories } = this.state;
+  fetchData = (endCursor = "") => {
+    const storedToken = localStorage.getItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN);
 
-    if (status === STATUS.LOADING) {
+    if (!storedToken) {
+      return this.setState({
+        error: "GitHub token missing, please login and try again.",
+        loading: false
+      });
+    }
+
+    this.setState({ loading: true });
+
+    return axios
+      .post(
+        GITHUB_GRAPHQL_API,
+        { query: getWatchedRepositories(endCursor) },
+        { headers: { Authorization: `Bearer ${storedToken}` } }
+      )
+      .then(response => {
+        const { data } = response.data;
+
+        this.setState(prevState => {
+          let newStateData = {};
+
+          if (!prevState.data) {
+            newStateData = data;
+          } else {
+            newStateData = {
+              viewer: {
+                ...prevState.data.viewer,
+                watching: {
+                  ...prevState.data.viewer.watching,
+                  edges: [...prevState.data.viewer.watching.edges, ...data.viewer.watching.edges],
+                  pageInfo: {
+                    ...prevState.data.viewer.watching.pageInfo,
+                    ...data.viewer.watching.pageInfo
+                  }
+                }
+              }
+            };
+          }
+
+          return {
+            data: newStateData,
+            loading: false
+          };
+        });
+      })
+      .catch(error => {
+        console.error(`Error while fetching data: ${error}`);
+        this.setState({ error: "There was a problem loading your repositories.", loading: false });
+      });
+  };
+
+  render() {
+    const { data, error, loading } = this.state;
+
+    if (loading && !data) {
+      return <RepositoriesPlaceholder />;
+    }
+
+    if (error) {
       return (
-        <div className="container-md">
-          <RepositoriesPlaceholder />
+        <div class="flash flash-error">
+          <button onClick={this.fetchData} class="btn btn-sm primary flash-action">
+            Retry
+          </button>
+          {error}
         </div>
       );
     }
 
+    const {
+      watching,
+      watching: {
+        pageInfo: { hasNextPage, endCursor }
+      }
+    } = data.viewer;
+    const repositories = _.map(watching.edges, "node");
+
     return (
-      <div className="container-md">
+      <Fragment>
         <RepositoriesList repositories={repositories} />
-      </div>
+        {loading && <RepositoriesPlaceholder />}
+        <FetchMore
+          loading={loading}
+          hasNextPage={hasNextPage}
+          endCursor={endCursor}
+          fetchMore={this.fetchData}
+        >
+          Repositories
+        </FetchMore>
+      </Fragment>
     );
   }
 }
-
-const RepositoriesPlaceholder = () => (
-  <ul className="Repositories">
-    {Array(10)
-      .fill("")
-      .map((line, index) => (
-        <li key={index} className="Repository Repository-placeholder">
-          <div className="Repository-placeholder-name" />
-          <div className="Repository-placeholder-text" />
-          <div className="Repository-placeholder-text" />
-        </li>
-      ))}
-  </ul>
-);
-
-const RepositoriesList = ({ repositories }) => (
-  <ol className="Repositories">
-    {repositories.map(
-      ({ id, url, nameWithOwner, pushedAt, descriptionHTML, issues, pullRequests }) => (
-        <li key={id} className="Repository">
-          <h3>
-            <a href={url}>{nameWithOwner}</a>
-          </h3>
-          <div dangerouslySetInnerHTML={{ __html: descriptionHTML }} />
-          <p>
-            {pushedAt && (
-              <span>
-                Updated <span title={pushedAt}>{dayjs(pushedAt).fromNow()}</span>
-              </span>
-            )}
-          </p>
-          <details>
-            <summary>Issues ({issues.totalCount})</summary>
-            <Issues issues={issues} seeAllUrl={`${url}/issues`} />
-          </details>
-          <details>
-            <summary>Pull requests ({pullRequests.totalCount})</summary>
-            <Issues issues={pullRequests} seeAllUrl={`${url}/pulls`} />
-          </details>
-        </li>
-      )
-    )}
-  </ol>
-);
 
 export default Repositories;

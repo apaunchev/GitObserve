@@ -125,8 +125,10 @@ class App extends Component {
               viewer.login && <a href={viewer.url}>@{viewer.login}</a>}
           </div>
         </header>
-        {status === STATUS.LOADING && <div className="Loading">Loading...</div>}
-        {status === STATUS.AUTHENTICATED && <Repositories />}
+        <div className="Main container-md p-3">
+          {status === STATUS.LOADING && <div className="Loading">Loading...</div>}
+          {status === STATUS.AUTHENTICATED && <Repositories />}
+        </div>
       </div>
     );
   }

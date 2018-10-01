@@ -1,15 +1,14 @@
-import _ from "lodash";
+import { map } from "lodash";
 import axios from "axios";
 import React, { Component, Fragment } from "react";
 
-import RepositoriesList from "./RepositoriesList";
-import RepositoriesPlaceholder from "./RepositoriesPlaceholder";
-import FetchMore from "./FetchMore";
+import RepositoryItem from "../RepositoryItem";
+import FetchMore from "../../FetchMore";
 
-import { GITHUB_GRAPHQL_API, LOCAL_STORAGE_KEY } from "./consts";
-import { getWatchedRepositories } from "./queries";
+import { GITHUB_GRAPHQL_API, LOCAL_STORAGE_KEY } from "../../consts";
+import { getWatchedRepositories } from "../queries";
 
-class Repositories extends Component {
+class RepositoryList extends Component {
   state = {
     data: null,
     error: false,
@@ -20,7 +19,7 @@ class Repositories extends Component {
     this.fetchData();
   }
 
-  fetchData = (endCursor = "") => {
+  fetchData = cursor => {
     const storedToken = localStorage.getItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN);
 
     if (!storedToken) {
@@ -35,7 +34,7 @@ class Repositories extends Component {
     return axios
       .post(
         GITHUB_GRAPHQL_API,
-        { query: getWatchedRepositories(endCursor) },
+        { query: getWatchedRepositories(cursor) },
         { headers: { Authorization: `Bearer ${storedToken}` } }
       )
       .then(response => {
@@ -78,7 +77,7 @@ class Repositories extends Component {
     const { data, error, loading } = this.state;
 
     if (loading && !data) {
-      return <RepositoriesPlaceholder />;
+      return <RepositoryListPlaceholder />;
     }
 
     if (error) {
@@ -98,16 +97,24 @@ class Repositories extends Component {
         pageInfo: { hasNextPage, endCursor }
       }
     } = data.viewer;
-    const repositories = _.map(watching.edges, "node");
+    const repositories = map(watching.edges, "node");
 
     return (
       <Fragment>
-        <RepositoriesList repositories={repositories} />
-        {loading && <RepositoriesPlaceholder />}
+        <ol className="RepositoryList">
+          {repositories.map(repository => (
+            <div key={repository.id} className="RepositoryItem">
+              <RepositoryItem {...repository} />
+            </div>
+          ))}
+        </ol>
+
+        {loading && <RepositoryListPlaceholder />}
+
         <FetchMore
           loading={loading}
           hasNextPage={hasNextPage}
-          endCursor={endCursor}
+          cursor={endCursor}
           fetchMore={this.fetchData}
         >
           Repositories
@@ -117,4 +124,18 @@ class Repositories extends Component {
   }
 }
 
-export default Repositories;
+const RepositoryListPlaceholder = () => (
+  <ol className="RepositoryList">
+    {Array(10)
+      .fill("")
+      .map((item, index) => (
+        <li key={index} className="RepositoryItem RepositoryItem-placeholder">
+          <div className="RepositoryItem-placeholder-name" />
+          <div className="RepositoryItem-placeholder-text" />
+          <div className="RepositoryItem-placeholder-text" />
+        </li>
+      ))}
+  </ol>
+);
+
+export default RepositoryList;

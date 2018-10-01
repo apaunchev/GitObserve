@@ -43,33 +43,33 @@ body {
   margin-top: 30%;
 }
 
-.Repositories {
+.RepositoryList {
   margin-bottom: 24px;
   list-style: none;
 }
 
-.Repository {
+.RepositoryItem {
   padding-top: 24px;
   padding-bottom: 24px;
   border-bottom: 1px solid #eee;
 }
 
-.Repository:first-child {
+.RepositoryItem:first-child {
   padding-top: 8px;
 }
 
-.Repository-placeholder {
+.RepositoryItem-placeholder {
   border-bottom: none;
 }
 
-.Repository-placeholder-name {
+.RepositoryItem-placeholder-name {
   width: 150px;
   height: 24px;
   animation: name-pulse 1s infinite ease-in-out;
   margin-bottom: 10px;
 }
 
-.Repository-placeholder-text {
+.RepositoryItem-placeholder-text {
   max-width: 600px;
   height: 24px;
   animation: text-pulse 1s infinite ease-in-out;

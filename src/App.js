@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 
-import Repositories from "./Repositories";
+import RepositoryList from "./Repository";
 
 import {
   STATUS,
@@ -127,7 +127,7 @@ class App extends Component {
         </header>
         <div className="Main container-md p-3">
           {status === STATUS.LOADING && <div className="Loading">Loading...</div>}
-          {status === STATUS.AUTHENTICATED && <Repositories />}
+          {status === STATUS.AUTHENTICATED && <RepositoryList />}
         </div>
       </div>
     );

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 
-import RepositoryList from "./Repository";
+import RepositoryList from "../Repository";
 
 import {
   STATUS,
@@ -11,11 +11,11 @@ import {
   GITHUB_OAUTH_URL,
   CLIENT_ID,
   REDIRECT_URI
-} from "./consts";
+} from "../consts";
 import { GET_VIEWER } from "./queries";
 
 import "primer/build/build.css";
-import "./App.css";
+import "./style.css";
 
 class App extends Component {
   state = {

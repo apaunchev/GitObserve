@@ -8,6 +8,8 @@ import FetchMore from "../../FetchMore";
 import { GITHUB_GRAPHQL_API, LOCAL_STORAGE_KEY } from "../../consts";
 import { getWatchedRepositories } from "../queries";
 
+import "./style.css";
+
 class RepositoryList extends Component {
   state = {
     data: null,

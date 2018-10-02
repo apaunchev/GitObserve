@@ -1,0 +1,50 @@
+.RepositoryItem {
+  padding-top: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #eee;
+}
+
+.RepositoryItem:first-child {
+  padding-top: 8px;
+}
+
+.RepositoryItem-placeholder {
+  border-bottom: none;
+}
+
+.RepositoryItem-placeholder-name {
+  width: 150px;
+  height: 24px;
+  animation: name-pulse 1s infinite ease-in-out;
+  margin-bottom: 10px;
+}
+
+.RepositoryItem-placeholder-text {
+  max-width: 600px;
+  height: 24px;
+  animation: text-pulse 1s infinite ease-in-out;
+  margin-bottom: 10px;
+}
+
+@keyframes name-pulse {
+  0% {
+    background-color: rgba(3, 102, 214, 0.1);
+  }
+  50% {
+    background-color: rgba(3, 102, 214, 0.3);
+  }
+  100% {
+    background-color: rgba(3, 102, 214, 0.1);
+  }
+}
+@keyframes text-pulse {
+  0% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
+  50% {
+    background-color: rgba(165, 165, 165, 0.3);
+  }
+  100% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
+}

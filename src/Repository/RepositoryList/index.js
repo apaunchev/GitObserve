@@ -1,6 +1,6 @@
 import { map } from "lodash";
 import axios from "axios";
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 
 import RepositoryItem from "../RepositoryItem";
 import FetchMore from "../../FetchMore";
@@ -100,7 +100,7 @@ class RepositoryList extends Component {
     const repositories = map(watching.edges, "node");
 
     return (
-      <Fragment>
+      <>
         <ol className="RepositoryList">
           {repositories.map(repository => (
             <div key={repository.id} className="RepositoryItem">
@@ -119,7 +119,7 @@ class RepositoryList extends Component {
         >
           Repositories
         </FetchMore>
-      </Fragment>
+      </>
     );
   }
 }

@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { Fragment } from "react";
+import React from "react";
 
 dayjs.extend(relativeTime);
 
 const RepositoryItem = ({ id, name, owner, pushedAt, url, descriptionHTML }) => (
-  <Fragment>
+  <>
     <h3>
       <a href={url}>{name}</a>
     </h3>
@@ -17,7 +17,7 @@ const RepositoryItem = ({ id, name, owner, pushedAt, url, descriptionHTML }) => 
         </span>
       )}
     </p>
-  </Fragment>
+  </>
 );
 
 export default RepositoryItem;

@@ -2,6 +2,8 @@ import { map } from "lodash";
 import React, { Component } from "react";
 
 import RepositoryItem from "../RepositoryItem";
+import Issues from "../../Issue";
+import PullRequests from "../../PullRequest/PullRequestList";
 import FetchMore from "../../FetchMore";
 import Loading from "../../Loading";
 
@@ -19,10 +21,10 @@ class RepositoryList extends Component {
   };
 
   componentDidMount() {
-    this.fetchData();
+    this.fetchData({ cursor: null });
   }
 
-  fetchData = cursor => {
+  fetchData = ({ cursor }) => {
     this.setState({ status: STATUS.LOADING });
 
     const storedToken = localStorage.getItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN);
@@ -98,6 +100,17 @@ class RepositoryList extends Component {
           {repositories.map(repository => (
             <div key={repository.id} className="RepositoryItem">
               <RepositoryItem {...repository} />
+              <details>
+                <summary>Issues ({repository.issues.totalCount})</summary>
+                <Issues repositoryOwner={repository.owner.login} repositoryName={repository.name} />
+              </details>
+              <details>
+                <summary>Pull requests ({repository.pullRequests.totalCount})</summary>
+                <PullRequests
+                  repositoryOwner={repository.owner.login}
+                  repositoryName={repository.name}
+                />
+              </details>
             </div>
           ))}
         </ol>
@@ -107,7 +120,9 @@ class RepositoryList extends Component {
         <FetchMore
           loading={status === STATUS.LOADING}
           hasNextPage={hasNextPage}
-          cursor={endCursor}
+          variables={{
+            cursor: endCursor
+          }}
           fetchMore={this.fetchData}
         >
           Repositories

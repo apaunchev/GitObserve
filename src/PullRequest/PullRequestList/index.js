@@ -8,13 +8,11 @@ import Loading from "../../Loading";
 
 import { makeAPICall } from "../../api";
 import { STATUS, LOCAL_STORAGE_KEY } from "../../consts";
-import { getRepositoryIssues } from "../queries";
-
-import "./style.css";
+import { getRepositoryPullRequests } from "../queries";
 
 dayjs.extend(relativeTime);
 
-class Issues extends Component {
+class PullRequests extends Component {
   state = {
     status: STATUS.INITIAL,
     error: null,
@@ -27,7 +25,7 @@ class Issues extends Component {
     this.fetchData({ repositoryOwner, repositoryName });
   }
 
-  fetchData = ({ repositoryOwner, repositoryName, issueState, cursor }) => {
+  fetchData = ({ repositoryOwner, repositoryName, pullRequestState, cursor }) => {
     this.setState({ status: STATUS.LOADING });
 
     const storedToken = localStorage.getItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN);
@@ -40,7 +38,7 @@ class Issues extends Component {
     }
 
     makeAPICall(
-      getRepositoryIssues(repositoryOwner, repositoryName, "OPEN", cursor),
+      getRepositoryPullRequests(repositoryOwner, repositoryName, "OPEN", cursor),
       storedToken
     ).then(response => {
       const { data } = response.data;
@@ -54,12 +52,15 @@ class Issues extends Component {
           newStateData = {
             repository: {
               ...prevState.data.repository,
-              issues: {
-                ...prevState.data.repository.issues,
-                edges: [...prevState.data.repository.issues.edges, ...data.repository.issues.edges],
+              pullRequests: {
+                ...prevState.data.repository.pullRequests,
+                edges: [
+                  ...prevState.data.repository.pullRequests.edges,
+                  ...data.repository.pullRequests.edges
+                ],
                 pageInfo: {
-                  ...prevState.data.repository.issues.pageInfo,
-                  ...data.repository.issues.pageInfo
+                  ...prevState.data.repository.pullRequests.pageInfo,
+                  ...data.repository.pullRequests.pageInfo
                 }
               }
             }
@@ -93,13 +94,13 @@ class Issues extends Component {
       );
     }
 
-    const pageInfo = data.repository.issues.pageInfo;
-    const issues = map(data.repository.issues.edges, "node");
+    const pageInfo = data.repository.pullRequests.pageInfo;
+    const pullRequests = map(data.repository.pullRequests.edges, "node");
 
-    if (!issues.length) {
+    if (!pullRequests.length) {
       return (
         <div className="Issues">
-          <p>No issues yet.</p>
+          <p>No pull requests yet.</p>
         </div>
       );
     }
@@ -107,7 +108,7 @@ class Issues extends Component {
     return (
       <div className="Issues">
         <ol className="IssueList">
-          {issues.map(({ id, url, title, author, createdAt }) => (
+          {pullRequests.map(({ id, url, title, author, createdAt }) => (
             <li className="Issue" key={id}>
               <h5>
                 <a href={url}>{title}</a>
@@ -136,11 +137,11 @@ class Issues extends Component {
           }}
           fetchMore={this.fetchData}
         >
-          Issues
+          Pull Requests
         </FetchMore>
       </div>
     );
   }
 }
 
-export default Issues;
+export default PullRequests;

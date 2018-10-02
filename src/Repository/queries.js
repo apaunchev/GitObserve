@@ -14,6 +14,12 @@ export function getWatchedRepositories(cursor = null) {
               pushedAt
               url
               descriptionHTML
+              issues(states: [OPEN]) {
+                totalCount
+              }
+              pullRequests(states: [OPEN]) {
+                totalCount
+              }
             }
           }
           pageInfo {

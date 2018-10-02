@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { Component } from "react";
 
 import RepositoryList from "../Repository";
+import Loading from "../Loading";
 
 import { makeAPICall } from "../api";
 import {
@@ -79,7 +80,7 @@ class App extends Component {
           </div>
         </header>
         <div className="Main container-md p-3">
-          {status === STATUS.LOADING && <div className="Loading">Loading...</div>}
+          {status === STATUS.LOADING && <Loading isCenter={true} />}
           {status === STATUS.READY && <RepositoryList />}
         </div>
       </div>

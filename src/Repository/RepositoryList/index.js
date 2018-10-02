@@ -3,6 +3,7 @@ import React, { Component } from "react";
 
 import RepositoryItem from "../RepositoryItem";
 import FetchMore from "../../FetchMore";
+import Loading from "../../Loading";
 
 import { makeAPICall } from "../../api";
 import { STATUS, LOCAL_STORAGE_KEY } from "../../consts";
@@ -69,7 +70,7 @@ class RepositoryList extends Component {
     const { status, data, error } = this.state;
 
     if (status !== STATUS.READY && !data) {
-      return <RepositoryListPlaceholder />;
+      return <Loading isCenter={true} />;
     }
 
     if (error) {
@@ -101,7 +102,7 @@ class RepositoryList extends Component {
           ))}
         </ol>
 
-        {status === STATUS.LOADING && <RepositoryListPlaceholder />}
+        {status === STATUS.LOADING && <Loading />}
 
         <FetchMore
           loading={status === STATUS.LOADING}
@@ -115,19 +116,5 @@ class RepositoryList extends Component {
     );
   }
 }
-
-const RepositoryListPlaceholder = () => (
-  <ol className="RepositoryList">
-    {Array(10)
-      .fill("")
-      .map((item, index) => (
-        <li key={index} className="RepositoryItem RepositoryItem-placeholder">
-          <div className="RepositoryItem-placeholder-name" />
-          <div className="RepositoryItem-placeholder-text" />
-          <div className="RepositoryItem-placeholder-text" />
-        </li>
-      ))}
-  </ol>
-);
 
 export default RepositoryList;

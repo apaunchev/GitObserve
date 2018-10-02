@@ -1,20 +1,20 @@
 import { map } from "lodash";
-import axios from "axios";
 import React, { Component } from "react";
 
 import RepositoryItem from "../RepositoryItem";
 import FetchMore from "../../FetchMore";
 
-import { GITHUB_GRAPHQL_API, LOCAL_STORAGE_KEY } from "../../consts";
+import { makeAPICall } from "../../api";
+import { STATUS, LOCAL_STORAGE_KEY } from "../../consts";
 import { getWatchedRepositories } from "../queries";
 
 import "./style.css";
 
 class RepositoryList extends Component {
   state = {
-    data: null,
-    error: false,
-    loading: true
+    status: STATUS.INITIAL,
+    error: null,
+    data: null
   };
 
   componentDidMount() {
@@ -22,70 +22,60 @@ class RepositoryList extends Component {
   }
 
   fetchData = cursor => {
+    this.setState({ status: STATUS.LOADING });
+
     const storedToken = localStorage.getItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN);
 
     if (!storedToken) {
       return this.setState({
-        error: "GitHub token missing, please login and try again.",
-        loading: false
+        error: "GitHub token missing.",
+        status: STATUS.READY
       });
     }
 
-    this.setState({ loading: true });
+    makeAPICall(getWatchedRepositories(cursor), storedToken).then(response => {
+      const { data } = response.data;
 
-    return axios
-      .post(
-        GITHUB_GRAPHQL_API,
-        { query: getWatchedRepositories(cursor) },
-        { headers: { Authorization: `Bearer ${storedToken}` } }
-      )
-      .then(response => {
-        const { data } = response.data;
+      this.setState(prevState => {
+        let newStateData = {};
 
-        this.setState(prevState => {
-          let newStateData = {};
-
-          if (!prevState.data) {
-            newStateData = data;
-          } else {
-            newStateData = {
-              viewer: {
-                ...prevState.data.viewer,
-                watching: {
-                  ...prevState.data.viewer.watching,
-                  edges: [...prevState.data.viewer.watching.edges, ...data.viewer.watching.edges],
-                  pageInfo: {
-                    ...prevState.data.viewer.watching.pageInfo,
-                    ...data.viewer.watching.pageInfo
-                  }
+        if (!prevState.data) {
+          newStateData = data;
+        } else {
+          newStateData = {
+            viewer: {
+              ...prevState.data.viewer,
+              watching: {
+                ...prevState.data.viewer.watching,
+                edges: [...prevState.data.viewer.watching.edges, ...data.viewer.watching.edges],
+                pageInfo: {
+                  ...prevState.data.viewer.watching.pageInfo,
+                  ...data.viewer.watching.pageInfo
                 }
               }
-            };
-          }
-
-          return {
-            data: newStateData,
-            loading: false
+            }
           };
-        });
-      })
-      .catch(error => {
-        console.error(`Error while fetching data: ${error}`);
-        this.setState({ error: "There was a problem loading your repositories.", loading: false });
+        }
+
+        return {
+          data: newStateData,
+          status: STATUS.READY
+        };
       });
+    });
   };
 
   render() {
-    const { data, error, loading } = this.state;
+    const { status, data, error } = this.state;
 
-    if (loading && !data) {
+    if (status !== STATUS.READY && !data) {
       return <RepositoryListPlaceholder />;
     }
 
     if (error) {
       return (
-        <div class="flash flash-error">
-          <button onClick={this.fetchData} class="btn btn-sm primary flash-action">
+        <div className="flash flash-error">
+          <button onClick={this.fetchData} className="btn btn-sm primary flash-action">
             Retry
           </button>
           {error}
@@ -111,10 +101,10 @@ class RepositoryList extends Component {
           ))}
         </ol>
 
-        {loading && <RepositoryListPlaceholder />}
+        {status === STATUS.LOADING && <RepositoryListPlaceholder />}
 
         <FetchMore
-          loading={loading}
+          loading={status === STATUS.LOADING}
           hasNextPage={hasNextPage}
           cursor={endCursor}
           fetchMore={this.fetchData}

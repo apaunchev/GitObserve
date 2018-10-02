@@ -3,10 +3,10 @@ import React, { Component } from "react";
 
 import RepositoryList from "../Repository";
 
+import { makeAPICall } from "../api";
 import {
   STATUS,
   LOCAL_STORAGE_KEY,
-  GITHUB_GRAPHQL_API,
   AUTH_API_URI,
   GITHUB_OAUTH_URL,
   CLIENT_ID,
@@ -20,75 +20,46 @@ import "./style.css";
 class App extends Component {
   state = {
     status: STATUS.INITIAL,
-    viewer: {}
+    error: null,
+    data: null
   };
 
   componentDidMount() {
     const storedToken = localStorage.getItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN);
 
     if (storedToken) {
-      this.setState(
-        {
-          status: STATUS.AUTHENTICATED
-        },
-        () => this.fetchViewerData(storedToken)
-      );
+      this.setState({ status: STATUS.LOADING }, () => this.fetchViewerData(storedToken));
+      return;
     }
 
     const code =
       window.location.href.match(/\?code=(.*)/) && window.location.href.match(/\?code=(.*)/)[1];
 
     if (code) {
-      this.setState({
-        status: STATUS.LOADING
-      });
-
-      axios
-        .get(`${AUTH_API_URI}/${code}`)
-        .then(({ data: { token } }) => {
-          if (token) {
-            localStorage.setItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN, token);
-
-            this.setState(
-              {
-                status: STATUS.AUTHENTICATED
-              },
-              () => this.fetchViewerData(token)
-            );
-          }
-        })
-        .catch(error => console.error(`Error while authenticating: ${error}`));
+      this.setState({ status: STATUS.LOADING }, () => this.authenticate(code));
     }
   }
 
-  fetchViewerData(token) {
-    return axios
-      .post(
-        GITHUB_GRAPHQL_API,
-        { query: GET_VIEWER },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+  authenticate(code) {
+    axios
+      .get(`${AUTH_API_URI}/${code}`)
+      .then(({ data: { token } }) => {
+        if (token) {
+          localStorage.setItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN, token);
+          this.fetchViewerData(token);
         }
-      )
-      .then(response => {
-        const {
-          viewer: { login, url }
-        } = response.data.data;
-
-        this.setState({
-          viewer: {
-            login,
-            url
-          }
-        });
       })
-      .catch(error => console.error(`Error fetching viewer: ${error}`));
+      .catch(error => console.error(`Error while authenticating: ${error}`));
+  }
+
+  fetchViewerData(token) {
+    makeAPICall(GET_VIEWER, token).then(response =>
+      this.setState({ data: response.data.data, status: STATUS.READY })
+    );
   }
 
   render() {
-    const { status, viewer } = this.state;
+    const { status, data } = this.state;
 
     return (
       <div className="App">
@@ -102,13 +73,14 @@ class App extends Component {
                 Login
               </a>
             )}
-            {status === STATUS.AUTHENTICATED &&
-              viewer.login && <a href={viewer.url}>@{viewer.login}</a>}
+            {status === STATUS.READY &&
+              data.viewer &&
+              data.viewer.login && <a href={data.viewer.url}>@{data.viewer.login}</a>}
           </div>
         </header>
         <div className="Main container-md p-3">
           {status === STATUS.LOADING && <div className="Loading">Loading...</div>}
-          {status === STATUS.AUTHENTICATED && <RepositoryList />}
+          {status === STATUS.READY && <RepositoryList />}
         </div>
       </div>
     );

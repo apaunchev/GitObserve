@@ -7,7 +7,6 @@ export const GITHUB_GRAPHQL_API = "https://api.github.com/graphql";
 
 export const STATUS = {
   INITIAL: "initial",
-  AUTHENTICATED: "authenticated",
   LOADING: "loading",
   READY: "ready"
 };

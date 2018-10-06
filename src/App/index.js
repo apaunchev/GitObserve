@@ -66,7 +66,7 @@ class App extends Component {
             {status === STATUS.AUTHENTICATED && <Avatar />}
           </div>
         </header>
-        <div className="Main container-md p-3">
+        <div className="Main">
           {status === STATUS.LOADING && <Loading isCenter={true} />}
           {status === STATUS.AUTHENTICATED && <RepositoryList />}
         </div>

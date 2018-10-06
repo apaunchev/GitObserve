@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { Component } from "react";
 
+import Avatar from "../Avatar";
 import RepositoryList from "../Repository";
 import Loading from "../Loading";
 
-import { makeAPICall } from "../api";
 import {
   STATUS,
   LOCAL_STORAGE_KEY,
@@ -13,29 +13,24 @@ import {
   CLIENT_ID,
   REDIRECT_URI
 } from "../consts";
-import { GET_VIEWER } from "./queries";
 
 import "primer/build/build.css";
 import "./style.css";
 
 class App extends Component {
   state = {
-    status: STATUS.INITIAL,
-    error: null,
-    data: null
+    status: STATUS.INITIAL
   };
 
   componentDidMount() {
     const storedToken = localStorage.getItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN);
-
     if (storedToken) {
-      this.setState({ status: STATUS.LOADING }, () => this.fetchViewerData(storedToken));
+      this.setState({ status: STATUS.AUTHENTICATED });
       return;
     }
 
     const code =
       window.location.href.match(/\?code=(.*)/) && window.location.href.match(/\?code=(.*)/)[1];
-
     if (code) {
       this.setState({ status: STATUS.LOADING }, () => this.authenticate(code));
     }
@@ -47,20 +42,14 @@ class App extends Component {
       .then(({ data: { token } }) => {
         if (token) {
           localStorage.setItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN, token);
-          this.fetchViewerData(token);
+          this.setState({ token, status: STATUS.AUTHENTICATED });
         }
       })
       .catch(error => console.error(`Error while authenticating: ${error}`));
   }
 
-  fetchViewerData(token) {
-    makeAPICall(GET_VIEWER, token).then(response =>
-      this.setState({ data: response.data.data, status: STATUS.READY })
-    );
-  }
-
   render() {
-    const { status, data } = this.state;
+    const { status } = this.state;
 
     return (
       <div className="App">
@@ -74,14 +63,12 @@ class App extends Component {
                 Login
               </a>
             )}
-            {status === STATUS.READY &&
-              data.viewer &&
-              data.viewer.login && <a href={data.viewer.url}>@{data.viewer.login}</a>}
+            {status === STATUS.AUTHENTICATED && <Avatar />}
           </div>
         </header>
         <div className="Main container-md p-3">
           {status === STATUS.LOADING && <Loading isCenter={true} />}
-          {status === STATUS.READY && <RepositoryList />}
+          {status === STATUS.AUTHENTICATED && <RepositoryList />}
         </div>
       </div>
     );

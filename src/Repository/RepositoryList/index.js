@@ -3,7 +3,6 @@ import React, { Component } from "react";
 
 import RepositoryItem from "../RepositoryItem";
 import Issues from "../../Issue";
-import PullRequests from "../../PullRequest/PullRequestList";
 import FetchMore from "../../FetchMore";
 
 import { makeAPICall } from "../../api";
@@ -101,11 +100,16 @@ class RepositoryList extends Component {
               <RepositoryItem {...repository} />
               <details>
                 <summary>Issues ({repository.issues.totalCount})</summary>
-                <Issues repositoryOwner={repository.owner.login} repositoryName={repository.name} />
+                <Issues
+                  entity={"issues"}
+                  repositoryOwner={repository.owner.login}
+                  repositoryName={repository.name}
+                />
               </details>
               <details>
                 <summary>Pull requests ({repository.pullRequests.totalCount})</summary>
-                <PullRequests
+                <Issues
+                  entity={"pullRequests"}
                   repositoryOwner={repository.owner.login}
                   repositoryName={repository.name}
                 />

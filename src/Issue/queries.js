@@ -1,8 +1,14 @@
-export function getRepositoryIssues(owner, name, issueState = "OPEN", cursor = null) {
+export function getRepositoryIssues({
+  entity = "issues",
+  repositoryOwner,
+  repositoryName,
+  issueState = "OPEN",
+  cursor = null
+}) {
   return `
     query {
-      repository(owner: "${owner}", name: "${name}") {
-        issues(
+      repository(owner: "${repositoryOwner}", name: "${repositoryName}") {
+        ${entity}(
           first: 5
           states: [${issueState}]
           orderBy: { field: CREATED_AT, direction: DESC }

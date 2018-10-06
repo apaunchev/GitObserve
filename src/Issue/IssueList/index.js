@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import React, { Component } from "react";
 
+import IssueItem from "../IssueItem";
 import FetchMore from "../../FetchMore";
 import Loading from "../../Loading";
 
@@ -22,25 +23,17 @@ class Issues extends Component {
   };
 
   componentDidMount() {
-    const { repositoryOwner, repositoryName } = this.props;
-
-    this.fetchData({ repositoryOwner, repositoryName });
+    const { entity, repositoryOwner, repositoryName } = this.props;
+    this.fetchIssues({ entity, repositoryOwner, repositoryName });
   }
 
-  fetchData = ({ repositoryOwner, repositoryName, issueState, cursor }) => {
-    this.setState({ status: STATUS.LOADING });
-
+  fetchIssues = ({ entity, repositoryOwner, repositoryName, issueState, cursor }) => {
     const storedToken = localStorage.getItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN);
 
-    if (!storedToken) {
-      return this.setState({
-        error: "GitHub token missing.",
-        status: STATUS.READY
-      });
-    }
+    this.setState({ status: STATUS.LOADING });
 
     makeAPICall(
-      getRepositoryIssues(repositoryOwner, repositoryName, "OPEN", cursor),
+      getRepositoryIssues({ entity, repositoryOwner, repositoryName, issueState, cursor }),
       storedToken
     ).then(response => {
       const { data } = response.data;
@@ -54,12 +47,15 @@ class Issues extends Component {
           newStateData = {
             repository: {
               ...prevState.data.repository,
-              issues: {
-                ...prevState.data.repository.issues,
-                edges: [...prevState.data.repository.issues.edges, ...data.repository.issues.edges],
+              [entity]: {
+                ...prevState.data.repository[entity],
+                edges: [
+                  ...prevState.data.repository[entity].edges,
+                  ...data.repository[entity].edges
+                ],
                 pageInfo: {
-                  ...prevState.data.repository.issues.pageInfo,
-                  ...data.repository.issues.pageInfo
+                  ...prevState.data.repository[entity].pageInfo,
+                  ...data.repository[entity].pageInfo
                 }
               }
             }
@@ -68,7 +64,7 @@ class Issues extends Component {
 
         return {
           data: newStateData,
-          status: STATUS.READY
+          status: STATUS.FINISHED_LOADING
         };
       });
     });
@@ -76,16 +72,16 @@ class Issues extends Component {
 
   render() {
     const { status, error, data } = this.state;
-    const { repositoryOwner, repositoryName } = this.props;
+    const { entity, repositoryOwner, repositoryName } = this.props;
 
-    if (status !== STATUS.READY && !data) {
+    if (!data) {
       return <Loading />;
     }
 
     if (error) {
       return (
         <div className="flash flash-error">
-          <button onClick={this.fetchData} className="btn btn-sm primary flash-action">
+          <button onClick={this.fetchIssues} className="btn btn-sm primary flash-action">
             Retry
           </button>
           {error}
@@ -93,13 +89,13 @@ class Issues extends Component {
       );
     }
 
-    const pageInfo = data.repository.issues.pageInfo;
-    const issues = map(data.repository.issues.edges, "node");
+    const pageInfo = data.repository[entity].pageInfo;
+    const issues = map(data.repository[entity].edges, "node");
 
     if (!issues.length) {
       return (
         <div className="Issues">
-          <p>No issues yet.</p>
+          <p>No content yet.</p>
         </div>
       );
     }
@@ -107,19 +103,9 @@ class Issues extends Component {
     return (
       <div className="Issues">
         <ol className="IssueList">
-          {issues.map(({ id, url, title, author, createdAt }) => (
-            <li className="Issue" key={id}>
-              <h5>
-                <a href={url}>{title}</a>
-              </h5>
-              <p>
-                {author && (
-                  <span>
-                    Opened by <a href={author.url}>{author.login}</a>
-                  </span>
-                )}
-                {createdAt && <span title={createdAt}> {dayjs(createdAt).fromNow()}</span>}
-              </p>
+          {issues.map(issue => (
+            <li className="Issue" key={issue.id}>
+              <IssueItem {...issue} />
             </li>
           ))}
         </ol>
@@ -130,14 +116,13 @@ class Issues extends Component {
           loading={status === STATUS.LOADING}
           hasNextPage={pageInfo.hasNextPage}
           variables={{
-            cursor: pageInfo.endCursor,
+            entity,
             repositoryOwner,
-            repositoryName
+            repositoryName,
+            cursor: pageInfo.endCursor
           }}
-          fetchMore={this.fetchData}
-        >
-          Issues
-        </FetchMore>
+          fetchMore={this.fetchIssues}
+        />
       </div>
     );
   }

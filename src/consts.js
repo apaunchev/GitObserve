@@ -8,7 +8,8 @@ export const GITHUB_GRAPHQL_API = "https://api.github.com/graphql";
 export const STATUS = {
   INITIAL: "initial",
   LOADING: "loading",
-  AUTHENTICATED: "authenticated"
+  AUTHENTICATED: "authenticated",
+  FINISHED_LOADING: "finished_loading"
 };
 
 export const LOCAL_STORAGE_KEY = {

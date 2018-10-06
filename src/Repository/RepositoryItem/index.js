@@ -6,7 +6,7 @@ import "./style.css";
 
 dayjs.extend(relativeTime);
 
-const RepositoryItem = ({ id, name, owner, pushedAt, url, descriptionHTML }) => (
+const RepositoryItem = ({ name, pushedAt, url, descriptionHTML }) => (
   <>
     <h3>
       <a href={url}>{name}</a>

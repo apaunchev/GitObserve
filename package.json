@@ -1,7 +1,7 @@
 {
   "name": "gitobserve",
   "version": "1.0.0",
-  "private": true,
+  "homepage": "https://apaunchev.github.io/gitobserve",
   "dependencies": {
     "axios": "^0.18.0",
     "dayjs": "^1.7.5",
@@ -9,22 +9,23 @@
     "primer": "^10.8.1",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
-    "react-scripts": "2.0.3",
-    "serve": "^10.0.0"
+    "react-scripts": "2.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "prettier": "prettier --config .\\.prettierrc src/**/*.js src/**/*.css --write",
-    "deploy": "now --public && now alias",
-    "now-start": "serve --single ./build"
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "gh-pages": "^2.0.1"
+  }
 }

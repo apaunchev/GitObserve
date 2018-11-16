@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "dayjs": "^1.7.5",
+    "env-cmd": "^8.0.2",
     "lodash": "^4.17.10",
     "primer": "^10.8.1",
     "react": "^16.5.0",
@@ -16,7 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "predeploy": "yarn run build",
+    "predeploy": "env-cmd .env.production yarn run build",
     "deploy": "gh-pages -d build"
   },
   "browserslist": [

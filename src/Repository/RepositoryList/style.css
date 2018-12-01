@@ -9,13 +9,13 @@
 
 .RepositoryItem-placeholder-name {
   width: 50%;
-  height: 24px;
+  height: 20px;
   animation: name-pulse 1s infinite ease-in-out;
   margin-bottom: 10px;
 }
 
 .RepositoryItem-placeholder-text {
-  height: 24px;
+  height: 20px;
   animation: text-pulse 1s infinite ease-in-out;
   margin-bottom: 10px;
 }

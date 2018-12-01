@@ -4,20 +4,22 @@ import React from "react";
 
 dayjs.extend(relativeTime);
 
-const IssueItem = ({ url, title, author, createdAt }) => (
-  <>
+const IssueItem = ({ issue }) => (
+  <li className="IssueItem">
     <h5>
-      <a href={url}>{title}</a>
+      <a href={issue.url}>{issue.title}</a>
     </h5>
     <p>
-      {author && (
+      {issue.author && (
         <span>
-          Opened by <a href={author.url}>{author.login}</a>
+          Opened by <a href={issue.author.url}>{issue.author.login}</a>
         </span>
       )}
-      {createdAt && <span title={createdAt}> {dayjs(createdAt).fromNow()}</span>}
+      {issue.createdAt && (
+        <span title={issue.createdAt}> {dayjs(issue.createdAt).fromNow()}</span>
+      )}
     </p>
-  </>
+  </li>
 );
 
 export default IssueItem;

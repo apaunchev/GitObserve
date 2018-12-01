@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { Component } from "react";
 
 import Avatar from "../Avatar";
-import RepositoryList from "../Repository";
+import WatchingRepositories from "../WatchingRepositories";
 import Loading from "../Loading";
 
 import {
@@ -23,7 +23,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const storedToken = localStorage.getItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN);
+    const storedToken = window.localStorage.getItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN);
     if (storedToken) {
       this.setState({ status: STATUS.AUTHENTICATED });
       return;
@@ -41,7 +41,7 @@ class App extends Component {
       .get(`${AUTH_API_URI}/${code}`)
       .then(({ data: { token } }) => {
         if (token) {
-          localStorage.setItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN, token);
+          window.localStorage.setItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN, token);
           this.setState({ token, status: STATUS.AUTHENTICATED });
         }
       })
@@ -67,8 +67,8 @@ class App extends Component {
           </div>
         </header>
         <div className="Main">
-          {status === STATUS.LOADING && <Loading isCenter={true} />}
-          {status === STATUS.AUTHENTICATED && <RepositoryList />}
+          {status === STATUS.LOADING && <Loading />}
+          {status === STATUS.AUTHENTICATED && <WatchingRepositories />}
         </div>
       </div>
     );

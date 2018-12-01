@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "homepage": "https://apaunchev.github.io/gitobserve",
   "dependencies": {
+    "apollo-link-context": "^1.0.10",
+    "apollo-boost": "^0.1.22",
     "axios": "^0.18.0",
     "dayjs": "^1.7.5",
-    "env-cmd": "^8.0.2",
-    "lodash": "^4.17.10",
+    "graphql": "^14.0.2",
     "primer": "^10.8.1",
     "react": "^16.5.0",
+    "react-apollo": "^2.3.2",
     "react-dom": "^16.5.0",
     "react-scripts": "2.0.3"
   },
@@ -27,6 +29,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "env-cmd": "^8.0.2",
     "gh-pages": "^2.0.1"
   }
 }

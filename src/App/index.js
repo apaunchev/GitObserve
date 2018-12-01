@@ -23,14 +23,17 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const storedToken = window.localStorage.getItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN);
+    const storedToken = window.localStorage.getItem(
+      LOCAL_STORAGE_KEY.GITHUB_TOKEN
+    );
     if (storedToken) {
       this.setState({ status: STATUS.AUTHENTICATED });
       return;
     }
 
     const code =
-      window.location.href.match(/\?code=(.*)/) && window.location.href.match(/\?code=(.*)/)[1];
+      window.location.href.match(/\?code=(.*)/) &&
+      window.location.href.match(/\?code=(.*)/)[1];
     if (code) {
       this.setState({ status: STATUS.LOADING }, () => this.authenticate(code));
     }

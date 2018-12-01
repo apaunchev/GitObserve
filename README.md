@@ -7,5 +7,6 @@ Implementaion inspired by [GitStar](https://github.com/GraphQLCollege/gitstar) a
 ## Technologies
 
 - [React](https://reactjs.org/)
-- [Gatekeeper](https://github.com/prose/gatekeeper)
+- [Apollo GraphQL](https://www.apollographql.com/)
 - [GitHub GraphQL API](https://developer.github.com/v4/)
+- [Gatekeeper](https://github.com/prose/gatekeeper)

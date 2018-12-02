@@ -63,7 +63,7 @@ class App extends Component {
       <div className="App">
         <header className="Header">
           <div className="Logo">
-            <a href="/">GitObserve</a>
+            <a href={process.env.REACT_APP_REDIRECT_URI}>GitObserve</a>
           </div>
           <div>
             {status === STATUS.INITIAL && (

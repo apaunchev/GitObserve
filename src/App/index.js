@@ -14,7 +14,6 @@ import {
   REDIRECT_URI
 } from "../consts";
 
-import "primer/build/build.css";
 import "./style.css";
 
 class App extends Component {

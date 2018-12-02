@@ -12,6 +12,8 @@ import { GITHUB_GRAPHQL_API, LOCAL_STORAGE_KEY } from "./consts";
 
 import App from "./App";
 
+import "primer/build/build.css";
+
 const httpLink = new HttpLink({ uri: GITHUB_GRAPHQL_API });
 
 const authLink = setContext((_, { headers }) => {

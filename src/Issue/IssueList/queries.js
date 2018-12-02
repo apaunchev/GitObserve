@@ -3,7 +3,12 @@ import gql from "graphql-tag";
 export const GET_ISSUES_OF_REPOSITORY = gql`
   query($repositoryOwner: String!, $repositoryName: String!, $cursor: String) {
     repository(name: $repositoryName, owner: $repositoryOwner) {
-      issues(first: 5, states: [OPEN], after: $cursor) {
+      issues(
+        first: 5
+        states: [OPEN]
+        after: $cursor
+        orderBy: { field: CREATED_AT, direction: DESC }
+      ) {
         edges {
           node {
             id
@@ -28,7 +33,12 @@ export const GET_ISSUES_OF_REPOSITORY = gql`
 export const GET_PULL_REQUESTS_OF_REPOSITORY = gql`
   query($repositoryOwner: String!, $repositoryName: String!, $cursor: String) {
     repository(name: $repositoryName, owner: $repositoryOwner) {
-      pullRequests(first: 5, states: [OPEN], after: $cursor) {
+      pullRequests(
+        first: 5
+        states: [OPEN]
+        after: $cursor
+        orderBy: { field: CREATED_AT, direction: DESC }
+      ) {
         edges {
           node {
             id

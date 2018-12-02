@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
 
-import Avatar from "../Avatar";
 import WatchingRepositories from "../WatchingRepositories";
 import Loading from "../Loading";
 
@@ -25,6 +24,7 @@ class App extends Component {
     const storedToken = window.localStorage.getItem(
       LOCAL_STORAGE_KEY.GITHUB_TOKEN
     );
+
     if (storedToken) {
       this.setState({ status: STATUS.AUTHENTICATED });
       return;
@@ -33,6 +33,7 @@ class App extends Component {
     const code =
       window.location.href.match(/\?code=(.*)/) &&
       window.location.href.match(/\?code=(.*)/)[1];
+
     if (code) {
       this.setState({ status: STATUS.LOADING }, () => this.authenticate(code));
     }
@@ -50,22 +51,34 @@ class App extends Component {
       .catch(error => console.error(`Error while authenticating: ${error}`));
   }
 
+  logout = () => {
+    window.localStorage.removeItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN);
+    this.setState({ token: null, status: STATUS.INITIAL });
+  };
+
   render() {
     const { status } = this.state;
 
     return (
       <div className="App">
         <header className="Header">
-          <div className="Logo">GitObserve</div>
-          <div className="User">
+          <div className="Logo">
+            <a href="/">GitObserve</a>
+          </div>
+          <div>
             {status === STATUS.INITIAL && (
               <a
+                className="text-white"
                 href={`${GITHUB_OAUTH_URL}?client_id=${CLIENT_ID}&scope=user%20repo%20read%3Aorg&redirect_uri=${REDIRECT_URI}`}
               >
                 Login
               </a>
             )}
-            {status === STATUS.AUTHENTICATED && <Avatar />}
+            {status === STATUS.AUTHENTICATED && (
+              <button className="btn-link text-white" onClick={this.logout}>
+                Logout
+              </button>
+            )}
           </div>
         </header>
         <div className="Main">

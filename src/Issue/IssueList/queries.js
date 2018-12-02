@@ -13,6 +13,7 @@ export const GET_ISSUES_OF_REPOSITORY = gql`
           node {
             id
             title
+            createdAt
             url
             bodyHTML
             author {
@@ -43,6 +44,7 @@ export const GET_PULL_REQUESTS_OF_REPOSITORY = gql`
           node {
             id
             title
+            createdAt
             url
             bodyHTML
             author {

@@ -5,13 +5,13 @@ const LS_GITHUB_TOKEN = "go_github_token";
 const withToken = WrappedComponent => {
   class WithToken extends React.Component {
     state = {
-      githubToken: null
+      token: null
     };
 
     async componentDidMount() {
-      const storedToken = window.localStorage.getItem(LS_GITHUB_TOKEN);
-      if (storedToken) {
-        this.setState({ githubToken: storedToken });
+      const token = window.localStorage.getItem(LS_GITHUB_TOKEN);
+      if (token) {
+        this.setState({ token });
       } else {
         const code =
           window.location.href.match(/\?code=(.*)/) &&
@@ -19,7 +19,7 @@ const withToken = WrappedComponent => {
         if (code) {
           const token = await this.requestToken(code);
           if (token) {
-            this.setState({ githubToken: token }, () =>
+            this.setState({ token }, () =>
               window.localStorage.setItem(LS_GITHUB_TOKEN, token)
             );
           }
@@ -44,12 +44,7 @@ const withToken = WrappedComponent => {
     };
 
     render() {
-      return (
-        <WrappedComponent
-          githubToken={this.state.githubToken}
-          {...this.props}
-        />
-      );
+      return <WrappedComponent {...this.state} {...this.props} />;
     }
   }
 

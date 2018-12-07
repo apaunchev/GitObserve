@@ -3,28 +3,3 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
-
-.Header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  background-color: #24292e;
-  color: rgba(255, 255, 255, 0.75);
-}
-
-.Header a {
-  color: currentColor;
-}
-
-.Logo {
-  font-size: 20px;
-  color: white;
-}
-
-.Main {
-  max-width: 768px;
-  margin-right: auto;
-  margin-left: auto;
-  padding: 16px;
-}

@@ -13,6 +13,7 @@
     "deploy": "gh-pages -d build"
   },
   "dependencies": {
+    "connected-react-router": "6.0.0-beta.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.2",
     "react": "16.6.3",

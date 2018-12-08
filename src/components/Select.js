@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { requestCurrentUser } from "../actions/home";
 
-class Dashboard extends React.PureComponent {
+class Select extends React.PureComponent {
   componentDidMount() {
     if (this.props.githubToken && !this.props.currentUser) {
       this.props.requestCurrentUser(this.props.githubToken);
@@ -37,4 +37,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Dashboard);
+)(Select);

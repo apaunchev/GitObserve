@@ -1,45 +1,38 @@
 import React from "react";
-import { Route } from "react-router-dom";
-import { connect } from "react-redux";
+import { Route, Switch, NavLink } from "react-router-dom";
 import Dashboard from "../components/Dashboard";
-import SelectRepos from "../components/SelectRepos";
-import Login from "../components/Login";
-import { requestGithubToken } from "../actions/setup";
+import Select from "../components/Select";
+import Setup from "../components/Setup";
+import NoMatch from "../components/NoMatch";
 
-class App extends React.Component {
-  async componentDidMount() {
-    const code =
-      window.location.href.match(/\?code=(.*)/) &&
-      window.location.href.match(/\?code=(.*)/)[1];
+const activeStyle = { fontWeight: "bold" };
 
-    if (code) {
-      this.props.requestGithubToken(code);
-    }
-  }
+const App = () => (
+  <div className="App">
+    <nav>
+      <div>
+        <NavLink exact to="/" activeStyle={activeStyle}>
+          Dashboard
+        </NavLink>
+      </div>
+      <div>
+        <NavLink exact to="/select" activeStyle={activeStyle}>
+          Select
+        </NavLink>
+      </div>
+      <div>
+        <NavLink exact to="/setup" activeStyle={activeStyle}>
+          Setup
+        </NavLink>
+      </div>
+    </nav>
+    <Switch>
+      <Route exact path="/" component={Dashboard} />
+      <Route path="/select" component={Select} />
+      <Route path="/setup" component={Setup} />
+      <Route component={NoMatch} />
+    </Switch>
+  </div>
+);
 
-  render() {
-    return (
-      <>
-        <Route exact path="/" component={Dashboard} />
-        <Route exact path="/selectRepos" component={SelectRepos} />
-        {!this.props.githubToken && <Login />}
-      </>
-    );
-  }
-}
-
-const mapStateToProps = state => ({
-  githubToken: state.setup.githubToken
-});
-
-const mapDispatchToProps = dispatch => ({
-  requestGithubToken: code => {
-    dispatch(requestGithubToken(code));
-  },
-  dispatch
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default App;

@@ -22,7 +22,6 @@ export const get = async (query, token) => {
 
   if (response.ok) {
     const result = await response.json();
-
     if (result.errors) {
       console.error(result.errors);
       if (result.errors[0].type === "MAX_NODE_LIMIT_EXCEEDED") {

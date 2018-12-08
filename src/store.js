@@ -1,4 +1,5 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import throttle from "lodash/throttle";
 import { loadState, saveState } from "./localStorage";
@@ -10,7 +11,7 @@ const persistedState = loadState();
 const store = createStore(
   reducer,
   persistedState,
-  applyMiddleware(...middleware)
+  composeWithDevTools(applyMiddleware(...middleware))
 );
 
 store.subscribe(throttle(() => saveState(store.getState())), 1000);

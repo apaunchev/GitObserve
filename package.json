@@ -25,7 +25,8 @@
   },
   "devDependencies": {
     "env-cmd": "^8.0.2",
-    "gh-pages": "^2.0.1"
+    "gh-pages": "^2.0.1",
+    "redux-devtools-extension": "^2.13.7"
   },
   "browserslist": [
     ">0.2%",

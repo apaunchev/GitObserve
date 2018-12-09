@@ -3,6 +3,10 @@ import { connect } from "react-redux";
 
 class Dashboard extends React.PureComponent {
   render() {
+    if (!this.props.githubToken) {
+      return <p>Not signed in.</p>;
+    }
+
     if (!this.props.selectedRepos.length) {
       return <p>You have not selected any repos.</p>;
     }
@@ -18,6 +22,7 @@ class Dashboard extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
+  githubToken: state.setup.githubToken,
   selectedRepos: state.select.selectedRepos
 });
 

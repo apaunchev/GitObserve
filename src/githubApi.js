@@ -7,7 +7,40 @@ export const queries = {
         url
       }
     }
-  `
+  `,
+  watchedRepos: (cursor = "") => {
+    const afterParam = cursor ? `after: ${cursor}` : "";
+
+    return `
+      query {
+        viewer {
+          watching(
+            first: 100
+            affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]
+            ${afterParam}
+          ) {
+            edges {
+              cursor
+              node {
+                id
+                name
+                url
+                owner {
+                  login
+                  avatarUrl
+                }
+                createdAt
+              }
+            }
+            totalCount
+            pageInfo {
+              hasNextPage
+            }
+          }
+        }
+      }
+    `;
+  }
 };
 
 export const get = async (query, token) => {

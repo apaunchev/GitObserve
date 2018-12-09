@@ -91,11 +91,11 @@ class Setup extends React.PureComponent {
 
 const mapStateToProps = state => ({
   githubToken: state.setup.githubToken,
-  githubTokenLoading: state.setup.githubTokenLoading,
-  githubTokenError: state.setup.githubTokenError,
+  githubTokenLoading: state.setup.loading,
+  githubTokenError: state.setup.githubError,
   currentUser: state.home.currentUser,
-  currentUserLoading: state.home.currentUserLoading,
-  currentUserError: state.home.currentUserError
+  currentUserLoading: state.home.loading,
+  currentUserError: state.home.githubError
 });
 
 const mapDispatchToProps = dispatch => ({

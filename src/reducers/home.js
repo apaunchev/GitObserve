@@ -6,8 +6,8 @@ import {
 
 const initialState = {
   currentUser: null,
-  currentUserLoading: false,
-  currentUserError: null
+  loading: false,
+  githubError: null
 };
 
 export default function(state = initialState, action) {
@@ -15,7 +15,7 @@ export default function(state = initialState, action) {
     case REQUEST_CURRENT_USER_LOADING:
       return {
         ...state,
-        currentUserLoading: true
+        loading: true
       };
     case REQUEST_CURRENT_USER_SUCCESS:
       return {
@@ -25,14 +25,14 @@ export default function(state = initialState, action) {
           avatarUrl: action.data.viewer.avatarUrl,
           url: action.data.viewer.url
         },
-        currentUserError: null,
-        currentUserLoading: false
+        githubError: null,
+        loading: false
       };
     case REQUEST_CURRENT_USER_FAILURE:
       return {
         ...state,
-        currentUserError: action.error,
-        currentUserLoading: false
+        githubError: action.error,
+        loading: false
       };
     default:
       return state;

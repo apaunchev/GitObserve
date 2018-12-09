@@ -6,8 +6,8 @@ import {
 
 const initialState = {
   githubToken: null,
-  githubTokenLoading: false,
-  githubTokenError: null
+  loading: false,
+  githubError: null
 };
 
 export default function(state = initialState, action) {
@@ -15,21 +15,21 @@ export default function(state = initialState, action) {
     case REQUEST_GITHUB_TOKEN_LOADING:
       return {
         ...state,
-        githubTokenLoading: true,
-        githubTokenError: null
+        loading: true,
+        githubError: null
       };
     case REQUEST_GITHUB_TOKEN_SUCCESS:
       return {
         ...state,
         githubToken: action.token,
-        githubTokenLoading: false,
-        githubTokenError: null
+        loading: false,
+        githubError: null
       };
     case REQUEST_GITHUB_TOKEN_FAILURE:
       return {
         ...state,
-        githubTokenLoading: false,
-        githubTokenError: action.error
+        loading: false,
+        githubError: action.error
       };
     default:
       return state;

@@ -1,36 +1,27 @@
 import React from "react";
 import { connect } from "react-redux";
-import { requestCurrentUser } from "../actions/home";
 
 class Dashboard extends React.PureComponent {
-  componentDidMount() {
-    if (this.props.githubToken && !this.props.currentUser) {
-      this.props.requestCurrentUser(this.props.githubToken);
-    }
-  }
-
   render() {
+    if (!this.props.selectedRepos.length) {
+      return <p>You have not selected any repos.</p>;
+    }
+
     return (
-      <div>
-        {!this.props.currentUser ? (
-          <p>Not signed in.</p>
-        ) : (
-          <p>{this.props.currentUser.login}</p>
-        )}
+      <div className="Dashboard">
+        {this.props.selectedRepos.map(repo => (
+          <li key={repo}>{repo}</li>
+        ))}
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  githubToken: state.setup.githubToken,
-  currentUser: state.home.currentUser
+  selectedRepos: state.select.selectedRepos
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestCurrentUser: token => {
-    dispatch(requestCurrentUser(token));
-  },
   dispatch
 });
 

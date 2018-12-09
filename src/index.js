@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { applyMiddleware, compose, createStore } from "redux";
 import { createBrowserHistory } from "history";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 import { ConnectedRouter, routerMiddleware } from "connected-react-router";
 import { Provider } from "react-redux";
 import thunkMiddleware from "redux-thunk";
@@ -15,12 +17,15 @@ const store = createStore(
   rootReducer(history),
   composeEnhancers(applyMiddleware(routerMiddleware(history), thunkMiddleware))
 );
+const persistor = persistStore(store);
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <App history={history} />
-    </ConnectedRouter>
+    <PersistGate loading={null} persistor={persistor}>
+      <ConnectedRouter history={history}>
+        <App history={history} />
+      </ConnectedRouter>
+    </PersistGate>
   </Provider>,
   document.getElementById("root")
 );

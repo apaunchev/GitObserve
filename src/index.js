@@ -9,7 +9,6 @@ import { Provider } from "react-redux";
 import thunkMiddleware from "redux-thunk";
 import rootReducer from "./reducers";
 import App from "./containers/App";
-import "./style.css";
 
 const history = createBrowserHistory();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

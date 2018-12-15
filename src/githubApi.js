@@ -40,7 +40,35 @@ export const queries = {
         }
       }
     `;
-  }
+  },
+  pullRequests: repoIds => `
+    query {
+      nodes (ids: ${JSON.stringify(repoIds)}) {
+        id
+        ... on Repository {
+          pullRequests(
+            last: 50
+            states: [OPEN]
+            orderBy: { field: CREATED_AT, direction: DESC }
+          ) {
+            edges {
+              node {
+                number
+                title
+                url
+                createdAt
+                author {
+                  avatarUrl
+                  login
+                  url
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `
 };
 
 export const get = async (query, token) => {

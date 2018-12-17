@@ -1,6 +1,7 @@
 import { orderBy } from "lodash";
 import React from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { requestPullRequests } from "../actions/home";
 
 class Dashboard extends React.PureComponent {
@@ -14,6 +15,10 @@ class Dashboard extends React.PureComponent {
   }
 
   render() {
+    if (!this.props.currentUser) {
+      return <Redirect to="/setup" />;
+    }
+
     let sortedRepos = [];
 
     if (this.props.repositories.length > 0) {

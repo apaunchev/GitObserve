@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, Switch, NavLink } from "react-router-dom";
-import Dashboard from "../components/Dashboard";
-import Select from "../components/Select";
-import Setup from "../components/Setup";
-import NoMatch from "../components/NoMatch";
+import Dashboard from "./Dashboard";
+import Select from "./Select";
+import Setup from "./Setup";
+import NoMatch from "./NoMatch";
 
 const activeStyle = { fontWeight: "bold" };
 

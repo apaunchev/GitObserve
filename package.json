@@ -13,7 +13,6 @@
     "deploy": "gh-pages -d build"
   },
   "dependencies": {
-    "connected-react-router": "6.0.0",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.2",
     "react": "16.6.3",
@@ -22,13 +21,12 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
     "redux": "^4.0.1",
-    "redux-persist": "^5.10.0",
+    "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "env-cmd": "^8.0.2",
-    "gh-pages": "^2.0.1",
-    "redux-devtools-extension": "^2.13.7"
+    "gh-pages": "^2.0.1"
   },
   "browserslist": [
     ">0.2%",

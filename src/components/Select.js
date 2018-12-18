@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import * as actions from "../actions/select";
 
 class Select extends React.PureComponent {
@@ -10,8 +11,8 @@ class Select extends React.PureComponent {
   }
 
   render() {
-    if (!this.props.githubToken) {
-      return <p>Not signed in.</p>;
+    if (!this.props.currentUser) {
+      return <Redirect to="/setup" />;
     }
 
     if (this.props.loading) {
@@ -50,7 +51,8 @@ const mapStateToProps = state => ({
   githubToken: state.setup.githubToken,
   watchedRepos: state.select.watchedRepos,
   selectedRepos: state.select.selectedRepos,
-  loading: state.select.loading
+  loading: state.select.loading,
+  currentUser: state.home.currentUser
 });
 
 const mapDispatchToProps = dispatch => ({

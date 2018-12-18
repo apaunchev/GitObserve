@@ -94,8 +94,8 @@ const mapStateToProps = state => ({
   githubTokenLoading: state.setup.loading,
   githubTokenError: state.setup.githubError,
   currentUser: state.home.currentUser,
-  currentUserLoading: state.home.loading,
-  currentUserError: state.home.githubError
+  currentUserLoading: state.home.currentUserLoading,
+  currentUserError: state.home.currentUserError
 });
 
 const mapDispatchToProps = dispatch => ({

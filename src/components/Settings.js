@@ -20,6 +20,16 @@ class Settings extends React.PureComponent {
 
     return (
       <div className="Select">
+        <button
+          onClick={() =>
+            this.props.selectAllRepos(
+              this.props.watchedRepos.map(repo => repo.id)
+            )
+          }
+        >
+          select all
+        </button>
+        <button onClick={() => this.props.resetSelectedRepos()}>reset</button>
         <fieldset>
           <legend>Select repos to monitor</legend>
           {this.props.watchedRepos.map(({ id, name }) => {
@@ -40,7 +50,6 @@ class Settings extends React.PureComponent {
             );
           })}
         </fieldset>
-        <button onClick={() => this.props.resetSelectedRepos()}>reset</button>
       </div>
     );
   }
@@ -56,6 +65,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   requestWatchedRepos: () => dispatch(actions.requestWatchedRepos()),
   toggleRepoSelection: id => dispatch(actions.toggleRepoSelection(id)),
+  selectAllRepos: repoIds => dispatch(actions.selectAllRepos(repoIds)),
   resetSelectedRepos: () => dispatch(actions.resetSelectedRepos()),
   dispatch
 });

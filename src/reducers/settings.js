@@ -40,6 +40,11 @@ export default function(state = initialState, action) {
             ...state,
             selectedRepos: [...state.selectedRepos, action.id]
           };
+    case actions.SELECT_ALL_REPOS:
+      return {
+        ...state,
+        selectedRepos: [...action.repoIds]
+      };
     case actions.RESET_SELECTED_REPOS:
       return {
         ...state,

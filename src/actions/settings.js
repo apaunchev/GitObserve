@@ -5,6 +5,7 @@ export const REQUEST_WATCHED_REPOS_LOADING = "REQUEST_WATCHED_REPOS_LOADING";
 export const REQUEST_WATCHED_REPOS_SUCCESS = "REQUEST_WATCHED_REPOS_SUCCESS";
 export const REQUEST_WATCHED_REPOS_FAILURE = "REQUEST_WATCHED_REPOS_FAILURE";
 export const TOGGLE_REPO_SELECTION = "TOGGLE_REPO_SELECTION";
+export const SELECT_ALL_REPOS = "SELECT_ALL_REPOS";
 export const RESET_SELECTED_REPOS = "RESET_SELECTED_REPOS";
 
 export const requestWatchedReposLoading = () => ({
@@ -24,6 +25,11 @@ export const requestWatchedReposFailure = error => ({
 export const toggleRepoSelection = id => ({
   type: TOGGLE_REPO_SELECTION,
   id
+});
+
+export const selectAllRepos = repoIds => ({
+  type: SELECT_ALL_REPOS,
+  repoIds
 });
 
 export const resetSelectedRepos = () => ({

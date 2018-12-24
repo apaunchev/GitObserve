@@ -1,3 +1,31 @@
+const GITHUB_API_URI = "https://api.github.com/graphql";
+const GITHUB_ACCESS_TOKEN = process.env.REACT_APP_GITHUB_ACCESS_TOKEN;
+
+export const get = async query => {
+  const response = await fetch(GITHUB_API_URI, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}`
+    },
+    body: JSON.stringify({ query })
+  });
+
+  if (response.ok) {
+    const result = await response.json();
+
+    if (result.errors) {
+      throw new Error(result.errors[0].message);
+    }
+
+    if (result.data) {
+      return result.data;
+    }
+  }
+
+  throw new Error("Error communicating with GitHub");
+};
+
 export const queries = {
   currentUser: () => `
     query {
@@ -10,7 +38,6 @@ export const queries = {
   `,
   watchedRepos: (cursor = "") => {
     const afterParam = cursor ? `after: ${cursor}` : "";
-
     return `
       query {
         viewer {
@@ -69,29 +96,4 @@ export const queries = {
       }
     }
   `
-};
-
-export const get = async (query, token) => {
-  const response = await fetch(process.env.REACT_APP_GITHUB_API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `bearer ${token}`
-    },
-    body: JSON.stringify({ query })
-  });
-
-  if (response.ok) {
-    const result = await response.json();
-
-    if (result.errors) {
-      throw new Error(result.errors[0].message);
-    }
-
-    if (result.data) {
-      return result.data;
-    }
-  }
-
-  throw new Error("Error communicating with GitHub");
 };

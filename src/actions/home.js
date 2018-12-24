@@ -19,11 +19,11 @@ export const requestCurrentUserFailure = error => ({
   error
 });
 
-export const requestCurrentUser = token => async dispatch => {
+export const requestCurrentUser = () => async dispatch => {
   try {
     dispatch(requestCurrentUserLoading());
     const query = queries.currentUser();
-    const results = await get(query, token);
+    const results = await get(query);
     dispatch(requestCurrentUserSuccess(results));
   } catch (err) {
     dispatch(requestCurrentUserFailure(err));
@@ -50,15 +50,12 @@ export const requestPullRequestsFailure = error => ({
   error
 });
 
-export const requestPullRequests = (token, repoIds) => async (
-  dispatch,
-  getState
-) => {
+export const requestPullRequests = repoIds => async (dispatch, getState) => {
   const watchedRepos = getState().select.watchedRepos;
   try {
     dispatch(requestPullRequestsLoading());
     const query = queries.pullRequests(repoIds);
-    const results = await get(query, token);
+    const results = await get(query);
     dispatch(requestPullRequestsSuccess(results, watchedRepos));
   } catch (err) {
     dispatch(requestPullRequestsFailure(err));

@@ -30,17 +30,17 @@ export const resetSelectedRepos = () => ({
   type: RESET_SELECTED_REPOS
 });
 
-export const requestWatchedRepos = token => async dispatch => {
+export const requestWatchedRepos = () => async dispatch => {
   try {
     dispatch(requestWatchedReposLoading());
     let query = queries.watchedRepos();
-    const initialResults = await get(query, token);
+    const initialResults = await get(query);
     let reposArray = initialResults.viewer.watching.edges;
     if (initialResults.viewer.watching.pageInfo.hasNextPage) {
       let paginate = true;
       while (paginate) {
         query = queries.watchedRepos(reposArray[reposArray.length - 1].cursor);
-        const paginatedResults = await get(query, token);
+        const paginatedResults = await get(query);
         reposArray = [...reposArray, ...paginatedResults.viewer.watching.edges];
         paginate = paginatedResults.viewer.watching.pageInfo.hasNextPage;
       }

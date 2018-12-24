@@ -1,24 +1,16 @@
 import { orderBy } from "lodash";
 import React from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { requestPullRequests } from "../actions/home";
 
 class Dashboard extends React.PureComponent {
   componentDidMount() {
     if (this.props.currentUser) {
-      this.props.requestPullRequests(
-        this.props.githubToken,
-        this.props.selectedRepos
-      );
+      this.props.requestPullRequests(this.props.selectedRepos);
     }
   }
 
   render() {
-    if (!this.props.currentUser) {
-      return <Redirect to="/setup" />;
-    }
-
     let sortedRepos = [];
 
     if (this.props.repositories.length > 0) {
@@ -43,15 +35,14 @@ class Dashboard extends React.PureComponent {
 
 const mapStateToProps = state => ({
   currentUser: state.home.currentUser,
-  githubToken: state.setup.githubToken,
   selectedRepos: state.select.selectedRepos,
   repositories: state.home.repositories,
   pullRequestsError: state.home.pullRequestsError
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestPullRequests: (token, repoIds) => {
-    dispatch(requestPullRequests(token, repoIds));
+  requestPullRequests: repoIds => {
+    dispatch(requestPullRequests(repoIds));
   },
   dispatch
 });

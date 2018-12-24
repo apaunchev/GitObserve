@@ -1,20 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import * as actions from "../actions/select";
 
 class Select extends React.PureComponent {
   componentDidMount() {
-    if (!this.props.watchedRepos.length && this.props.githubToken) {
-      this.props.requestWatchedRepos(this.props.githubToken);
+    if (!this.props.watchedRepos.length) {
+      this.props.requestWatchedRepos();
     }
   }
 
   render() {
-    if (!this.props.currentUser) {
-      return <Redirect to="/setup" />;
-    }
-
     if (this.props.loading) {
       return <p>Loading your repos...</p>;
     }
@@ -48,7 +43,6 @@ class Select extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  githubToken: state.setup.githubToken,
   watchedRepos: state.select.watchedRepos,
   selectedRepos: state.select.selectedRepos,
   loading: state.select.loading,
@@ -56,7 +50,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestWatchedRepos: token => dispatch(actions.requestWatchedRepos(token)),
+  requestWatchedRepos: () => dispatch(actions.requestWatchedRepos()),
   toggleRepoSelection: id => dispatch(actions.toggleRepoSelection(id)),
   resetSelectedRepos: () => dispatch(actions.resetSelectedRepos()),
   dispatch

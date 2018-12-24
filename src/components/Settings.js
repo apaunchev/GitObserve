@@ -14,6 +14,10 @@ class Settings extends React.PureComponent {
       return <p>Loading your repos...</p>;
     }
 
+    if (this.props.githubError) {
+      return <p>Error getting watched repositories from GitHub.</p>;
+    }
+
     return (
       <div className="Select">
         <fieldset>
@@ -45,7 +49,8 @@ class Settings extends React.PureComponent {
 const mapStateToProps = state => ({
   watchedRepos: state.settings.watchedRepos,
   selectedRepos: state.settings.selectedRepos,
-  loading: state.settings.loading
+  loading: state.settings.loading,
+  githubError: state.settings.githubError
 });
 
 const mapDispatchToProps = dispatch => ({

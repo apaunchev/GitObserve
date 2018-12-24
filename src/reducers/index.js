@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import home from "./home";
-import select from "./select";
+import settings from "./settings";
 
 const rootReducer = combineReducers({
   home,
-  select
+  settings
 });
 
 export default rootReducer;

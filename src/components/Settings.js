@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import * as actions from "../actions/select";
+import * as actions from "../actions/settings";
 
-class Select extends React.PureComponent {
+class Settings extends React.PureComponent {
   componentDidMount() {
     if (!this.props.watchedRepos.length) {
       this.props.requestWatchedRepos();
@@ -43,9 +43,9 @@ class Select extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  watchedRepos: state.select.watchedRepos,
-  selectedRepos: state.select.selectedRepos,
-  loading: state.select.loading,
+  watchedRepos: state.settings.watchedRepos,
+  selectedRepos: state.settings.selectedRepos,
+  loading: state.settings.loading,
   currentUser: state.home.currentUser
 });
 
@@ -59,4 +59,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Select);
+)(Settings);

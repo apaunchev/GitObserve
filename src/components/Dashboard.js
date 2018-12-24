@@ -35,7 +35,7 @@ class Dashboard extends React.PureComponent {
 
 const mapStateToProps = state => ({
   currentUser: state.home.currentUser,
-  selectedRepos: state.select.selectedRepos,
+  selectedRepos: state.settings.selectedRepos,
   repositories: state.home.repositories,
   pullRequestsError: state.home.pullRequestsError
 });

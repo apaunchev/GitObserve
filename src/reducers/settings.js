@@ -1,4 +1,4 @@
-import * as actions from "../actions/select";
+import * as actions from "../actions/settings";
 
 const initialState = {
   watchedRepos: [],

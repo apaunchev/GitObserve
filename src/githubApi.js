@@ -71,6 +71,7 @@ export const queries = {
           ) {
             edges {
               node {
+                id
                 number
                 title
                 url

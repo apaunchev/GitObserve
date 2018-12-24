@@ -45,8 +45,7 @@ class Settings extends React.PureComponent {
 const mapStateToProps = state => ({
   watchedRepos: state.settings.watchedRepos,
   selectedRepos: state.settings.selectedRepos,
-  loading: state.settings.loading,
-  currentUser: state.home.currentUser
+  loading: state.settings.loading
 });
 
 const mapDispatchToProps = dispatch => ({

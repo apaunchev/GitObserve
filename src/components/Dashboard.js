@@ -1,7 +1,7 @@
 import { orderBy } from "lodash";
 import React from "react";
 import { connect } from "react-redux";
-import { requestPullRequests } from "../actions/home";
+import { requestPullRequests } from "../actions/dashboard";
 
 class Dashboard extends React.PureComponent {
   componentDidMount() {
@@ -34,10 +34,10 @@ class Dashboard extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.home.currentUser,
+  currentUser: state.dashboard.currentUser,
   selectedRepos: state.settings.selectedRepos,
-  repositories: state.home.repositories,
-  pullRequestsError: state.home.pullRequestsError
+  repositories: state.dashboard.repositories,
+  pullRequestsError: state.dashboard.pullRequestsError
 });
 
 const mapDispatchToProps = dispatch => ({

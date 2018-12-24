@@ -5,7 +5,7 @@ import {
   REQUEST_PULL_REQUESTS_LOADING,
   REQUEST_PULL_REQUESTS_SUCCESS,
   REQUEST_PULL_REQUESTS_FAILURE
-} from "../actions/home";
+} from "../actions/dashboard";
 
 const initialState = {
   currentUser: null,

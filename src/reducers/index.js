@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
-import home from "./home";
+import dashboard from "./dashboard";
 import settings from "./settings";
 
 const rootReducer = combineReducers({
-  home,
+  dashboard,
   settings
 });
 

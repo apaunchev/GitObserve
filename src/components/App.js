@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Switch, NavLink } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Settings from "./Settings";
-import NoMatch from "./NoMatch";
+import NotFound from "./NotFound";
 
 const activeStyle = { fontWeight: "bold" };
 
@@ -23,7 +23,7 @@ const App = () => (
     <Switch>
       <Route exact path="/" component={Dashboard} />
       <Route exact path="/settings" component={Settings} />
-      <Route component={NoMatch} />
+      <Route component={NotFound} />
     </Switch>
   </div>
 );

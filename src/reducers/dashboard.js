@@ -1,8 +1,4 @@
-import {
-  REQUEST_PULL_REQUESTS_LOADING,
-  REQUEST_PULL_REQUESTS_SUCCESS,
-  REQUEST_PULL_REQUESTS_FAILURE
-} from "../actions/dashboard";
+import * as actions from "../actions/dashboard";
 
 const initialState = {
   repositories: [],
@@ -14,13 +10,13 @@ let repositories;
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case REQUEST_PULL_REQUESTS_LOADING:
+    case actions.REQUEST_PULL_REQUESTS_LOADING:
       return {
         ...state,
         loading: true,
         githubError: null
       };
-    case REQUEST_PULL_REQUESTS_SUCCESS:
+    case actions.REQUEST_PULL_REQUESTS_SUCCESS:
       repositories = action.data.nodes
         .filter(node => node)
         .map(node => {
@@ -42,7 +38,7 @@ export default function(state = initialState, action) {
         loading: false,
         githubError: null
       };
-    case REQUEST_PULL_REQUESTS_FAILURE:
+    case actions.REQUEST_PULL_REQUESTS_FAILURE:
       return {
         ...state,
         githubError: action.error,

@@ -24,7 +24,7 @@ export const requestPullRequests = repoIds => async (dispatch, getState) => {
   const watchedRepos = getState().settings.watchedRepos;
   try {
     dispatch(requestPullRequestsLoading());
-    const query = queries.pullRequests(repoIds);
+    const query = queries.pullRequestsForRepos(repoIds);
     const results = await get(query);
     dispatch(requestPullRequestsSuccess(results, watchedRepos));
   } catch (err) {

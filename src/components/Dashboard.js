@@ -21,22 +21,18 @@ class Dashboard extends React.PureComponent {
       );
     }
 
-    if (this.props.pullRequestsError) {
+    if (this.props.githubError) {
       return <div>Error getting latest pull requests from GitHub.</div>;
     }
 
-    return sortedRepos.map(repo => (
-      <div key={repo.name}>
-        {repo.name}, {repo.pullRequests.edges.length} pull requests
-      </div>
-    ));
+    return sortedRepos.map(repo => <div key={repo.id}>{repo.name}</div>);
   }
 }
 
 const mapStateToProps = state => ({
   selectedRepos: state.settings.selectedRepos,
-  repositories: state.dashboard.repositories,
-  pullRequestsError: state.dashboard.pullRequestsError
+  githubError: state.dashboard.githubError,
+  repositories: state.dashboard.repositories
 });
 
 const mapDispatchToProps = dispatch => ({

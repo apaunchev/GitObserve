@@ -59,7 +59,7 @@ export const queries = {
       }
     `;
   },
-  pullRequests: repoIds => `
+  pullRequestsForRepos: repoIds => `
     query {
       nodes (ids: ${JSON.stringify(repoIds)}) {
         id

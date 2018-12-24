@@ -5,7 +5,7 @@ import { requestPullRequests } from "../actions/dashboard";
 
 class Dashboard extends React.PureComponent {
   componentDidMount() {
-    if (this.props.currentUser) {
+    if (this.props.selectedRepos) {
       this.props.requestPullRequests(this.props.selectedRepos);
     }
   }
@@ -34,7 +34,6 @@ class Dashboard extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.dashboard.currentUser,
   selectedRepos: state.settings.selectedRepos,
   repositories: state.dashboard.repositories,
   pullRequestsError: state.dashboard.pullRequestsError

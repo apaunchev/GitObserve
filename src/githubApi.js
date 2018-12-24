@@ -27,15 +27,6 @@ export const get = async query => {
 };
 
 export const queries = {
-  currentUser: () => `
-    query {
-      viewer {
-        login
-        avatarUrl
-        url
-      }
-    }
-  `,
   watchedRepos: (cursor = "") => {
     const afterParam = cursor ? `after: ${cursor}` : "";
     return `

@@ -5,7 +5,7 @@ import { requestPullRequests } from "../actions/dashboard";
 
 class Dashboard extends React.PureComponent {
   componentDidMount() {
-    if (this.props.selectedRepos) {
+    if (this.props.selectedRepos.length > 0) {
       this.props.requestPullRequests(this.props.selectedRepos);
     }
   }

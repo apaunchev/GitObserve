@@ -1,6 +1,8 @@
+const LS_STATE_KEY = "go_state";
+
 export const loadState = () => {
   try {
-    const serializedState = localStorage.getItem("state");
+    const serializedState = localStorage.getItem(LS_STATE_KEY);
     if (serializedState === null) {
       return undefined;
     }
@@ -13,7 +15,7 @@ export const loadState = () => {
 export const saveState = state => {
   try {
     const serializedState = JSON.stringify(state);
-    localStorage.setItem("state", serializedState);
+    localStorage.setItem(LS_STATE_KEY, serializedState);
   } catch (err) {
     // Ignore write errors.
   }

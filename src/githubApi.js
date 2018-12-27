@@ -76,6 +76,7 @@ export const queries = {
                 title
                 url
                 createdAt
+                updatedAt
                 author {
                   avatarUrl
                   login

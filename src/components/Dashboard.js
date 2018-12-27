@@ -2,6 +2,7 @@ import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 import { requestPullRequests } from "../actions/dashboard";
+import PullRequest from "./PullRequest";
 
 class Dashboard extends React.PureComponent {
   componentDidMount() {
@@ -29,7 +30,7 @@ class Dashboard extends React.PureComponent {
       return <p>Error getting latest pull requests from GitHub.</p>;
     }
 
-    return pullRequests.map(pr => <div key={pr.id}>{pr.title}</div>);
+    return pullRequests.map(pr => <PullRequest key={pr.id} {...pr} />);
   }
 }
 

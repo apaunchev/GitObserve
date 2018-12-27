@@ -11,7 +11,10 @@ class Dashboard extends React.PureComponent {
   };
 
   componentDidMount() {
-    if (this.props.selectedRepos.length > 0) {
+    if (
+      this.props.selectedRepos.length > 0 &&
+      !this.props.pullRequests.length
+    ) {
       this.props.requestPullRequests(this.props.selectedRepos);
     }
   }

@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { requestPullRequests } from "../actions/dashboard";
 import PullRequest from "./PullRequest";
 
@@ -17,7 +18,7 @@ class Dashboard extends React.PureComponent {
 
   render() {
     const { sortField, sortDirection } = this.state;
-    const { pullRequests, loading, githubError } = this.props;
+    const { selectedRepos, pullRequests, loading, githubError } = this.props;
 
     if (loading) {
       return <p>Loading your pull requests...</p>;
@@ -27,8 +28,21 @@ class Dashboard extends React.PureComponent {
       return <p>Error getting latest pull requests from GitHub.</p>;
     }
 
+    if (!selectedRepos.length) {
+      return (
+        <p>
+          Please <Link to="/settings">select repositories</Link> to monitor.
+        </p>
+      );
+    }
+
     if (!pullRequests.length) {
-      return <p>No pull requests were found for your selected repositories.</p>;
+      return (
+        <p>
+          No pull requests were found for your{" "}
+          <Link to="/settings">selected repositories</Link>.
+        </p>
+      );
     }
 
     let sortedPullRequests = [];

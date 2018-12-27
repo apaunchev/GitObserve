@@ -21,7 +21,7 @@ export const requestPullRequestsFailure = error => ({
 });
 
 export const requestPullRequests = repoIds => async (dispatch, getState) => {
-  const watchedRepos = getState().settings.watchedRepos;
+  const watchedRepos = getState().watchedRepos.repos;
   try {
     dispatch(requestPullRequestsLoading());
     const query = queries.pullRequestsForRepos(repoIds);

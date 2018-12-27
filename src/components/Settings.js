@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import * as actions from "../actions/settings";
+import * as settingsActions from "../actions/settings";
+import * as watchedReposActions from "../actions/watchedRepos";
 
 class Settings extends React.PureComponent {
   componentDidMount() {
@@ -56,17 +57,18 @@ class Settings extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  watchedRepos: state.settings.watchedRepos,
-  selectedRepos: state.settings.selectedRepos,
-  loading: state.settings.loading,
-  githubError: state.settings.githubError
+  watchedRepos: state.watchedRepos.repos,
+  loading: state.watchedRepos.loading,
+  githubError: state.watchedRepos.githubError,
+  selectedRepos: state.settings.selectedRepos
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestWatchedRepos: () => dispatch(actions.requestWatchedRepos()),
-  toggleRepoSelection: id => dispatch(actions.toggleRepoSelection(id)),
-  selectAllRepos: repoIds => dispatch(actions.selectAllRepos(repoIds)),
-  resetSelectedRepos: () => dispatch(actions.resetSelectedRepos()),
+  requestWatchedRepos: () =>
+    dispatch(watchedReposActions.requestWatchedRepos()),
+  toggleRepoSelection: id => dispatch(settingsActions.toggleRepoSelection(id)),
+  selectAllRepos: repoIds => dispatch(settingsActions.selectAllRepos(repoIds)),
+  resetSelectedRepos: () => dispatch(settingsActions.resetSelectedRepos()),
   dispatch
 });
 

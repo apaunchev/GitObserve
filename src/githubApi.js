@@ -34,7 +34,6 @@ export const queries = {
         viewer {
           watching(
             first: 100
-            affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]
             ${afterParam}
           ) {
             edges {

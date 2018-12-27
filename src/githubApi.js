@@ -76,6 +76,10 @@ export const queries = {
                 url
                 createdAt
                 updatedAt
+                repository {
+                  nameWithOwner
+                  url
+                }
                 author {
                   avatarUrl
                   login

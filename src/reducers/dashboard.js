@@ -1,12 +1,12 @@
 import * as actions from "../actions/dashboard";
 
 const initialState = {
-  repositories: [],
+  pullRequests: [],
   loading: false,
   githubError: null
 };
 
-let repositories;
+let pullRequests;
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -17,24 +17,14 @@ export default function(state = initialState, action) {
         githubError: null
       };
     case actions.REQUEST_PULL_REQUESTS_SUCCESS:
-      repositories = action.data.nodes
+      pullRequests = action.data.nodes
         .filter(node => node)
-        .map(node => {
-          const extendedRepoData = action.watchedRepos.find(
-            watchedRepo => watchedRepo.id === node.id
-          );
-
-          return {
-            ...node,
-            name: extendedRepoData.name,
-            url: extendedRepoData.url,
-            owner: extendedRepoData.owner
-          };
-        });
+        .map(node => node.pullRequests.edges.map(edge => edge.node));
+      pullRequests = [].concat(...pullRequests);
 
       return {
         ...state,
-        repositories,
+        pullRequests,
         loading: false,
         githubError: null
       };

@@ -1,5 +1,24 @@
 import React from "react";
-import { formatDistance } from "date-fns";
+import { formatDistance, differenceInDays } from "date-fns";
+
+const STALENESS_CLASS = {
+  FRESH: "bg-green",
+  NEUTRAL: "bg-blue",
+  STALE: "bg-purple"
+};
+
+const getStalenessClass = date => {
+  const difference = differenceInDays(new Date(date), new Date());
+  if (difference >= -7) {
+    return STALENESS_CLASS.FRESH;
+  }
+  if (difference < -7 && difference >= -30) {
+    return STALENESS_CLASS.NEUTRAL;
+  }
+  if (difference < -30) {
+    return STALENESS_CLASS.STALE;
+  }
+};
 
 const PullRequest = ({
   number,
@@ -10,30 +29,43 @@ const PullRequest = ({
   author,
   repository
 }) => (
-  <div className="PullRequest">
-    <ul className="PullRequestInfo">
-      {author.avatarUrl && (
-        <li>
-          <a href={author.url}>
-            <img src={author.avatarUrl} alt="" />
-          </a>
-        </li>
-      )}
-      <li>
+  <li className="PullRequest Box-row d-flex">
+    {author.avatarUrl && (
+      <div>
+        <img
+          className="avatar"
+          src={author.avatarUrl}
+          width="64"
+          height="64"
+          alt=""
+        />
+      </div>
+    )}
+    <div className="flex-auto px-3">
+      <div>
         <a href={url}>{title}</a> (#{number})
-      </li>
-      <li>
+      </div>
+      <div>
         <a href={repository.url}>{repository.nameWithOwner}</a>
-      </li>
-      <li>
+      </div>
+      <div>
         Opened by <a href={author.url}>{author.login}</a>{" "}
-        <i title={createdAt}>{formatDistance(createdAt, new Date())} ago</i>
-      </li>
-      <li>
-        <span title={updatedAt}>{formatDistance(updatedAt, new Date())}</span>
-      </li>
-    </ul>
-  </div>
+        <span title={createdAt}>
+          {formatDistance(createdAt, new Date())} ago
+        </span>
+      </div>
+    </div>
+    <div className="flex-self-center">
+      <span
+        className={`text-white p-2 rounded-1 no-wrap ${getStalenessClass(
+          updatedAt
+        )}`}
+        title={updatedAt}
+      >
+        {formatDistance(updatedAt, new Date())}
+      </span>
+    </div>
+  </li>
 );
 
 export default PullRequest;

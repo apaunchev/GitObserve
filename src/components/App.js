@@ -1,25 +1,22 @@
 import React from "react";
-import { Route, Switch, NavLink } from "react-router-dom";
+import { Route, Switch, Link } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Settings from "./Settings";
 import NotFound from "./NotFound";
 
-const activeStyle = { fontWeight: "bold" };
+import "../../node_modules/primer/build/build.css";
 
 const App = () => (
   <div className="App">
-    <nav>
-      <div>
-        <NavLink exact to="/" activeStyle={activeStyle}>
-          Dashboard
-        </NavLink>
+    <header className="App-header p-3 bg-gray-dark text-white">
+      <div className="container-lg d-flex flex-items-center">
+        <h1 className="flex-auto h2">
+          <Link to="/" className="text-white">
+            GitObserve
+          </Link>
+        </h1>
       </div>
-      <div>
-        <NavLink exact to="/settings" activeStyle={activeStyle}>
-          Settings
-        </NavLink>
-      </div>
-    </nav>
+    </header>
     <Switch>
       <Route exact path="/" component={Dashboard} />
       <Route exact path="/settings" component={Settings} />

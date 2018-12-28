@@ -10,7 +10,9 @@ const store = configureStore();
 store.subscribe(
   throttle(() => {
     saveState({
-      settings: store.getState().settings
+      settings: store.getState().settings,
+      dashboard: store.getState().dashboard,
+      watchedRepos: store.getState().watchedRepos
     });
   }),
   1000

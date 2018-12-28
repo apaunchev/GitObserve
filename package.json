@@ -13,8 +13,10 @@
     "deploy": "gh-pages -d build"
   },
   "dependencies": {
+    "@githubprimer/octicons-react": "^8.2.0",
     "date-fns": "^2.0.0-alpha.26",
     "lodash": "^4.17.11",
+    "primer": "^10.10.2",
     "prop-types": "^15.6.2",
     "react": "16.6.3",
     "react-dom": "16.6.3",

@@ -127,13 +127,11 @@ class Dashboard extends React.PureComponent {
                 </div>
               ) : null}
 
-              {!loading && !githubError && sortedPullRequests.length ? (
-                <ul>
-                  {sortedPullRequests.map(pr => (
+              {!loading && !githubError && sortedPullRequests.length
+                ? sortedPullRequests.map(pr => (
                     <PullRequest key={pr.id} {...pr} />
-                  ))}
-                </ul>
-              ) : null}
+                  ))
+                : null}
             </div>
           </div>
         </main>

@@ -1,55 +1,21 @@
+import { throttle } from "lodash";
 import React from "react";
-import ReactDOM from "react-dom";
-import { ApolloProvider } from "react-apollo";
-import { ApolloClient } from "apollo-client";
-import { ApolloLink } from "apollo-link";
-import { HttpLink } from "apollo-link-http";
-import { setContext } from "apollo-link-context";
-import { onError } from "apollo-link-error";
-import { InMemoryCache } from "apollo-cache-inmemory";
+import { render } from "react-dom";
+import Root from "./components/Root";
+import configureStore from "./configureStore";
+import { saveState } from "./localStorage";
 
-import { GITHUB_GRAPHQL_API, LOCAL_STORAGE_KEY } from "./consts";
+const store = configureStore();
 
-import App from "./App";
-
-const httpLink = new HttpLink({ uri: GITHUB_GRAPHQL_API });
-
-const authLink = setContext((_, { headers }) => {
-  const token = window.localStorage.getItem(LOCAL_STORAGE_KEY.GITHUB_TOKEN);
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : ""
-    }
-  };
-});
-
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    graphQLErrors.map(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-      )
-    );
-  }
-
-  if (networkError) {
-    console.log(`[Network error]: ${networkError}`);
-  }
-});
-
-const link = ApolloLink.from([errorLink, authLink, httpLink]);
-
-const cache = new InMemoryCache();
-
-const client = new ApolloClient({
-  link,
-  cache
-});
-
-ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
-  document.getElementById("root")
+store.subscribe(
+  throttle(() => {
+    saveState({
+      settings: store.getState().settings,
+      dashboard: store.getState().dashboard,
+      watchedRepos: store.getState().watchedRepos
+    });
+  }),
+  1000
 );
+
+render(<Root store={store} />, document.getElementById("root"));

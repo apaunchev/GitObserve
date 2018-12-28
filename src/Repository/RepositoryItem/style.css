@@ -1,9 +1,0 @@
-.RepositoryItem {
-  padding-top: 16px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #eee;
-}
-
-.RepositoryItem:first-child {
-  padding-top: 8px;
-}

@@ -1,35 +1,39 @@
 {
   "name": "gitobserve",
-  "version": "1.0.0",
+  "version": "3.0.0",
+  "private": true,
+  "license": "UNLICENSED",
   "homepage": "https://apaunchev.github.io/gitobserve",
-  "dependencies": {
-    "apollo-link-context": "^1.0.10",
-    "apollo-boost": "^0.1.22",
-    "axios": "^0.18.0",
-    "dayjs": "^1.7.5",
-    "graphql": "^14.0.2",
-    "primer": "^10.8.1",
-    "react": "^16.5.0",
-    "react-apollo": "^2.3.2",
-    "react-dom": "^16.5.0",
-    "react-scripts": "2.0.3"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "predeploy": "env-cmd .env.production yarn run build",
+    "predeploy": "yarn build",
     "deploy": "gh-pages -d build"
+  },
+  "dependencies": {
+    "@githubprimer/octicons-react": "^8.2.0",
+    "date-fns": "^2.0.0-alpha.26",
+    "lodash": "^4.17.11",
+    "primer": "^10.10.2",
+    "prop-types": "^15.6.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-redux": "^6.0.0",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "^2.1.2",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "gh-pages": "^2.0.1"
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "devDependencies": {
-    "env-cmd": "^8.0.2",
-    "gh-pages": "^2.0.1"
-  }
+  ]
 }

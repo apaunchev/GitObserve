@@ -28,7 +28,6 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "env-cmd": "^8.0.2",
     "gh-pages": "^2.0.1"
   },
   "browserslist": [

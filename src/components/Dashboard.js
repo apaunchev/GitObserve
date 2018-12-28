@@ -93,8 +93,8 @@ class Dashboard extends React.PureComponent {
               {!selectedRepos.length ? (
                 <div className="blankslate blankslate-clean-background">
                   <p>
-                    You have not <Link to="/settings">selected</Link> any
-                    repositories yet.
+                    You have not selected any{" "}
+                    <Link to="/settings/repositories">repositories</Link> yet.
                   </p>
                 </div>
               ) : null}

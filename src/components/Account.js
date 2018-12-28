@@ -17,8 +17,8 @@ class Account extends Component {
           <h2 className="Subhead-heading">Account</h2>
         </div>
         <p>
-          Add a Personal Access Token in order to access repositories data from
-          GitHub's API.
+          You need to add a Personal Access Token in order to access GitHub
+          data.
         </p>
         <ol className="pl-3">
           <li>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink, Redirect, Route } from "react-router-dom";
+import { Link, NavLink, Redirect, Switch, Route } from "react-router-dom";
 import Octicon, {
   CloudUpload as CloudUploadIcon,
   Person as PersonIcon,
@@ -43,13 +43,18 @@ const Settings = ({ match }) => (
           </nav>
         </div>
         <div className="col-9">
-          <Route
-            exact
-            path={`${match.url}`}
-            render={() => <Redirect to={`${match.url}/account`} />}
-          />
-          <Route path={`${match.url}/account`} component={Account} />
-          <Route path={`${match.url}/repositories`} component={Repositories} />
+          <Switch>
+            <Route
+              exact
+              path={`${match.url}`}
+              render={() => <Redirect to={`${match.url}/account`} />}
+            />
+            <Route path={`${match.url}/account`} component={Account} />
+            <Route
+              path={`${match.url}/repositories`}
+              component={Repositories}
+            />
+          </Switch>
         </div>
       </div>
     </main>

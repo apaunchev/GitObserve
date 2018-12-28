@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Octicon, {
   Settings as SettingsIcon,
-  Sync as SyncIcon
+  Sync as SyncIcon,
+  GitPullRequest as GitPullRequestIcon,
+  Repo as RepoIcon
 } from "@githubprimer/octicons-react";
 import { requestPullRequests } from "../actions/dashboard";
 import PullRequest from "./PullRequest";
@@ -59,23 +61,33 @@ class Dashboard extends React.PureComponent {
               <Link to="/settings" className="btn mr-2">
                 <Octicon icon={SettingsIcon} /> Settings
               </Link>
-              <button
-                className="btn btn-primary"
-                onClick={() => requestPullRequests(selectedRepos, token)}
-              >
-                <Octicon icon={SyncIcon} /> Sync
-              </button>
             </div>
           </div>
         </div>
         <main className="App-main">
           <div className="container-lg py-4">
             <div className="Box">
-              <div className="Box-header">
-                <h3 className="Box-title">
-                  Pull requests{" "}
-                  <span className="Counter">{pullRequests.length}</span>
-                </h3>
+              <div className="Box-header d-flex flex-items-center">
+                <div className="flex-auto d-flex flex-items-center">
+                  <span className="d-inline-flex flex-items-center mr-3 text-bold">
+                    <Octicon
+                      icon={GitPullRequestIcon}
+                      size={20}
+                      className="pr-1"
+                    />
+                    {pullRequests.length} Pull Requests
+                  </span>
+                  <span className="d-inline-flex flex-items-center text-bold">
+                    <Octicon icon={RepoIcon} size={20} className="pr-1" />
+                    {selectedRepos.length} Repositories
+                  </span>
+                </div>
+                <button
+                  className="btn btn-sm btn-primary"
+                  onClick={() => requestPullRequests(selectedRepos, token)}
+                >
+                  <Octicon icon={SyncIcon} /> Sync
+                </button>
               </div>
 
               {!selectedRepos.length ? (

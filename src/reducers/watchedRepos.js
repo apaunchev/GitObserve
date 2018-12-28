@@ -24,6 +24,7 @@ export default function(state = initialState, action) {
     case actions.REQUEST_WATCHED_REPOS_FAILURE:
       return {
         ...state,
+        repos: [],
         githubError: action.error,
         loading: false
       };

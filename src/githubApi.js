@@ -1,12 +1,11 @@
 const GITHUB_API_URI = "https://api.github.com/graphql";
-const GITHUB_ACCESS_TOKEN = process.env.REACT_APP_GITHUB_ACCESS_TOKEN;
 
-export const get = async query => {
+export const get = async (query, token) => {
   const response = await fetch(GITHUB_API_URI, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}`
+      Authorization: `Bearer ${token}`
     },
     body: JSON.stringify({ query })
   });

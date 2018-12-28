@@ -15,11 +15,11 @@ class Dashboard extends React.PureComponent {
   };
 
   componentDidMount() {
-    if (
-      this.props.selectedRepos.length > 0 &&
-      !this.props.pullRequests.length
-    ) {
-      this.props.requestPullRequests(this.props.selectedRepos);
+    if (this.props.selectedRepos.length > 0) {
+      this.props.requestPullRequests(
+        this.props.selectedRepos,
+        this.props.token
+      );
     }
   }
 
@@ -30,7 +30,8 @@ class Dashboard extends React.PureComponent {
       pullRequests,
       loading,
       githubError,
-      requestPullRequests
+      requestPullRequests,
+      token
     } = this.props;
 
     let sortedPullRequests = [];
@@ -60,7 +61,7 @@ class Dashboard extends React.PureComponent {
               </Link>
               <button
                 className="btn btn-primary"
-                onClick={() => requestPullRequests(selectedRepos)}
+                onClick={() => requestPullRequests(selectedRepos, token)}
               >
                 <Octicon icon={SyncIcon} /> Sync
               </button>
@@ -94,11 +95,18 @@ class Dashboard extends React.PureComponent {
 
               {selectedRepos.length > 0 && githubError ? (
                 <div className="blankslate blankslate-clean-background">
-                  <p>Error getting latest pull requests from GitHub.</p>
+                  <p>
+                    Error fetching data from GitHub. Ensure your{" "}
+                    <Link to="/settings/account">token</Link> is set correctly
+                    and try again.
+                  </p>
                 </div>
               ) : null}
 
-              {selectedRepos.length && !loading && !pullRequests.length ? (
+              {selectedRepos.length > 0 &&
+              !loading &&
+              !githubError &&
+              !pullRequests.length ? (
                 <div className="blankslate blankslate-clean-background">
                   <p>
                     No pull requests were found for your{" "}
@@ -107,7 +115,7 @@ class Dashboard extends React.PureComponent {
                 </div>
               ) : null}
 
-              {!loading && sortedPullRequests.length ? (
+              {!loading && !githubError && sortedPullRequests.length ? (
                 <ul>
                   {sortedPullRequests.map(pr => (
                     <PullRequest key={pr.id} {...pr} />
@@ -126,12 +134,13 @@ const mapStateToProps = state => ({
   selectedRepos: state.settings.selectedRepos,
   githubError: state.dashboard.githubError,
   loading: state.dashboard.loading,
-  pullRequests: state.dashboard.pullRequests
+  pullRequests: state.dashboard.pullRequests,
+  token: state.settings.token
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestPullRequests: repoIds => {
-    dispatch(requestPullRequests(repoIds));
+  requestPullRequests: (repoIds, token) => {
+    dispatch(requestPullRequests(repoIds, token));
   },
   dispatch
 });

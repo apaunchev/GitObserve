@@ -20,12 +20,15 @@ export const requestPullRequestsFailure = error => ({
   error
 });
 
-export const requestPullRequests = repoIds => async (dispatch, getState) => {
+export const requestPullRequests = (repoIds, token) => async (
+  dispatch,
+  getState
+) => {
   const watchedRepos = getState().watchedRepos.repos;
   try {
     dispatch(requestPullRequestsLoading());
     const query = queries.pullRequestsForRepos(repoIds);
-    const results = await get(query);
+    const results = await get(query, token);
     dispatch(requestPullRequestsSuccess(results, watchedRepos));
   } catch (err) {
     dispatch(requestPullRequestsFailure(err));

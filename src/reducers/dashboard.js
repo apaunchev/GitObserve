@@ -31,6 +31,7 @@ export default function(state = initialState, action) {
     case actions.REQUEST_PULL_REQUESTS_FAILURE:
       return {
         ...state,
+        pullRequests: [],
         githubError: action.error,
         loading: false
       };

@@ -19,7 +19,7 @@ const App = () => (
     </header>
     <Switch>
       <Route exact path="/" component={Dashboard} />
-      <Route exact path="/settings" component={Settings} />
+      <Route path="/settings" component={Settings} />
       <Route component={NotFound} />
     </Switch>
   </div>

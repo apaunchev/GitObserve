@@ -19,17 +19,17 @@ export const requestWatchedReposFailure = error => ({
   error
 });
 
-export const requestWatchedRepos = () => async dispatch => {
+export const requestWatchedRepos = token => async dispatch => {
   try {
     dispatch(requestWatchedReposLoading());
     let query = queries.watchedRepos();
-    const initialResults = await get(query);
+    const initialResults = await get(query, token);
     let reposArray = initialResults.viewer.watching.edges;
     if (initialResults.viewer.watching.pageInfo.hasNextPage) {
       let paginate = true;
       while (paginate) {
         query = queries.watchedRepos(reposArray[reposArray.length - 1].cursor);
-        const paginatedResults = await get(query);
+        const paginatedResults = await get(query, token);
         reposArray = [...reposArray, ...paginatedResults.viewer.watching.edges];
         paginate = paginatedResults.viewer.watching.pageInfo.hasNextPage;
       }

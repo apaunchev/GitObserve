@@ -1,19 +1,20 @@
+import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Octicon, {
   Settings as SettingsIcon,
   Sync as SyncIcon,
-  GitPullRequest as GitPullRequestIcon,
-  Repo as RepoIcon
+  GitPullRequest as GitPullRequestIcon
 } from "@githubprimer/octicons-react";
 import { requestPullRequests } from "../actions/dashboard";
 import PullRequest from "./PullRequest";
 
 class Dashboard extends React.PureComponent {
   state = {
-    sortField: "updatedAt",
-    sortDirection: "desc"
+    orderByField: "updatedAt",
+    sortByRepo: false,
+    filterByAuthor: ""
   };
 
   componentDidMount() {
@@ -25,8 +26,16 @@ class Dashboard extends React.PureComponent {
     }
   }
 
+  handleInputChange = event => {
+    const target = event.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({ [name]: value });
+  };
+
   render() {
-    const { sortField, sortDirection } = this.state;
+    const { orderByField, sortByRepo, filterByAuthor } = this.state;
     const {
       selectedRepos,
       pullRequests,
@@ -35,19 +44,37 @@ class Dashboard extends React.PureComponent {
       requestPullRequests,
       token
     } = this.props;
+    let authors = [];
+    let orderFields = [orderByField];
+    let orderDirections = ["desc"];
+    let formattedPrs = [];
 
-    let sortedPullRequests = [];
     if (pullRequests.length > 0) {
-      sortedPullRequests = pullRequests.sort((a, b) => {
-        const dateA = new Date(a[sortField]);
-        const dateB = new Date(b[sortField]);
+      formattedPrs = _.map(pullRequests, pr => ({
+        ...pr,
+        repoName: pr.repository.nameWithOwner
+      }));
 
-        if (sortDirection === "desc") {
-          return dateB - dateA;
-        } else {
-          return dateA - dateB;
-        }
-      });
+      authors = _.chain(formattedPrs)
+        .map(pr => pr.author)
+        .uniqBy("login")
+        .value();
+
+      if (sortByRepo) {
+        orderFields.unshift("repoName");
+        orderDirections.unshift("asc");
+      }
+
+      if (orderByField) {
+        formattedPrs = _.orderBy(formattedPrs, orderFields, orderDirections);
+      }
+
+      if (filterByAuthor) {
+        formattedPrs = _.filter(
+          formattedPrs,
+          pr => pr.author.login === filterByAuthor
+        );
+      }
     }
 
     return (
@@ -75,19 +102,49 @@ class Dashboard extends React.PureComponent {
                       size={20}
                       className="pr-1"
                     />
-                    {pullRequests.length} Pull Requests
+                    {formattedPrs.length} pull requests
                   </span>
-                  <span className="d-inline-flex flex-items-center text-bold">
-                    <Octicon icon={RepoIcon} size={20} className="pr-1" />
-                    {selectedRepos.length} Repositories
-                  </span>
+                  <span className="text-gray mr-2">Order by:</span>
+                  <select
+                    className="form-select select-sm mr-2"
+                    name="orderByField"
+                    value={this.state.orderByField}
+                    onChange={this.handleInputChange}
+                  >
+                    <option value={"updatedAt"}>recently updated</option>
+                    <option value={"createdAt"}>newest</option>
+                  </select>
+                  <select
+                    className="form-select select-sm mr-2"
+                    name="filterByAuthor"
+                    value={this.state.filterByAuthor}
+                    onChange={this.handleInputChange}
+                  >
+                    <option value="">Select author</option>
+                    {authors.map(({ login }) => (
+                      <option key={login} value={login}>
+                        {login}
+                      </option>
+                    ))}
+                  </select>
+                  <label className="mr-2">
+                    <input
+                      type="checkbox"
+                      name="sortByRepo"
+                      value={sortByRepo}
+                      onChange={this.handleInputChange}
+                    />{" "}
+                    Sort by repository
+                  </label>
                 </div>
-                <button
-                  className="btn btn-sm btn-primary"
-                  onClick={() => requestPullRequests(selectedRepos, token)}
-                >
-                  <Octicon icon={SyncIcon} /> Sync
-                </button>
+                <div>
+                  <button
+                    className="btn btn-sm btn-primary"
+                    onClick={() => requestPullRequests(selectedRepos, token)}
+                  >
+                    <Octicon icon={SyncIcon} /> Sync
+                  </button>
+                </div>
               </div>
 
               {!selectedRepos.length ? (
@@ -118,7 +175,7 @@ class Dashboard extends React.PureComponent {
               {selectedRepos.length > 0 &&
               !loading &&
               !githubError &&
-              !pullRequests.length ? (
+              !formattedPrs.length ? (
                 <div className="blankslate blankslate-clean-background">
                   <p>
                     No pull requests were found for your{" "}
@@ -127,10 +184,8 @@ class Dashboard extends React.PureComponent {
                 </div>
               ) : null}
 
-              {!loading && !githubError && sortedPullRequests.length
-                ? sortedPullRequests.map(pr => (
-                    <PullRequest key={pr.id} {...pr} />
-                  ))
+              {!loading && !githubError && formattedPrs.length
+                ? formattedPrs.map(pr => <PullRequest key={pr.id} {...pr} />)
                 : null}
             </div>
           </div>

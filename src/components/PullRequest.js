@@ -1,26 +1,28 @@
 import React from "react";
 import { formatDistance, differenceInDays } from "date-fns";
 
-const STALENESS = {
-  FRESH: {
-    label: "Fresh",
-    classNames: "bg-green"
-  },
-  STALE: {
-    label: "Stale",
-    classNames: "bg-purple"
-  }
+const PR_STATUS = {
+  FRESH: "bg-green",
+  STALE: "bg-blue",
+  ROTTEN: "bg-purple"
 };
 
-const getStaleness = date => {
+const getPRStatus = date => {
   const difference = differenceInDays(new Date(date), new Date());
-  if (difference >= -7) {
-    return STALENESS.FRESH;
+
+  if (difference > -7) {
+    return PR_STATUS.FRESH;
   }
-  if (difference <= -30) {
-    return STALENESS.STALE;
+
+  if (difference <= -7 && difference >= -28) {
+    return PR_STATUS.STALE;
   }
-  return undefined;
+
+  if (difference < -28) {
+    return PR_STATUS.ROTTEN;
+  }
+
+  return null;
 };
 
 const PullRequest = ({
@@ -33,12 +35,11 @@ const PullRequest = ({
   repository
 }) => {
   const now = new Date();
-  const staleness = getStaleness(updatedAt);
 
   return (
     <div className="Box-row Box-row--hover-gray d-flex">
       {author.avatarUrl && (
-        <div>
+        <div className="pr-3">
           <img
             className="avatar"
             src={author.avatarUrl}
@@ -48,7 +49,7 @@ const PullRequest = ({
           />
         </div>
       )}
-      <div className="flex-auto px-3">
+      <div className="flex-auto pr-3">
         <a href={repository.url} className="muted-link h4 pr-1">
           {repository.nameWithOwner}
         </a>
@@ -61,17 +62,17 @@ const PullRequest = ({
           <a href={author.url} className="muted-link">
             {author.login}
           </a>
-          {staleness ? (
-            <span
-              className={`d-inline-block ml-2 label box-shadow-none text-normal rounded-1 f6 tooltipped tooltipped-sw ${
-                staleness.classNames
-              }`}
-              aria-label={`Last updated ${formatDistance(updatedAt, now)} ago`}
-            >
-              {staleness.label}
-            </span>
-          ) : null}
         </div>
+      </div>
+      <div className="d-flex flex-items-center">
+        <span
+          className={`d-inline-block px-3 py-1 rounded-1 text-white no-wrap tooltipped tooltipped-s ${getPRStatus(
+            updatedAt
+          )}`}
+          aria-label={`Last updated ${formatDistance(updatedAt, now)} ago`}
+        >
+          {formatDistance(updatedAt, now)} ago
+        </span>
       </div>
     </div>
   );

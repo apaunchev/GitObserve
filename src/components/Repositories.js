@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Octicon, {
@@ -128,6 +129,22 @@ class Repositories extends React.PureComponent {
     );
   }
 }
+
+Repositories.propTypes = {
+  watchedRepos: PropTypes.arrayOf(PropTypes.shape()),
+  loading: PropTypes.bool,
+  githubError: PropTypes.string,
+  selectedRepos: PropTypes.arrayOf(PropTypes.string),
+  token: PropTypes.string
+};
+
+Repositories.defaultProps = {
+  watchedRepos: [],
+  loading: false,
+  githubError: null,
+  selectedRepos: [],
+  token: null
+};
 
 const mapStateToProps = state => ({
   watchedRepos: state.watchedRepos.repos,

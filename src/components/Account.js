@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as settingsActions from "../actions/settings";
 
@@ -52,6 +53,15 @@ class Account extends Component {
     );
   }
 }
+
+Account.propTypes = {
+  token: PropTypes.string,
+  setToken: PropTypes.func.isRequired
+};
+
+Account.defaultProps = {
+  token: null
+};
 
 const mapStateToProps = state => ({
   token: state.settings.token

@@ -1,5 +1,6 @@
 import _ from "lodash";
 import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Octicon, {
@@ -195,12 +196,28 @@ class Dashboard extends React.PureComponent {
   }
 }
 
+Dashboard.propTypes = {
+  selectedRepos: PropTypes.arrayOf(PropTypes.string),
+  githubError: PropTypes.string,
+  loading: PropTypes.bool,
+  pullRequests: PropTypes.arrayOf(PropTypes.shape()),
+  token: PropTypes.string
+};
+
+Dashboard.defaultProps = {
+  selectedRepos: [],
+  token: null,
+  pullRequests: [],
+  loading: false,
+  githubError: null
+};
+
 const mapStateToProps = state => ({
   selectedRepos: state.settings.selectedRepos,
+  token: state.settings.token,
   githubError: state.dashboard.githubError,
   loading: state.dashboard.loading,
-  pullRequests: state.dashboard.pullRequests,
-  token: state.settings.token
+  pullRequests: state.dashboard.pullRequests
 });
 
 const mapDispatchToProps = dispatch => ({

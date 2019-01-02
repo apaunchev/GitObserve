@@ -5,12 +5,12 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Octicon, {
   Settings as SettingsIcon,
-  Sync as SyncIcon,
-  GitPullRequest as GitPullRequestIcon
+  Sync as SyncIcon
 } from "@githubprimer/octicons-react";
 import { requestPullRequests } from "../actions/dashboard";
 import PullRequest from "./PullRequest";
 import Flash from "./Flash";
+import Stats from "./Stats";
 
 class Dashboard extends React.PureComponent {
   state = {
@@ -98,89 +98,88 @@ class Dashboard extends React.PureComponent {
                 <Link to="/settings/repositories">repositories</Link> yet.
               </Flash>
             ) : (
-              <div className="Box">
-                <div className="Box-header d-flex flex-items-center">
-                  <div className="flex-auto d-flex flex-items-center">
-                    <span className="d-inline-flex flex-items-center mr-3 text-bold">
-                      <Octicon
-                        icon={GitPullRequestIcon}
-                        size={20}
-                        className="pr-1"
-                      />
-                      {formattedPrs.length} pull requests
-                    </span>
-                    <span className="text-gray mr-2">Order by:</span>
-                    <select
-                      className="form-select select-sm mr-2"
-                      name="orderByField"
-                      value={this.state.orderByField}
-                      onChange={this.handleInputChange}
-                    >
-                      <option value={"updatedAt"}>recently updated</option>
-                      <option value={"createdAt"}>newest</option>
-                    </select>
-                    <select
-                      className="form-select select-sm mr-2"
-                      name="filterByAuthor"
-                      value={this.state.filterByAuthor}
-                      onChange={this.handleInputChange}
-                    >
-                      <option value="">Select author</option>
-                      {authors.map(({ login }) => (
-                        <option key={login} value={login}>
-                          {login}
-                        </option>
-                      ))}
-                    </select>
-                    <label className="mr-2">
-                      <input
-                        type="checkbox"
-                        name="sortByRepo"
-                        value={sortByRepo}
+              <>
+                <Stats pullRequests={pullRequests} />
+                <div className="Box">
+                  <div className="Box-header d-flex flex-items-center">
+                    <div className="flex-auto d-flex flex-items-center">
+                      <span className="text-gray mr-2">Order by:</span>
+                      <select
+                        className="form-select select-sm mr-2"
+                        name="orderByField"
+                        value={this.state.orderByField}
                         onChange={this.handleInputChange}
-                      />{" "}
-                      Sort by repository
-                    </label>
+                      >
+                        <option value={"updatedAt"}>recently updated</option>
+                        <option value={"createdAt"}>newest</option>
+                      </select>
+                      <select
+                        className="form-select select-sm mr-2"
+                        name="filterByAuthor"
+                        value={this.state.filterByAuthor}
+                        onChange={this.handleInputChange}
+                      >
+                        <option value="">Select author</option>
+                        {authors.map(({ login }) => (
+                          <option key={login} value={login}>
+                            {login}
+                          </option>
+                        ))}
+                      </select>
+                      <label className="mr-2">
+                        <input
+                          type="checkbox"
+                          name="sortByRepo"
+                          value={sortByRepo}
+                          onChange={this.handleInputChange}
+                        />{" "}
+                        Sort by repository
+                      </label>
+                    </div>
+                    <div>
+                      <button
+                        className="btn btn-sm btn-primary"
+                        onClick={() =>
+                          requestPullRequests(selectedRepos, token)
+                        }
+                      >
+                        <Octicon icon={SyncIcon} /> Sync
+                      </button>
+                    </div>
                   </div>
-                  <div>
-                    <button
-                      className="btn btn-sm btn-primary"
-                      onClick={() => requestPullRequests(selectedRepos, token)}
-                    >
-                      <Octicon icon={SyncIcon} /> Sync
-                    </button>
-                  </div>
+
+                  {loading ? (
+                    <div className="blankslate blankslate-clean-background">
+                      <p>Loading...</p>
+                    </div>
+                  ) : null}
+
+                  {githubError ? (
+                    <div className="blankslate blankslate-clean-background">
+                      <p>
+                        Error fetching data from GitHub. Ensure your{" "}
+                        <Link to="/settings/account">token</Link> is set
+                        correctly and try again.
+                      </p>
+                    </div>
+                  ) : null}
+
+                  {!loading && !githubError && !formattedPrs.length ? (
+                    <div className="blankslate blankslate-clean-background">
+                      <p>
+                        No pull requests were found for your{" "}
+                        <Link to="/settings/repositories">repositories</Link>.
+                      </p>
+                    </div>
+                  ) : null}
+
+                  {!loading && !githubError && formattedPrs.length > 0
+                    ? formattedPrs.map(pr => (
+                        <PullRequest key={pr.id} {...pr} />
+                      ))
+                    : null}
                 </div>
-
-                {loading ? (
-                  <div className="blankslate blankslate-clean-background">
-                    <p>Loading...</p>
-                  </div>
-                ) : null}
-
-                {githubError ? (
-                  <div className="blankslate blankslate-clean-background">
-                    <p>
-                      Error fetching data from GitHub. Ensure your{" "}
-                      <Link to="/settings/account">token</Link> is set correctly
-                      and try again.
-                    </p>
-                  </div>
-                ) : null}
-
-                {!loading && !githubError && !formattedPrs.length ? (
-                  <div className="blankslate blankslate-clean-background">
-                    <p>
-                      No pull requests were found for your{" "}
-                      <Link to="/settings/repositories">repositories</Link>.
-                    </p>
-                  </div>
-                ) : null}
-
-                {!loading && !githubError && formattedPrs.length > 0
-                  ? formattedPrs.map(pr => <PullRequest key={pr.id} {...pr} />)
-                  : null}
-              </div>
+              </>
             )}
           </div>
         </main>
@@ -191,7 +190,7 @@ class Dashboard extends React.PureComponent {
 
 Dashboard.propTypes = {
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
-  githubError: PropTypes.string,
+  githubError: PropTypes.shape(),
   loading: PropTypes.bool,
   pullRequests: PropTypes.arrayOf(PropTypes.shape()),
   token: PropTypes.string

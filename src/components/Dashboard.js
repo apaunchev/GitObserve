@@ -15,8 +15,8 @@ import Stats from "./Stats";
 class Dashboard extends React.PureComponent {
   state = {
     orderByField: "updatedAt",
-    sortByRepo: false,
-    filterByAuthor: ""
+    filterByAuthor: "",
+    filterByRepo: ""
   };
 
   componentDidMount() {
@@ -37,7 +37,7 @@ class Dashboard extends React.PureComponent {
   };
 
   render() {
-    const { orderByField, sortByRepo, filterByAuthor } = this.state;
+    const { orderByField, filterByAuthor, filterByRepo } = this.state;
     const {
       selectedRepos,
       pullRequests,
@@ -47,22 +47,21 @@ class Dashboard extends React.PureComponent {
       token
     } = this.props;
     let authors = [];
+    let repos = [];
     let orderFields = [orderByField];
     let orderDirections = ["desc"];
-    let formattedPrs = [];
+    let formattedPrs = pullRequests;
 
     if (pullRequests.length > 0) {
-      formattedPrs = pullRequests;
-
       authors = _.chain(formattedPrs)
         .map(pr => pr.author)
         .uniqBy("login")
         .value();
 
-      if (sortByRepo) {
-        orderFields.unshift("repoName");
-        orderDirections.unshift("asc");
-      }
+      repos = _.chain(formattedPrs)
+        .map(pr => pr.repoName)
+        .uniqBy()
+        .value();
 
       if (orderByField) {
         formattedPrs = _.orderBy(formattedPrs, orderFields, orderDirections);
@@ -72,6 +71,13 @@ class Dashboard extends React.PureComponent {
         formattedPrs = _.filter(
           formattedPrs,
           pr => pr.author.login === filterByAuthor
+        );
+      }
+
+      if (filterByRepo) {
+        formattedPrs = _.filter(
+          formattedPrs,
+          pr => pr.repoName === filterByRepo
         );
       }
     }
@@ -103,6 +109,32 @@ class Dashboard extends React.PureComponent {
                 <div className="Box">
                   <div className="Box-header d-flex flex-items-center">
                     <div className="flex-auto d-flex flex-items-center">
+                      <select
+                        className="form-select select-sm mr-2"
+                        name="filterByAuthor"
+                        value={this.state.filterByAuthor}
+                        onChange={this.handleInputChange}
+                      >
+                        <option value="">All authors</option>
+                        {authors.map(({ login }) => (
+                          <option key={login} value={login}>
+                            {login}
+                          </option>
+                        ))}
+                      </select>
+                      <select
+                        className="form-select select-sm mr-2"
+                        name="filterByRepo"
+                        value={this.state.filterByRepo}
+                        onChange={this.handleInputChange}
+                      >
+                        <option value="">All repositories</option>
+                        {repos.map(repo => (
+                          <option key={repo} value={repo}>
+                            {repo}
+                          </option>
+                        ))}
+                      </select>
                       <span className="text-gray mr-2">Order by:</span>
                       <select
                         className="form-select select-sm mr-2"
@@ -113,28 +145,6 @@ class Dashboard extends React.PureComponent {
                         <option value={"updatedAt"}>recently updated</option>
                         <option value={"createdAt"}>newest</option>
                       </select>
-                      <select
-                        className="form-select select-sm mr-2"
-                        name="filterByAuthor"
-                        value={this.state.filterByAuthor}
-                        onChange={this.handleInputChange}
-                      >
-                        <option value="">Select author</option>
-                        {authors.map(({ login }) => (
-                          <option key={login} value={login}>
-                            {login}
-                          </option>
-                        ))}
-                      </select>
-                      <label className="mr-2">
-                        <input
-                          type="checkbox"
-                          name="sortByRepo"
-                          value={sortByRepo}
-                          onChange={this.handleInputChange}
-                        />{" "}
-                        Sort by repository
-                      </label>
                     </div>
                     <div>
                       <button

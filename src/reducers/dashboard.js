@@ -1,3 +1,4 @@
+import _ from "lodash";
 import * as actions from "../actions/dashboard";
 
 const initialState = {
@@ -17,10 +18,15 @@ export default function(state = initialState, action) {
         githubError: null
       };
     case actions.REQUEST_PULL_REQUESTS_SUCCESS:
-      pullRequests = action.data.nodes
+      pullRequests = _.chain(action.data.nodes)
         .filter(node => node)
-        .map(node => node.pullRequests.edges.map(edge => edge.node));
-      pullRequests = [].concat(...pullRequests);
+        .map(node => _.map(node.pullRequests.edges, "node"))
+        .flatten()
+        .map(pr => ({
+          ...pr,
+          repoName: pr.repository.nameWithOwner
+        }))
+        .value();
 
       return {
         ...state,

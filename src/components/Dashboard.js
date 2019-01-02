@@ -52,10 +52,7 @@ class Dashboard extends React.PureComponent {
     let formattedPrs = [];
 
     if (pullRequests.length > 0) {
-      formattedPrs = _.map(pullRequests, pr => ({
-        ...pr,
-        repoName: pr.repository.nameWithOwner
-      }));
+      formattedPrs = pullRequests;
 
       authors = _.chain(formattedPrs)
         .map(pr => pr.author)

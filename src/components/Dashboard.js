@@ -7,18 +7,13 @@ import Octicon, {
   Settings as SettingsIcon,
   Sync as SyncIcon
 } from "@githubprimer/octicons-react";
-import { requestPullRequests } from "../actions/dashboard";
+import * as actions from "../actions/dashboard";
 import PullRequest from "./PullRequest";
 import Flash from "./Flash";
 import Stats from "./Stats";
+import Filters from "./Filters";
 
 class Dashboard extends React.PureComponent {
-  state = {
-    orderByField: "updatedAt",
-    filterByAuthor: "",
-    filterByRepo: ""
-  };
-
   componentDidMount() {
     if (this.props.selectedRepos.length > 0) {
       this.props.requestPullRequests(
@@ -28,16 +23,7 @@ class Dashboard extends React.PureComponent {
     }
   }
 
-  handleInputChange = event => {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({ [name]: value });
-  };
-
   render() {
-    const { orderByField, filterByAuthor, filterByRepo } = this.state;
     const {
       selectedRepos,
       pullRequests,
@@ -46,41 +32,6 @@ class Dashboard extends React.PureComponent {
       requestPullRequests,
       token
     } = this.props;
-    let authors = [];
-    let repos = [];
-    let orderFields = [orderByField];
-    let orderDirections = ["desc"];
-    let formattedPrs = pullRequests;
-
-    if (pullRequests.length > 0) {
-      authors = _.chain(formattedPrs)
-        .map(pr => pr.author)
-        .uniqBy("login")
-        .value();
-
-      repos = _.chain(formattedPrs)
-        .map(pr => pr.repoName)
-        .uniqBy()
-        .value();
-
-      if (orderByField) {
-        formattedPrs = _.orderBy(formattedPrs, orderFields, orderDirections);
-      }
-
-      if (filterByAuthor) {
-        formattedPrs = _.filter(
-          formattedPrs,
-          pr => pr.author.login === filterByAuthor
-        );
-      }
-
-      if (filterByRepo) {
-        formattedPrs = _.filter(
-          formattedPrs,
-          pr => pr.repoName === filterByRepo
-        );
-      }
-    }
 
     return (
       <>
@@ -109,43 +60,7 @@ class Dashboard extends React.PureComponent {
                 <div className="Box">
                   <div className="Box-header d-flex flex-items-center">
                     <div className="flex-auto d-flex flex-items-center">
-                      <span className="text-gray mr-2">Filter by:</span>
-                      <select
-                        className="form-select select-sm mr-2"
-                        name="filterByAuthor"
-                        value={this.state.filterByAuthor}
-                        onChange={this.handleInputChange}
-                      >
-                        <option value="">all authors</option>
-                        {authors.map(({ login }) => (
-                          <option key={login} value={login}>
-                            {login}
-                          </option>
-                        ))}
-                      </select>
-                      <select
-                        className="form-select select-sm mr-2"
-                        name="filterByRepo"
-                        value={this.state.filterByRepo}
-                        onChange={this.handleInputChange}
-                      >
-                        <option value="">all repositories</option>
-                        {repos.map(repo => (
-                          <option key={repo} value={repo}>
-                            {repo}
-                          </option>
-                        ))}
-                      </select>
-                      <span className="text-gray mr-2">Order by:</span>
-                      <select
-                        className="form-select select-sm mr-2"
-                        name="orderByField"
-                        value={this.state.orderByField}
-                        onChange={this.handleInputChange}
-                      >
-                        <option value={"updatedAt"}>recently updated</option>
-                        <option value={"createdAt"}>newest</option>
-                      </select>
+                      <Filters pullRequests={pullRequests} />
                     </div>
                     <div>
                       <button
@@ -175,7 +90,7 @@ class Dashboard extends React.PureComponent {
                     </div>
                   ) : null}
 
-                  {!loading && !githubError && !formattedPrs.length ? (
+                  {!loading && !githubError && !pullRequests.length ? (
                     <div className="blankslate blankslate-clean-background">
                       <p>
                         No pull requests were found for your{" "}
@@ -184,8 +99,8 @@ class Dashboard extends React.PureComponent {
                     </div>
                   ) : null}
 
-                  {!loading && !githubError && formattedPrs.length > 0
-                    ? formattedPrs.map(pr => (
+                  {!loading && !githubError && pullRequests.length > 0
+                    ? pullRequests.map(pr => (
                         <PullRequest key={pr.id} {...pr} />
                       ))
                     : null}
@@ -204,7 +119,8 @@ Dashboard.propTypes = {
   githubError: PropTypes.shape(),
   loading: PropTypes.bool,
   pullRequests: PropTypes.arrayOf(PropTypes.shape()),
-  token: PropTypes.string
+  token: PropTypes.string,
+  requestPullRequests: PropTypes.func
 };
 
 Dashboard.defaultProps = {
@@ -215,17 +131,36 @@ Dashboard.defaultProps = {
   githubError: null
 };
 
+const applyFilters = (pullRequests, filters) => {
+  let filtered = pullRequests;
+
+  if (filters.repo) {
+    filtered = _.filter(filtered, pr => pr.repoName === filters.repo);
+  }
+
+  if (filters.author) {
+    filtered = _.filter(filtered, pr => pr.author.login === filters.author);
+  }
+
+  filtered = _.orderBy(filtered, filters.orderBy, "desc");
+
+  return filtered;
+};
+
 const mapStateToProps = state => ({
   selectedRepos: state.settings.selectedRepos,
   token: state.settings.token,
   githubError: state.dashboard.githubError,
   loading: state.dashboard.loading,
-  pullRequests: state.dashboard.pullRequests
+  pullRequests: applyFilters(
+    state.dashboard.pullRequests,
+    state.dashboard.filters
+  )
 });
 
 const mapDispatchToProps = dispatch => ({
   requestPullRequests: (repoIds, token) => {
-    dispatch(requestPullRequests(repoIds, token));
+    dispatch(actions.requestPullRequests(repoIds, token));
   },
   dispatch
 });

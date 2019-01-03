@@ -3,6 +3,11 @@ import * as actions from "../actions/dashboard";
 
 const initialState = {
   pullRequests: [],
+  filters: {
+    repo: "",
+    author: "",
+    orderBy: "updatedAt"
+  },
   loading: false,
   githubError: null
 };
@@ -42,6 +47,11 @@ export default function(state = initialState, action) {
         pullRequests: [],
         githubError: action.error,
         loading: false
+      };
+    case actions.SET_FILTERS:
+      return {
+        ...state,
+        filters: action.filters
       };
     default:
       return state;

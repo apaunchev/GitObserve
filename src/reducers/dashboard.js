@@ -7,7 +7,19 @@ const initialState = {
   githubError: null
 };
 
-let pullRequests;
+const formatPrs = prs => {
+  return _.chain(prs.nodes)
+    .filter(node => node)
+    .map(node => _.map(node.pullRequests.edges, "node"))
+    .flatten()
+    .map(pr => ({
+      ...pr,
+      repoName: pr.repository.nameWithOwner
+    }))
+    .orderBy("updatedAt")
+    .reverse()
+    .value();
+};
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -18,19 +30,9 @@ export default function(state = initialState, action) {
         githubError: null
       };
     case actions.REQUEST_PULL_REQUESTS_SUCCESS:
-      pullRequests = _.chain(action.data.nodes)
-        .filter(node => node)
-        .map(node => _.map(node.pullRequests.edges, "node"))
-        .flatten()
-        .map(pr => ({
-          ...pr,
-          repoName: pr.repository.nameWithOwner
-        }))
-        .value();
-
       return {
         ...state,
-        pullRequests,
+        pullRequests: formatPrs(action.data),
         loading: false,
         githubError: null
       };

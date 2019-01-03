@@ -109,13 +109,14 @@ class Dashboard extends React.PureComponent {
                 <div className="Box">
                   <div className="Box-header d-flex flex-items-center">
                     <div className="flex-auto d-flex flex-items-center">
+                      <span className="text-gray mr-2">Filter by:</span>
                       <select
                         className="form-select select-sm mr-2"
                         name="filterByAuthor"
                         value={this.state.filterByAuthor}
                         onChange={this.handleInputChange}
                       >
-                        <option value="">All authors</option>
+                        <option value="">all authors</option>
                         {authors.map(({ login }) => (
                           <option key={login} value={login}>
                             {login}
@@ -128,7 +129,7 @@ class Dashboard extends React.PureComponent {
                         value={this.state.filterByRepo}
                         onChange={this.handleInputChange}
                       >
-                        <option value="">All repositories</option>
+                        <option value="">all repositories</option>
                         {repos.map(repo => (
                           <option key={repo} value={repo}>
                             {repo}

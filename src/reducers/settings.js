@@ -1,7 +1,7 @@
 import * as actions from "../actions/settings";
 
 const initialState = {
-  token: null,
+  token: "",
   selectedRepos: []
 };
 

@@ -4,6 +4,12 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "../actions/dashboard";
 
+const DEFAULT_FILTERS = {
+  repo: "",
+  author: "",
+  orderBy: "updatedAt"
+};
+
 const Filters = props => {
   const handleSelectChange = e => {
     props.setFilters({
@@ -77,6 +83,12 @@ const Filters = props => {
       {renderReposSelect()}
       <span className="text-gray mr-2">Order by:</span>
       {renderOrderBySelect()}
+      <button
+        className="btn btn-sm"
+        onClick={() => props.setFilters(DEFAULT_FILTERS)}
+      >
+        Reset
+      </button>
     </>
   );
 };

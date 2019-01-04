@@ -27,6 +27,7 @@ class Dashboard extends React.PureComponent {
     const {
       selectedRepos,
       pullRequests,
+      filteredPullRequests,
       loading,
       githubError,
       requestPullRequests,
@@ -100,7 +101,7 @@ class Dashboard extends React.PureComponent {
                   ) : null}
 
                   {!loading && !githubError && pullRequests.length > 0
-                    ? pullRequests.map(pr => (
+                    ? filteredPullRequests.map(pr => (
                         <PullRequest key={pr.id} {...pr} />
                       ))
                     : null}
@@ -152,7 +153,8 @@ const mapStateToProps = state => ({
   token: state.settings.token,
   githubError: state.dashboard.githubError,
   loading: state.dashboard.loading,
-  pullRequests: applyFilters(
+  pullRequests: state.dashboard.pullRequests,
+  filteredPullRequests: applyFilters(
     state.dashboard.pullRequests,
     state.dashboard.filters
   )

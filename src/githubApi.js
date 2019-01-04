@@ -43,7 +43,7 @@ export const queries = {
                 url
                 owner {
                   login
-                  avatarUrl
+                  avatarUrl(size: 96)
                 }
                 createdAt
               }
@@ -80,7 +80,7 @@ export const queries = {
                   url
                 }
                 author {
-                  avatarUrl
+                  avatarUrl(size: 96)
                   login
                   url
                 }

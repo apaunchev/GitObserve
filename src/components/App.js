@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Switch, Link } from "react-router-dom";
-import Dashboard from "./Dashboard";
-import Settings from "./Settings";
-import NotFound from "./NotFound";
+import Dashboard from "./dashboard";
+import Settings from "./settings";
+import NotFound from "./common/not-found";
 
 import "../../node_modules/primer/build/build.css";
 

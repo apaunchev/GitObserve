@@ -7,11 +7,11 @@ import Octicon, {
   Settings as SettingsIcon,
   Sync as SyncIcon
 } from "@githubprimer/octicons-react";
-import * as actions from "../actions/dashboard";
-import PullRequest from "./PullRequest";
-import Flash from "./Flash";
-import Stats from "./Stats";
-import Filters from "./Filters";
+import * as actions from "../../actions/dashboard";
+import PullRequest from "./pull-request";
+import Flash from "../common/flash";
+import Stats from "./stats";
+import Filters from "./filters";
 
 class Dashboard extends React.PureComponent {
   componentDidMount() {

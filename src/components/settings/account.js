@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import * as settingsActions from "../actions/settings";
+import * as settingsActions from "../../actions/settings";
 
 class Account extends Component {
   constructor(props) {

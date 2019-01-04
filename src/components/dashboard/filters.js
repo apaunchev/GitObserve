@@ -2,7 +2,7 @@ import _ from "lodash";
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import * as actions from "../actions/dashboard";
+import * as actions from "../../actions/dashboard";
 
 const DEFAULT_FILTERS = {
   repo: "",

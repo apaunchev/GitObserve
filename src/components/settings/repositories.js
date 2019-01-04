@@ -6,8 +6,8 @@ import Octicon, {
   Sync as SyncIcon,
   LinkExternal as LinkExternalIcon
 } from "@githubprimer/octicons-react";
-import * as settingsActions from "../actions/settings";
-import * as watchedReposActions from "../actions/watchedRepos";
+import * as settingsActions from "../../actions/settings";
+import * as watchedReposActions from "../../actions/watchedRepos";
 
 class Repositories extends React.PureComponent {
   componentDidMount() {

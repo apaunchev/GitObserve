@@ -1,7 +1,7 @@
 import { throttle } from "lodash";
 import React from "react";
 import { render } from "react-dom";
-import Root from "./components/Root";
+import Root from "./components/root";
 import configureStore from "./configureStore";
 import { saveState } from "./localStorage";
 

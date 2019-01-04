@@ -5,8 +5,8 @@ import Octicon, {
   Person as PersonIcon,
   Repo as RepoIcon
 } from "@githubprimer/octicons-react";
-import Account from "./Account";
-import Repositories from "./Repositories";
+import Account from "./account";
+import Repositories from "./repositories";
 
 const Settings = ({ match }) => (
   <>

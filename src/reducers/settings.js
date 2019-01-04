@@ -2,7 +2,9 @@ import * as actions from "../actions/settings";
 
 const initialState = {
   token: "",
-  selectedRepos: []
+  selectedRepos: [],
+  autoRefreshEnabled: false,
+  autoRefreshInterval: "5"
 };
 
 export default function(state = initialState, action) {
@@ -33,6 +35,16 @@ export default function(state = initialState, action) {
       return {
         ...state,
         selectedRepos: []
+      };
+    case actions.TOGGLE_AUTO_REFRESH:
+      return {
+        ...state,
+        autoRefreshEnabled: !state.autoRefreshEnabled
+      };
+    case actions.SET_AUTO_REFRESH_INTERVAL:
+      return {
+        ...state,
+        autoRefreshInterval: action.interval
       };
     default:
       return state;

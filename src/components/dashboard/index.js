@@ -14,13 +14,31 @@ import Stats from "./stats";
 import Filters from "./filters";
 
 class Dashboard extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.updateInterval = null;
+  }
+
   componentDidMount() {
     if (this.props.selectedRepos.length > 0) {
       this.props.requestPullRequests(
         this.props.selectedRepos,
         this.props.token
       );
+
+      if (this.props.autoRefreshEnabled) {
+        this.updateInterval = setInterval(() => {
+          this.props.requestPullRequests(
+            this.props.selectedRepos,
+            this.props.token
+          );
+        }, this.props.autoRefreshInterval * 60 * 1000);
+      }
     }
+  }
+
+  componentWillUnmount() {
+    window.clearInterval(this.updateInterval);
   }
 
   render() {
@@ -31,7 +49,8 @@ class Dashboard extends React.PureComponent {
       loading,
       githubError,
       requestPullRequests,
-      token
+      token,
+      autoRefreshEnabled
     } = this.props;
 
     return (
@@ -63,7 +82,13 @@ class Dashboard extends React.PureComponent {
                     <div className="flex-auto d-flex flex-items-center">
                       <Filters pullRequests={pullRequests} />
                     </div>
-                    <div>
+                    <div className="d-flex flex-items-center">
+                      {autoRefreshEnabled && (
+                        <span className="text-gray mr-2 f6">
+                          Auto refresh{" "}
+                          <Link to={"/settings/dashboard"}>enabled</Link>.
+                        </span>
+                      )}
                       <button
                         className="btn btn-sm btn-primary"
                         onClick={() =>
@@ -151,6 +176,8 @@ const applyFilters = (pullRequests, filters) => {
 const mapStateToProps = state => ({
   selectedRepos: state.settings.selectedRepos,
   token: state.settings.token,
+  autoRefreshEnabled: state.settings.autoRefreshEnabled,
+  autoRefreshInterval: state.settings.autoRefreshInterval,
   githubError: state.dashboard.githubError,
   loading: state.dashboard.loading,
   pullRequests: state.dashboard.pullRequests,

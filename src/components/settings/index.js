@@ -3,10 +3,12 @@ import { Link, NavLink, Redirect, Switch, Route } from "react-router-dom";
 import Octicon, {
   CloudUpload as CloudUploadIcon,
   Person as PersonIcon,
-  Repo as RepoIcon
+  Repo as RepoIcon,
+  Dashboard as DashboardIcon
 } from "@githubprimer/octicons-react";
 import Account from "./account";
 import Repositories from "./repositories";
+import Dashboard from "./dashboard";
 
 const Settings = ({ match }) => (
   <>
@@ -40,6 +42,13 @@ const Settings = ({ match }) => (
             >
               <Octicon icon={RepoIcon} /> Repositories
             </NavLink>
+            <NavLink
+              to={`${match.url}/dashboard`}
+              className="menu-item"
+              activeClassName="selected"
+            >
+              <Octicon icon={DashboardIcon} /> Dashboard
+            </NavLink>
           </nav>
         </div>
         <div className="col-9">
@@ -54,6 +63,7 @@ const Settings = ({ match }) => (
               path={`${match.url}/repositories`}
               component={Repositories}
             />
+            <Route path={`${match.url}/dashboard`} component={Dashboard} />
           </Switch>
         </div>
       </div>

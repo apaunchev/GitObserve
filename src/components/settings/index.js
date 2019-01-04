@@ -29,6 +29,13 @@ const Settings = ({ match }) => (
         <div className="col-3 pr-4">
           <nav className="menu">
             <NavLink
+              to={`${match.url}/dashboard`}
+              className="menu-item"
+              activeClassName="selected"
+            >
+              <Octicon icon={DashboardIcon} /> Dashboard
+            </NavLink>
+            <NavLink
               to={`${match.url}/account`}
               className="menu-item"
               activeClassName="selected"
@@ -42,28 +49,21 @@ const Settings = ({ match }) => (
             >
               <Octicon icon={RepoIcon} /> Repositories
             </NavLink>
-            <NavLink
-              to={`${match.url}/dashboard`}
-              className="menu-item"
-              activeClassName="selected"
-            >
-              <Octicon icon={DashboardIcon} /> Dashboard
-            </NavLink>
           </nav>
         </div>
         <div className="col-9">
           <Switch>
-            <Route
-              exact
-              path={`${match.url}`}
-              render={() => <Redirect to={`${match.url}/account`} />}
-            />
+            <Route path={`${match.url}/dashboard`} component={Dashboard} />
             <Route path={`${match.url}/account`} component={Account} />
             <Route
               path={`${match.url}/repositories`}
               component={Repositories}
             />
-            <Route path={`${match.url}/dashboard`} component={Dashboard} />
+            <Route
+              exact
+              path={`${match.url}`}
+              render={() => <Redirect to={`${match.url}/dashboard`} />}
+            />
           </Switch>
         </div>
       </div>

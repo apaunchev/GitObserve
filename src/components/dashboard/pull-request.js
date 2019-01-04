@@ -2,9 +2,14 @@ import React from "react";
 import { formatDistance, differenceInDays } from "date-fns";
 
 const PR_STATUS = {
-  FRESH: "bg-green",
-  STALE: "bg-blue",
-  ROTTEN: "bg-purple"
+  FRESH: {
+    label: "Fresh",
+    color: "#28a745"
+  },
+  STALE: {
+    label: "Stale",
+    color: "#6f42c1"
+  }
 };
 
 const getPRStatus = date => {
@@ -14,12 +19,8 @@ const getPRStatus = date => {
     return PR_STATUS.FRESH;
   }
 
-  if (difference <= -7 && difference >= -28) {
+  if (difference <= -28) {
     return PR_STATUS.STALE;
-  }
-
-  if (difference < -28) {
-    return PR_STATUS.ROTTEN;
   }
 
   return null;
@@ -35,6 +36,11 @@ const PullRequest = ({
   repository
 }) => {
   const now = new Date();
+  const relativeTime = field =>
+    formatDistance(field, now, {
+      addSuffix: true
+    });
+  const status = getPRStatus(updatedAt);
 
   return (
     <div className="Box-row Box-row--hover-gray d-flex">
@@ -58,21 +64,20 @@ const PullRequest = ({
         </a>
         <div className="text-gray">
           #{number} opened{" "}
-          <span title={createdAt}>{formatDistance(createdAt, now)} ago</span> by{" "}
+          <span title={createdAt}>{relativeTime(createdAt)}</span> by{" "}
           <a href={author.url} className="muted-link">
             {author.login}
           </a>
+          {status && (
+            <span
+              className="Label Label--outline ml-1 tooltipped tooltipped-sw"
+              aria-label={`Last updated ${relativeTime(updatedAt)}`}
+              style={{ color: status.color, borderColor: status.color }}
+            >
+              {status.label}
+            </span>
+          )}
         </div>
-      </div>
-      <div className="d-flex flex-items-center">
-        <span
-          className={`d-inline-block px-3 py-1 rounded-1 text-white no-wrap tooltipped tooltipped-s ${getPRStatus(
-            updatedAt
-          )}`}
-          aria-label={`Last updated ${formatDistance(updatedAt, now)} ago`}
-        >
-          {formatDistance(updatedAt, now)} ago
-        </span>
       </div>
     </div>
   );

@@ -133,7 +133,7 @@ class Repositories extends React.PureComponent {
 Repositories.propTypes = {
   watchedRepos: PropTypes.arrayOf(PropTypes.shape()),
   loading: PropTypes.bool,
-  githubError: PropTypes.string,
+  githubError: PropTypes.shape(),
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
   token: PropTypes.string
 };

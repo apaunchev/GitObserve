@@ -116,16 +116,13 @@ class Dashboard extends React.PureComponent {
                     </div>
                   ) : null}
 
-                  {!loading && !githubError && !pullRequests.length ? (
+                  {!loading && !githubError && !filteredPullRequests.length ? (
                     <div className="blankslate blankslate-clean-background">
-                      <p>
-                        No pull requests were found for your{" "}
-                        <Link to="/settings/repositories">repositories</Link>.
-                      </p>
+                      <p>No pull requests were found.</p>
                     </div>
                   ) : null}
 
-                  {!loading && !githubError && pullRequests.length > 0
+                  {!loading && !githubError && filteredPullRequests.length > 0
                     ? filteredPullRequests.map(pr => (
                         <PullRequest key={pr.id} {...pr} />
                       ))

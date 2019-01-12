@@ -4,8 +4,7 @@ const initialState = {
   token: "",
   selectedRepos: [],
   autoRefreshEnabled: false,
-  autoRefreshInterval: "5",
-  stalenessLabelsEnabled: true
+  autoRefreshInterval: "5"
 };
 
 export default function(state = initialState, action) {
@@ -46,11 +45,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         autoRefreshInterval: action.interval
-      };
-    case actions.TOGGLE_STALENESS_LABELS:
-      return {
-        ...state,
-        stalenessLabelsEnabled: !state.stalenessLabelsEnabled
       };
     default:
       return state;

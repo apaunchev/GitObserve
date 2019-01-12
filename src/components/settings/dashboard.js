@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/settings";
-import { PR_STALENESS } from "../../constants";
 
 const Dashboard = props => (
   <>
@@ -32,56 +31,19 @@ const Dashboard = props => (
           Refreshes the dashboard with new pull requests periodically.
         </p>
       </div>
-      <div className="form-checkbox">
-        <label>
-          <input
-            type="checkbox"
-            checked={props.stalenessLabelsEnabled}
-            onChange={props.toggleStalenessLabels}
-          />{" "}
-          Show staleness labels
-        </label>
-        <p className="note">
-          Displays a label on{" "}
-          <span
-            className="Label Label--outline tooltipped tooltipped-sw"
-            aria-label="Updated <7 days ago"
-            style={{
-              color: PR_STALENESS.FRESH.color,
-              borderColor: PR_STALENESS.FRESH.color
-            }}
-          >
-            {PR_STALENESS.FRESH.label}
-          </span>{" "}
-          and{" "}
-          <span
-            className="Label Label--outline tooltipped tooltipped-sw"
-            aria-label="Updated >28 days ago"
-            style={{
-              color: PR_STALENESS.STALE.color,
-              borderColor: PR_STALENESS.STALE.color
-            }}
-          >
-            {PR_STALENESS.STALE.label}
-          </span>{" "}
-          pull requests.
-        </p>
-      </div>
     </form>
   </>
 );
 
 const mapStateToProps = state => ({
   autoRefreshEnabled: state.settings.autoRefreshEnabled,
-  autoRefreshInterval: state.settings.autoRefreshInterval,
-  stalenessLabelsEnabled: state.settings.stalenessLabelsEnabled
+  autoRefreshInterval: state.settings.autoRefreshInterval
 });
 
 const mapDispatchToProps = dispatch => ({
   toggleAutoRefresh: () => dispatch(actions.toggleAutoRefresh()),
   setAutoRefreshInterval: interval =>
     dispatch(actions.setAutoRefreshInterval(interval)),
-  toggleStalenessLabels: () => dispatch(actions.toggleStalenessLabels()),
   dispatch
 });
 

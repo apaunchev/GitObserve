@@ -4,7 +4,6 @@ export const SELECT_ALL_REPOS = "SELECT_ALL_REPOS";
 export const RESET_SELECTED_REPOS = "RESET_SELECTED_REPOS";
 export const TOGGLE_AUTO_REFRESH = "TOGGLE_AUTO_REFRESH";
 export const SET_AUTO_REFRESH_INTERVAL = "SET_AUTO_REFRESH_INTERVAL";
-export const TOGGLE_STALENESS_LABELS = "TOGGLE_STALENESS_LABELS";
 
 export const setToken = value => ({
   type: SET_TOKEN,
@@ -32,8 +31,4 @@ export const toggleAutoRefresh = () => ({
 export const setAutoRefreshInterval = interval => ({
   type: SET_AUTO_REFRESH_INTERVAL,
   interval
-});
-
-export const toggleStalenessLabels = () => ({
-  type: TOGGLE_STALENESS_LABELS
 });

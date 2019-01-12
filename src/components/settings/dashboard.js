@@ -27,7 +27,7 @@ const Dashboard = props => (
             <option value="30">30 minutes</option>
           </select>
         </label>
-        <p class="note">
+        <p className="note">
           Refreshes the dashboard with new pull requests periodically.
         </p>
       </div>

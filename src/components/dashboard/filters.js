@@ -30,7 +30,7 @@ const Filters = props => {
         name="author"
         value={props.filters.author}
         onChange={handleSelectChange}
-        style={{ width: "150px" }}
+        style={{ width: "130px" }}
       >
         <option value="">all authors</option>
         {authors.map(({ login }) => (
@@ -54,7 +54,7 @@ const Filters = props => {
         name="repo"
         value={props.filters.repo}
         onChange={handleSelectChange}
-        style={{ width: "150px" }}
+        style={{ width: "130px" }}
       >
         <option value="">all repositories</option>
         {repos.map(repo => (
@@ -79,7 +79,7 @@ const Filters = props => {
         name="reviewState"
         value={props.filters.reviewState}
         onChange={handleSelectChange}
-        style={{ width: "150px" }}
+        style={{ width: "130px" }}
       >
         <option value="">all review states</option>
         {reviewStates.map(state => (
@@ -97,7 +97,7 @@ const Filters = props => {
       name="orderBy"
       value={props.filters.orderBy}
       onChange={handleSelectChange}
-      style={{ width: "150px" }}
+      style={{ width: "130px" }}
     >
       <option value={"updatedAt"}>recently updated</option>
       <option value={"createdAt"}>newest</option>

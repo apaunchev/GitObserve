@@ -12,6 +12,27 @@ const initialState = {
   githubError: null
 };
 
+const formatReviewState = state => {
+  if (typeof state !== "string") return;
+  return state.replace(/_/g, " ").toLowerCase();
+};
+
+const getReviewState = (reviews, reviewRequests) => {
+  // Expected values: "PENDING", "COMMENTED", "APPROVED",
+  // "CHANGES_REQUESTED", "DISMISSED", or "REVIEW_REQUESTED" (custom).
+  // We take the last review's state, replace any underscores, and make it
+  // lowercase so it can be dispayed nicely to the user.
+  let state = null;
+  if (!reviews.length) {
+    if (reviewRequests.length > 0) {
+      state = "REVIEW_REQUESTED";
+    }
+    return formatReviewState(state);
+  }
+  state = reviews[reviews.length - 1].state;
+  return formatReviewState(state);
+};
+
 const formatPrs = prs => {
   return _.chain(prs.nodes)
     .filter(node => node)
@@ -19,7 +40,11 @@ const formatPrs = prs => {
     .flatten()
     .map(pr => ({
       ...pr,
-      repoName: pr.repository.nameWithOwner
+      repoName: pr.repository.nameWithOwner,
+      reviewState: getReviewState(
+        _.map(pr.reviews.edges, "node"),
+        _.map(pr.reviewRequests.edges, "node")
+      )
     }))
     .orderBy("updatedAt")
     .reverse()

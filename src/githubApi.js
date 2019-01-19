@@ -84,6 +84,34 @@ export const queries = {
                   login
                   url
                 }
+                reviewRequests(last: 100) {
+                  edges {
+                    node {
+                      requestedReviewer {
+                        ... on User {
+                          login
+                          avatarUrl(size: 96)
+                        }
+                        ... on Team {
+                          name
+                          avatarUrl(size: 96)
+                        }
+                      }
+                    }
+                  }
+                }
+                reviews(last: 100) {
+                  edges {
+                    node {
+                      createdAt
+                      state
+                      author {
+                        login
+                        avatarUrl(size: 96)
+                      }
+                    }
+                  }
+                }
               }
             }
           }

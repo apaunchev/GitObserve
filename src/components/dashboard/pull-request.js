@@ -1,12 +1,26 @@
 import React from "react";
 import { formatDistance } from "date-fns";
 
-const PullRequest = ({ number, title, url, createdAt, author, repository }) => {
+const PR_STATE_CLASSES = {
+  "review requested": "bg-blue text-white",
+  "changes requested": "Label--orange",
+  approved: "bg-green text-white",
+  commented: "Label--gray",
+  pending: "Label--gray",
+  dismissed: "bg-red text-white"
+};
+
+const PullRequest = ({
+  number,
+  title,
+  url,
+  createdAt,
+  author,
+  repository,
+  reviewState
+}) => {
   const now = new Date();
-  const relativeTime = field =>
-    formatDistance(field, now, {
-      addSuffix: true
-    });
+  const relativeTime = field => formatDistance(field, now, { addSuffix: true });
 
   return (
     <div className="Box-row Box-row--hover-gray d-flex">
@@ -34,6 +48,11 @@ const PullRequest = ({ number, title, url, createdAt, author, repository }) => {
           <a href={author.url} className="muted-link">
             {author.login}
           </a>
+          {reviewState ? (
+            <span className={`Label ml-2 ${PR_STATE_CLASSES[reviewState]}`}>
+              {reviewState}
+            </span>
+          ) : null}
         </div>
       </div>
     </div>

@@ -165,6 +165,10 @@ const applyFilters = (pullRequests, filters) => {
     filtered = _.filter(filtered, pr => pr.author.login === filters.author);
   }
 
+  if (filters.reviewState) {
+    filtered = _.filter(filtered, pr => pr.reviewState === filters.reviewState);
+  }
+
   filtered = _.orderBy(filtered, filters.orderBy, "desc");
 
   return filtered;

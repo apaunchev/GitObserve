@@ -6,6 +6,7 @@ const initialState = {
   filters: {
     repo: "",
     author: "",
+    reviewState: "",
     orderBy: "updatedAt"
   },
   loading: false,

@@ -30,6 +30,7 @@ const Filters = props => {
         name="author"
         value={props.filters.author}
         onChange={handleSelectChange}
+        style={{ width: "150px" }}
       >
         <option value="">all authors</option>
         {authors.map(({ login }) => (
@@ -53,11 +54,37 @@ const Filters = props => {
         name="repo"
         value={props.filters.repo}
         onChange={handleSelectChange}
+        style={{ width: "150px" }}
       >
         <option value="">all repositories</option>
         {repos.map(repo => (
           <option key={repo} value={repo}>
             {repo}
+          </option>
+        ))}
+      </select>
+    );
+  };
+
+  const renderReviewStateSelect = () => {
+    const reviewStates = _.chain(props.pullRequests)
+      .map(pr => pr.reviewState)
+      .uniqBy()
+      .compact()
+      .value();
+
+    return (
+      <select
+        className="form-select select-sm mr-2"
+        name="reviewState"
+        value={props.filters.reviewState}
+        onChange={handleSelectChange}
+        style={{ width: "150px" }}
+      >
+        <option value="">all review states</option>
+        {reviewStates.map(state => (
+          <option key={state} value={state}>
+            {state}
           </option>
         ))}
       </select>
@@ -70,6 +97,7 @@ const Filters = props => {
       name="orderBy"
       value={props.filters.orderBy}
       onChange={handleSelectChange}
+      style={{ width: "150px" }}
     >
       <option value={"updatedAt"}>recently updated</option>
       <option value={"createdAt"}>newest</option>
@@ -81,6 +109,7 @@ const Filters = props => {
       <span className="text-gray mr-2">Show:</span>
       {renderAuthorsSelect()}
       {renderReposSelect()}
+      {renderReviewStateSelect()}
       <span className="text-gray mr-2">Order by:</span>
       {renderOrderBySelect()}
       <button

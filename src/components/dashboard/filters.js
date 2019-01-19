@@ -106,7 +106,7 @@ const Filters = props => {
 
   return (
     <>
-      <span className="text-gray mr-2">Show:</span>
+      <span className="text-gray mr-2">Show ({props.filteredCount}):</span>
       {renderAuthorsSelect()}
       {renderReposSelect()}
       {renderReviewStateSelect()}

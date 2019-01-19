@@ -80,7 +80,10 @@ class Dashboard extends React.PureComponent {
                 <div className="Box">
                   <div className="Box-header d-flex flex-items-center">
                     <div className="flex-auto d-flex flex-items-center">
-                      <Filters pullRequests={pullRequests} />
+                      <Filters
+                        pullRequests={pullRequests}
+                        filteredCount={filteredPullRequests.length}
+                      />
                     </div>
                     <div className="d-flex flex-items-center">
                       {autoRefreshEnabled && (

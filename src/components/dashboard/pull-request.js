@@ -27,13 +27,19 @@ const PullRequest = ({
     <div className="Box-row Box-row--hover-gray d-flex">
       {author.avatarUrl && (
         <div className="pr-3">
-          <img
-            className="avatar"
-            src={author.avatarUrl}
-            width="48"
-            height="48"
-            alt=""
-          />
+          <a
+            href={author.url}
+            className="d-block tooltipped tooltipped-se"
+            aria-label={`Opened by ${author.login}`}
+          >
+            <img
+              className="avatar rounded-1"
+              src={author.avatarUrl}
+              width="48"
+              height="48"
+              alt=""
+            />
+          </a>
         </div>
       )}
       <div className="flex-auto">

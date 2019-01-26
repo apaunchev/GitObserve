@@ -1,17 +1,17 @@
-import _ from "lodash";
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import Octicon, {
   Settings as SettingsIcon,
   Sync as SyncIcon
 } from "@githubprimer/octicons-react";
+import _ from "lodash";
+import PropTypes from "prop-types";
+import React from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import * as actions from "../../actions/dashboard";
-import PullRequest from "./pull-request";
 import Flash from "../common/flash";
-import Stats from "./stats";
 import Filters from "./filters";
+import PullRequest from "./pull-request";
+import Stats from "./stats";
 
 class Dashboard extends React.PureComponent {
   constructor(props) {

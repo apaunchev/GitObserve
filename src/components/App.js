@@ -1,10 +1,9 @@
 import React from "react";
-import { Route, Switch, Link } from "react-router-dom";
+import { Link, Route, Switch } from "react-router-dom";
+import "../../node_modules/primer/build/build.css";
+import NotFound from "./common/not-found";
 import Dashboard from "./dashboard";
 import Settings from "./settings";
-import NotFound from "./common/not-found";
-
-import "../../node_modules/primer/build/build.css";
 
 const App = () => (
   <div className="App">

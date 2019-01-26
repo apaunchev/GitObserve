@@ -1,14 +1,14 @@
-import React from "react";
-import { Link, NavLink, Redirect, Switch, Route } from "react-router-dom";
 import Octicon, {
   CloudUpload as CloudUploadIcon,
+  Dashboard as DashboardIcon,
   Person as PersonIcon,
-  Repo as RepoIcon,
-  Dashboard as DashboardIcon
+  Repo as RepoIcon
 } from "@githubprimer/octicons-react";
+import React from "react";
+import { Link, NavLink, Redirect, Route, Switch } from "react-router-dom";
 import Account from "./account";
-import Repositories from "./repositories";
 import Dashboard from "./dashboard";
+import Repositories from "./repositories";
 
 const Settings = ({ match }) => (
   <>

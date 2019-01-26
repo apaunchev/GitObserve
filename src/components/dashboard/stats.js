@@ -1,6 +1,6 @@
 import { isSameMonth } from "date-fns";
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
 
 const Stats = ({ pullRequests }) => {
   const now = new Date();

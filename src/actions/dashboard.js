@@ -1,4 +1,4 @@
-import { queries, get } from "../githubApi";
+import { get, queries } from "../githubApi";
 
 export const REQUEST_PULL_REQUESTS = "REQUEST_PULL_REQUESTS";
 export const REQUEST_PULL_REQUESTS_LOADING = "REQUEST_PULL_REQUESTS_LOADING";

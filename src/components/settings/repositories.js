@@ -1,11 +1,11 @@
-import React from "react";
+import Octicon, {
+  LinkExternal as LinkExternalIcon,
+  Sync as SyncIcon
+} from "@githubprimer/octicons-react";
 import PropTypes from "prop-types";
+import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import Octicon, {
-  Sync as SyncIcon,
-  LinkExternal as LinkExternalIcon
-} from "@githubprimer/octicons-react";
 import * as settingsActions from "../../actions/settings";
 import * as watchedReposActions from "../../actions/watchedRepos";
 

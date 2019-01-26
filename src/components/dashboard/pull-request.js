@@ -1,5 +1,5 @@
-import React from "react";
 import { formatDistance } from "date-fns";
+import React from "react";
 
 const PR_STATE_CLASSES = {
   "review requested": "bg-blue text-white",

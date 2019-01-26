@@ -1,4 +1,4 @@
-import { queries, get } from "../githubApi";
+import { get, queries } from "../githubApi";
 
 export const REQUEST_WATCHED_REPOS = "REQUEST_WATCHED_REPOS";
 export const REQUEST_WATCHED_REPOS_LOADING = "REQUEST_WATCHED_REPOS_LOADING";

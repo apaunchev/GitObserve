@@ -45,7 +45,8 @@ const formatPrs = prs => {
       reviewState: getReviewState(
         _.map(pr.reviews.edges, "node"),
         _.map(pr.reviewRequests.edges, "node")
-      )
+      ),
+      assignees: _.map(pr.assignees.edges, "node")
     }))
     .orderBy("updatedAt")
     .reverse()

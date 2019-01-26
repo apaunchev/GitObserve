@@ -84,6 +84,15 @@ export const queries = {
                   login
                   url
                 }
+                assignees(last: 5) {
+                  edges {
+                    node {
+                      avatarUrl(size: 40)
+                      login
+                      url
+                    }
+                  }
+                }
                 reviewRequests(last: 100) {
                   edges {
                     node {

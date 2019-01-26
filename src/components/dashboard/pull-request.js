@@ -16,6 +16,7 @@ const PullRequest = ({
   url,
   createdAt,
   author,
+  assignees,
   repository,
   reviewState
 }) => {
@@ -55,6 +56,27 @@ const PullRequest = ({
           ) : null}
         </div>
       </div>
+      {assignees.length > 0 ? (
+        <div className="pl-3">
+          {assignees.map(assignee => (
+            <div className="d-flex">
+              <a
+                href={assignee.url}
+                className="pl-1 tooltipped tooltipped-sw"
+                aria-label={`Assigned to ${assignee.login}`}
+              >
+                <img
+                  className="avatar rounded-1"
+                  src={assignee.avatarUrl}
+                  width="24"
+                  height="24"
+                  alt=""
+                />
+              </a>
+            </div>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 };

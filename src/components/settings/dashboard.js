@@ -31,19 +31,45 @@ const Dashboard = props => (
           Refreshes the dashboard with new pull requests periodically.
         </p>
       </div>
+      <div className="form-checkbox">
+        <label>
+          <input
+            type="checkbox"
+            checked={props.markAsNewEnabled}
+            onChange={props.toggleMarkAsNew}
+          />{" "}
+          Mark pull requests as new if older than
+          <input
+            type="number"
+            className="form-control input-sm ml-1"
+            style={{ width: "40px " }}
+            value={props.markAsNewInterval}
+            onChange={e => props.setMarkAsNewInterval(e.target.value)}
+          />{" "}
+          days
+        </label>
+        <p className="note">
+          Displays an indicator on the left side of the pull request.
+        </p>
+      </div>
     </form>
   </>
 );
 
 const mapStateToProps = state => ({
   autoRefreshEnabled: state.settings.autoRefreshEnabled,
-  autoRefreshInterval: state.settings.autoRefreshInterval
+  autoRefreshInterval: state.settings.autoRefreshInterval,
+  markAsNewEnabled: state.settings.markAsNewEnabled,
+  markAsNewInterval: state.settings.markAsNewInterval
 });
 
 const mapDispatchToProps = dispatch => ({
   toggleAutoRefresh: () => dispatch(actions.toggleAutoRefresh()),
   setAutoRefreshInterval: interval =>
     dispatch(actions.setAutoRefreshInterval(interval)),
+  toggleMarkAsNew: () => dispatch(actions.toggleMarkAsNew()),
+  setMarkAsNewInterval: interval =>
+    dispatch(actions.setMarkAsNewInterval(interval)),
   dispatch
 });
 

@@ -11,7 +11,6 @@ import * as actions from "../../actions/dashboard";
 import Flash from "../common/flash";
 import Filters from "./filters";
 import PullRequest from "./pull-request";
-import Stats from "./stats";
 
 class Dashboard extends React.PureComponent {
   constructor(props) {
@@ -75,63 +74,58 @@ class Dashboard extends React.PureComponent {
                 <Link to="/settings/repositories">repositories</Link> yet.
               </Flash>
             ) : (
-              <>
-                <Stats pullRequests={pullRequests} />
-                <div className="Box">
-                  <div className="Box-header d-flex flex-items-center">
-                    <div className="flex-auto d-flex flex-items-center">
-                      <Filters
-                        pullRequests={pullRequests}
-                        filteredCount={filteredPullRequests.length}
-                      />
-                    </div>
-                    <div className="d-flex flex-items-center">
-                      {autoRefreshEnabled && (
-                        <span className="text-gray mr-2 f6">
-                          Auto refresh{" "}
-                          <Link to={"/settings/dashboard"}>enabled</Link>.
-                        </span>
-                      )}
-                      <button
-                        className="btn btn-sm btn-primary"
-                        onClick={() =>
-                          requestPullRequests(selectedRepos, token)
-                        }
-                      >
-                        <Octicon icon={SyncIcon} /> Sync
-                      </button>
-                    </div>
+              <div className="Box">
+                <div className="Box-header d-flex flex-items-center">
+                  <div className="flex-auto d-flex flex-items-center">
+                    <Filters
+                      pullRequests={pullRequests}
+                      filteredCount={filteredPullRequests.length}
+                    />
                   </div>
-
-                  {loading ? (
-                    <div className="blankslate blankslate-clean-background">
-                      <p>Loading...</p>
-                    </div>
-                  ) : null}
-
-                  {githubError ? (
-                    <div className="blankslate blankslate-clean-background">
-                      <p>
-                        Error fetching data from GitHub. Ensure your{" "}
-                        <Link to="/settings/account">token</Link> is set
-                        correctly and try again.
-                      </p>
-                    </div>
-                  ) : null}
-
-                  {!loading && !githubError && !filteredPullRequests.length ? (
-                    <div className="blankslate blankslate-clean-background">
-                      <p>No pull requests were found.</p>
-                    </div>
-                  ) : null}
-
-                  {!loading && !githubError && filteredPullRequests.length > 0
-                    ? filteredPullRequests.map(pr => (
-                        <PullRequest key={pr.id} {...pr} />
-                      ))
-                    : null}
+                  <div className="d-flex flex-items-center">
+                    {autoRefreshEnabled && (
+                      <span className="text-gray mr-2 f6">
+                        Auto refresh{" "}
+                        <Link to={"/settings/dashboard"}>enabled</Link>.
+                      </span>
+                    )}
+                    <button
+                      className="btn btn-sm btn-primary"
+                      onClick={() => requestPullRequests(selectedRepos, token)}
+                    >
+                      <Octicon icon={SyncIcon} /> Sync
+                    </button>
+                  </div>
                 </div>
-              </>
+
+                {loading ? (
+                  <div className="blankslate blankslate-clean-background">
+                    <p>Loading...</p>
+                  </div>
+                ) : null}
+
+                {githubError ? (
+                  <div className="blankslate blankslate-clean-background">
+                    <p>
+                      Error fetching data from GitHub. Ensure your{" "}
+                      <Link to="/settings/account">token</Link> is set correctly
+                      and try again.
+                    </p>
+                  </div>
+                ) : null}
+
+                {!loading && !githubError && !filteredPullRequests.length ? (
+                  <div className="blankslate blankslate-clean-background">
+                    <p>No pull requests were found.</p>
+                  </div>
+                ) : null}
+
+                {!loading && !githubError && filteredPullRequests.length > 0
+                  ? filteredPullRequests.map(pr => (
+                      <PullRequest key={pr.id} {...pr} />
+                    ))
+                  : null}
+              </div>
             )}
           </div>
         </main>

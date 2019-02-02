@@ -83,7 +83,7 @@ export const queries = {
                   login
                   url
                 }
-                assignees(last: 5) {
+                assignees(last: 10) {
                   edges {
                     node {
                       avatarUrl(size: 40)
@@ -92,7 +92,7 @@ export const queries = {
                     }
                   }
                 }
-                reviewRequests(last: 100) {
+                reviewRequests(last: 50) {
                   edges {
                     node {
                       requestedReviewer {
@@ -108,7 +108,7 @@ export const queries = {
                     }
                   }
                 }
-                reviews(last: 100) {
+                reviews(last: 50) {
                   edges {
                     node {
                       createdAt

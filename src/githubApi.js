@@ -65,7 +65,6 @@ export const queries = {
           pullRequests(
             last: 50
             states: [OPEN]
-            orderBy: { field: CREATED_AT, direction: DESC }
           ) {
             edges {
               node {

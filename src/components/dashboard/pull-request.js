@@ -1,5 +1,6 @@
 import { formatDistance } from "date-fns";
 import React from "react";
+import { connect } from "react-redux";
 
 const PR_STATE_CLASSES = {
   "review requested": "bg-blue text-white",
@@ -15,10 +16,12 @@ const PullRequest = ({
   title,
   url,
   createdAt,
+  updatedAt,
   author,
   assignees,
   repository,
-  reviewState
+  reviewState,
+  filters
 }) => {
   const now = new Date();
   const relativeTime = field => formatDistance(field, now, { addSuffix: true });
@@ -50,11 +53,22 @@ const PullRequest = ({
           {title}
         </a>
         <div className="text-gray">
-          #{number} opened{" "}
-          <span title={createdAt}>{relativeTime(createdAt)}</span> by{" "}
-          <a href={author.url} className="muted-link">
-            {author.login}
-          </a>
+          <span>#{number} </span>
+          {filters && filters.orderBy === "updatedAt" ? (
+            <span>
+              updated <span title={updatedAt}>{relativeTime(updatedAt)}</span>
+            </span>
+          ) : (
+            <span>
+              opened <span title={createdAt}>{relativeTime(createdAt)}</span>
+            </span>
+          )}
+          <span> by </span>
+          <span>
+            <a href={author.url} className="muted-link">
+              {author.login}
+            </a>
+          </span>
           {reviewState ? (
             <span className={`Label ml-2 ${PR_STATE_CLASSES[reviewState]}`}>
               {reviewState}
@@ -65,7 +79,7 @@ const PullRequest = ({
       {assignees.length > 0 ? (
         <div className="pl-3">
           {assignees.map(assignee => (
-            <div className="d-flex">
+            <div className="d-flex" key={assignee.login}>
               <a
                 href={assignee.url}
                 className="pl-1 tooltipped tooltipped-sw"
@@ -87,4 +101,8 @@ const PullRequest = ({
   );
 };
 
-export default PullRequest;
+const mapStateToProps = state => ({
+  filters: state.dashboard.filters
+});
+
+export default connect(mapStateToProps)(PullRequest);

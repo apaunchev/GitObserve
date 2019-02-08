@@ -20,11 +20,6 @@ class Dashboard extends React.PureComponent {
 
   componentDidMount() {
     if (this.props.selectedRepos.length > 0) {
-      this.props.requestPullRequests(
-        this.props.selectedRepos,
-        this.props.token
-      );
-
       if (this.props.autoRefreshEnabled) {
         this.updateInterval = setInterval(() => {
           this.props.requestPullRequests(

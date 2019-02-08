@@ -10,10 +10,6 @@ import * as settingsActions from "../../actions/settings";
 import * as watchedReposActions from "../../actions/watchedRepos";
 
 class Repositories extends React.PureComponent {
-  componentDidMount() {
-    this.props.requestWatchedRepos(this.props.token);
-  }
-
   render() {
     const {
       token,

@@ -1,4 +1,4 @@
-import { formatDistance, differenceInDays } from "date-fns";
+import { formatDistance, differenceInDays, parseISO } from "date-fns";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -26,7 +26,8 @@ const PullRequest = ({
   markAsNewInterval
 }) => {
   const now = new Date();
-  const relativeTime = field => formatDistance(field, now, { addSuffix: true });
+  const relativeTime = field =>
+    formatDistance(parseISO(field), now, { addSuffix: true });
   const getNewClass = () => {
     if (!markAsNewEnabled || !filters) {
       return "";

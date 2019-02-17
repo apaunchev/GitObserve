@@ -38,7 +38,7 @@ const Dashboard = props => (
             checked={props.markAsNewEnabled}
             onChange={props.toggleMarkAsNew}
           />{" "}
-          Mark pull requests as new if older than
+          Mark pull requests as new if newer than
           <input
             type="number"
             className="form-control input-sm ml-1"

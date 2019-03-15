@@ -1,13 +1,13 @@
 {
-  "main.js": "/gitobserve/static/js/main.8257bc5d.chunk.js",
-  "main.js.map": "/gitobserve/static/js/main.8257bc5d.chunk.js.map",
-  "runtime~main.js": "/gitobserve/static/js/runtime~main.dd23b9cc.js",
-  "runtime~main.js.map": "/gitobserve/static/js/runtime~main.dd23b9cc.js.map",
-  "static/css/2.6be37079.chunk.css": "/gitobserve/static/css/2.6be37079.chunk.css",
-  "static/js/2.64ddedfa.chunk.js": "/gitobserve/static/js/2.64ddedfa.chunk.js",
-  "static/js/2.64ddedfa.chunk.js.map": "/gitobserve/static/js/2.64ddedfa.chunk.js.map",
+  "main.js": "/gitobserve/static/js/main.aecbfaed.chunk.js",
+  "main.js.map": "/gitobserve/static/js/main.aecbfaed.chunk.js.map",
+  "runtime~main.js": "/gitobserve/static/js/runtime~main.f6250ca6.js",
+  "runtime~main.js.map": "/gitobserve/static/js/runtime~main.f6250ca6.js.map",
+  "static/css/2.132cac07.chunk.css": "/gitobserve/static/css/2.132cac07.chunk.css",
+  "static/js/2.a117d02a.chunk.js": "/gitobserve/static/js/2.a117d02a.chunk.js",
+  "static/js/2.a117d02a.chunk.js.map": "/gitobserve/static/js/2.a117d02a.chunk.js.map",
   "index.html": "/gitobserve/index.html",
-  "precache-manifest.31774b264cf342253b518d307078d889.js": "/gitobserve/precache-manifest.31774b264cf342253b518d307078d889.js",
+  "precache-manifest.c7c11a4c9d5f43b597b8a027d342b464.js": "/gitobserve/precache-manifest.c7c11a4c9d5f43b597b8a027d342b464.js",
   "service-worker.js": "/gitobserve/service-worker.js",
-  "static/css/2.6be37079.chunk.css.map": "/gitobserve/static/css/2.6be37079.chunk.css.map"
+  "static/css/2.132cac07.chunk.css.map": "/gitobserve/static/css/2.132cac07.chunk.css.map"
 }

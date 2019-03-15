@@ -6,6 +6,8 @@ export const TOGGLE_AUTO_REFRESH = "TOGGLE_AUTO_REFRESH";
 export const SET_AUTO_REFRESH_INTERVAL = "SET_AUTO_REFRESH_INTERVAL";
 export const TOGGLE_MARK_AS_NEW = "TOGGLE_MARK_AS_NEW";
 export const SET_MARK_AS_NEW_INTERVAL = "SET_MARK_AS_NEW_INTERVAL";
+export const TOGGLE_HIDE_OLD = "TOGGLE_HIDE_OLD";
+export const SET_HIDE_OLD_THRESHOLD = "SET_HIDE_OLD_THRESHOLD";
 
 export const setToken = value => ({
   type: SET_TOKEN,
@@ -42,4 +44,13 @@ export const toggleMarkAsNew = () => ({
 export const setMarkAsNewInterval = interval => ({
   type: SET_MARK_AS_NEW_INTERVAL,
   interval
+});
+
+export const toggleHideOld = () => ({
+  type: TOGGLE_HIDE_OLD
+});
+
+export const setHideOldThreshold = threshold => ({
+  type: SET_HIDE_OLD_THRESHOLD,
+  threshold
 });

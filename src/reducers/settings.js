@@ -6,7 +6,9 @@ const initialState = {
   autoRefreshEnabled: false,
   autoRefreshInterval: "5",
   markAsNewEnabled: true,
-  markAsNewInterval: 5
+  markAsNewInterval: 5,
+  hideOldEnabled: false,
+  hideOldThreshold: 30
 };
 
 export default function(state = initialState, action) {
@@ -57,6 +59,16 @@ export default function(state = initialState, action) {
       return {
         ...state,
         markAsNewInterval: action.interval
+      };
+    case actions.TOGGLE_HIDE_OLD:
+      return {
+        ...state,
+        hideOldEnabled: !state.hideOldEnabled
+      };
+    case actions.SET_HIDE_OLD_THRESHOLD:
+      return {
+        ...state,
+        hideOldThreshold: action.threshold
       };
     default:
       return state;

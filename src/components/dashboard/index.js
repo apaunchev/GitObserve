@@ -3,6 +3,7 @@ import Octicon, {
   Sync as SyncIcon
 } from "@githubprimer/octicons-react";
 import _ from "lodash";
+import { differenceInDays } from "date-fns";
 import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
@@ -149,6 +150,15 @@ Dashboard.defaultProps = {
 const applyFilters = (pullRequests, filters) => {
   let filtered = pullRequests;
 
+  if (filters.hideOldEnabled) {
+    filtered = _.filter(filtered, pr => {
+      return (
+        differenceInDays(new Date(pr[filters.orderBy]), new Date()) >
+        -filters.hideOldThreshold
+      );
+    });
+  }
+
   if (filters.repo) {
     filtered = _.filter(filtered, pr => pr.repoName === filters.repo);
   }
@@ -176,7 +186,13 @@ const mapStateToProps = state => ({
   pullRequests: state.dashboard.pullRequests,
   filteredPullRequests: applyFilters(
     state.dashboard.pullRequests,
-    state.dashboard.filters
+    _.extend(
+      {
+        hideOldEnabled: state.settings.hideOldEnabled,
+        hideOldThreshold: state.settings.hideOldThreshold
+      },
+      state.dashboard.filters
+    )
   )
 });
 

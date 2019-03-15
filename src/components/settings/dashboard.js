@@ -27,9 +27,24 @@ const Dashboard = props => (
             <option value="30">30 minutes</option>
           </select>
         </label>
-        <p className="note">
-          Refreshes the dashboard with new pull requests periodically.
-        </p>
+      </div>
+      <div className="form-checkbox">
+        <label>
+          <input
+            type="checkbox"
+            checked={props.hideOldEnabled}
+            onChange={props.toggleHideOld}
+          />{" "}
+          Hide requests older than
+          <input
+            type="number"
+            className="form-control input-sm ml-1"
+            style={{ width: "40px " }}
+            value={props.hideOldThreshold}
+            onChange={e => props.setHideOldThreshold(e.target.value)}
+          />{" "}
+          days
+        </label>
       </div>
       <div className="form-checkbox">
         <label>
@@ -60,7 +75,9 @@ const mapStateToProps = state => ({
   autoRefreshEnabled: state.settings.autoRefreshEnabled,
   autoRefreshInterval: state.settings.autoRefreshInterval,
   markAsNewEnabled: state.settings.markAsNewEnabled,
-  markAsNewInterval: state.settings.markAsNewInterval
+  markAsNewInterval: state.settings.markAsNewInterval,
+  hideOldEnabled: state.settings.hideOldEnabled,
+  hideOldThreshold: state.settings.hideOldThreshold
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -70,6 +87,9 @@ const mapDispatchToProps = dispatch => ({
   toggleMarkAsNew: () => dispatch(actions.toggleMarkAsNew()),
   setMarkAsNewInterval: interval =>
     dispatch(actions.setMarkAsNewInterval(interval)),
+  toggleHideOld: () => dispatch(actions.toggleHideOld()),
+  setHideOldThreshold: interval =>
+    dispatch(actions.setHideOldThreshold(interval)),
   dispatch
 });
 

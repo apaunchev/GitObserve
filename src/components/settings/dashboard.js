@@ -35,7 +35,7 @@ const Dashboard = props => (
             checked={props.hideOldEnabled}
             onChange={props.toggleHideOld}
           />{" "}
-          Hide requests older than
+          Hide pull requests older than
           <input
             type="number"
             className="form-control input-sm ml-1"

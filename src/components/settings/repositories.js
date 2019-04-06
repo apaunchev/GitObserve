@@ -63,17 +63,12 @@ class Repositories extends React.PureComponent {
               <button
                 className="btn btn-sm btn-primary"
                 onClick={() => requestWatchedRepos(token)}
+                disabled={loading}
               >
-                <Octicon icon={SyncIcon} /> Sync
+                <Octicon icon={SyncIcon} /> {loading ? "Loading..." : "Refresh"}
               </button>
             </div>
           </div>
-
-          {loading ? (
-            <div className="blankslate blankslate-clean-background">
-              <p>Loading...</p>
-            </div>
-          ) : null}
 
           {githubError ? (
             <div className="blankslate blankslate-clean-background">
@@ -91,7 +86,7 @@ class Repositories extends React.PureComponent {
             </div>
           ) : null}
 
-          {!loading && !githubError && watchedRepos.length > 0
+          {!githubError && watchedRepos.length > 0
             ? watchedRepos.map(({ id, name, url }) => {
                 const htmlId = `repo-${id}`;
                 const checked = selectedRepos.includes(id);

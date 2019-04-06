@@ -88,17 +88,13 @@ class Dashboard extends React.PureComponent {
                     <button
                       className="btn btn-sm btn-primary"
                       onClick={() => requestPullRequests(selectedRepos, token)}
+                      disabled={loading}
                     >
-                      <Octicon icon={SyncIcon} /> Sync
+                      <Octicon icon={SyncIcon} />{" "}
+                      {loading ? "Loading..." : "Refresh"}
                     </button>
                   </div>
                 </div>
-
-                {loading ? (
-                  <div className="blankslate blankslate-clean-background">
-                    <p>Loading...</p>
-                  </div>
-                ) : null}
 
                 {githubError ? (
                   <div className="blankslate blankslate-clean-background">
@@ -116,7 +112,7 @@ class Dashboard extends React.PureComponent {
                   </div>
                 ) : null}
 
-                {!loading && !githubError && filteredPullRequests.length > 0
+                {!githubError && filteredPullRequests.length > 0
                   ? filteredPullRequests.map(pr => (
                       <PullRequest key={pr.id} {...pr} />
                     ))

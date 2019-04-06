@@ -7,7 +7,8 @@ const initialState = {
     repo: "",
     author: "",
     reviewState: "",
-    orderBy: "updatedAt"
+    orderBy: "updatedAt",
+    searchQuery: ""
   },
   loading: false,
   githubError: null

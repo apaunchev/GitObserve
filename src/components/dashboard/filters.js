@@ -7,7 +7,9 @@ import * as actions from "../../actions/dashboard";
 const DEFAULT_FILTERS = {
   repo: "",
   author: "",
-  orderBy: "updatedAt"
+  orderBy: "updatedAt",
+  reviewState: "",
+  searchQuery: ""
 };
 
 const Filters = props => {
@@ -66,31 +68,6 @@ const Filters = props => {
     );
   };
 
-  const renderReviewStateSelect = () => {
-    const reviewStates = _.chain(props.pullRequests)
-      .map(pr => pr.reviewState)
-      .uniqBy()
-      .compact()
-      .value();
-
-    return (
-      <select
-        className="form-select select-sm mr-2"
-        name="reviewState"
-        value={props.filters.reviewState}
-        onChange={handleSelectChange}
-        style={{ width: "130px" }}
-      >
-        <option value="">all review states</option>
-        {reviewStates.map(state => (
-          <option key={state} value={state}>
-            {state}
-          </option>
-        ))}
-      </select>
-    );
-  };
-
   const renderOrderBySelect = () => (
     <select
       className="form-select select-sm mr-2"
@@ -109,7 +86,6 @@ const Filters = props => {
       <span className="text-gray mr-2">Show ({props.filteredCount}):</span>
       {renderAuthorsSelect()}
       {renderReposSelect()}
-      {renderReviewStateSelect()}
       <span className="text-gray mr-2">Order by:</span>
       {renderOrderBySelect()}
       <button

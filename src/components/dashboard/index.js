@@ -1,6 +1,7 @@
 import Octicon, {
   Settings as SettingsIcon,
-  Sync as SyncIcon
+  Sync as SyncIcon,
+  Search as SearchIcon
 } from "@githubprimer/octicons-react";
 import _ from "lodash";
 import { differenceInDays } from "date-fns";
@@ -36,6 +37,15 @@ class Dashboard extends React.PureComponent {
     window.clearInterval(this.updateInterval);
   }
 
+  handleReviewStateChange = e => {
+    e.preventDefault();
+
+    this.props.setFilters({
+      ...this.props.filters,
+      reviewState: e.target.dataset.reviewState
+    });
+  };
+
   render() {
     const {
       selectedRepos,
@@ -45,7 +55,9 @@ class Dashboard extends React.PureComponent {
       githubError,
       requestPullRequests,
       token,
-      autoRefreshEnabled
+      autoRefreshEnabled,
+      filters,
+      setFilters
     } = this.props;
 
     return (
@@ -70,54 +82,132 @@ class Dashboard extends React.PureComponent {
                 <Link to="/settings/repositories">repositories</Link> yet.
               </Flash>
             ) : (
-              <div className="Box">
-                <div className="Box-header d-flex flex-items-center">
-                  <div className="flex-auto d-flex flex-items-center">
-                    <Filters
-                      pullRequests={pullRequests}
-                      filteredCount={filteredPullRequests.length}
-                    />
-                  </div>
-                  <div className="d-flex flex-items-center">
-                    {autoRefreshEnabled && (
-                      <span className="text-gray mr-2 f6">
-                        Auto refresh{" "}
-                        <Link to={"/settings/dashboard"}>enabled</Link>.
-                      </span>
-                    )}
-                    <button
-                      className="btn btn-sm btn-primary"
-                      onClick={() => requestPullRequests(selectedRepos, token)}
-                      disabled={loading}
+              <>
+                <div className="subnav d-flex">
+                  <nav className="subnav-links flex-auto">
+                    <a
+                      href="/"
+                      data-review-state=""
+                      onClick={this.handleReviewStateChange}
+                      className={`subnav-item${
+                        filters.reviewState === "" ? " selected" : ""
+                      }`}
                     >
-                      <Octicon icon={SyncIcon} />{" "}
-                      {loading ? "Loading..." : "Refresh"}
-                    </button>
+                      All
+                    </a>
+                    <a
+                      href="/"
+                      data-review-state="review requested"
+                      onClick={this.handleReviewStateChange}
+                      className={`subnav-item${
+                        filters.reviewState === "review requested"
+                          ? " selected"
+                          : ""
+                      }`}
+                    >
+                      Review requested
+                    </a>
+                    <a
+                      href="/"
+                      data-review-state="changes requested"
+                      onClick={this.handleReviewStateChange}
+                      className={`subnav-item${
+                        filters.reviewState === "changes requested"
+                          ? " selected"
+                          : ""
+                      }`}
+                    >
+                      Changes requested
+                    </a>
+                    <a
+                      href="/"
+                      data-review-state="commented"
+                      onClick={this.handleReviewStateChange}
+                      className={`subnav-item${
+                        filters.reviewState === "commented" ? " selected" : ""
+                      }`}
+                    >
+                      Commented
+                    </a>
+                    <a
+                      href="/"
+                      data-review-state="approved"
+                      onClick={this.handleReviewStateChange}
+                      className={`subnav-item${
+                        filters.reviewState === "approved" ? " selected" : ""
+                      }`}
+                    >
+                      Approved
+                    </a>
+                  </nav>
+                  <div className="subnav-search col-3">
+                    <input
+                      type="search"
+                      name="name"
+                      className="form-control"
+                      style={{ width: "100%", paddingLeft: 28 }}
+                      value={filters.searchQuery}
+                      onChange={e =>
+                        setFilters({
+                          ...filters,
+                          searchQuery: e.target.value
+                        })
+                      }
+                    />
+                    <Octicon icon={SearchIcon} className="subnav-search-icon" />
                   </div>
                 </div>
-
-                {githubError ? (
-                  <div className="blankslate blankslate-clean-background">
-                    <p>
-                      Error fetching data from GitHub. Ensure your{" "}
-                      <Link to="/settings/account">token</Link> is set correctly
-                      and try again.
-                    </p>
+                <div className="Box">
+                  <div className="Box-header d-flex flex-items-center">
+                    <div className="flex-auto d-flex flex-items-center">
+                      <Filters
+                        pullRequests={pullRequests}
+                        filteredCount={filteredPullRequests.length}
+                      />
+                    </div>
+                    <div className="d-flex flex-items-center">
+                      {autoRefreshEnabled && (
+                        <span className="text-gray mr-2 f6">
+                          Auto refresh{" "}
+                          <Link to={"/settings/dashboard"}>enabled</Link>.
+                        </span>
+                      )}
+                      <button
+                        className="btn btn-sm btn-primary"
+                        onClick={() =>
+                          requestPullRequests(selectedRepos, token)
+                        }
+                        disabled={loading}
+                      >
+                        <Octicon icon={SyncIcon} />{" "}
+                        {loading ? "Loading..." : "Refresh"}
+                      </button>
+                    </div>
                   </div>
-                ) : null}
 
-                {!loading && !githubError && !filteredPullRequests.length ? (
-                  <div className="blankslate blankslate-clean-background">
-                    <p>No pull requests were found.</p>
-                  </div>
-                ) : null}
+                  {githubError ? (
+                    <div className="blankslate blankslate-clean-background">
+                      <p>
+                        Error fetching data from GitHub. Ensure your{" "}
+                        <Link to="/settings/account">token</Link> is set
+                        correctly and try again.
+                      </p>
+                    </div>
+                  ) : null}
 
-                {!githubError && filteredPullRequests.length > 0
-                  ? filteredPullRequests.map(pr => (
-                      <PullRequest key={pr.id} {...pr} />
-                    ))
-                  : null}
-              </div>
+                  {!loading && !githubError && !filteredPullRequests.length ? (
+                    <div className="blankslate blankslate-clean-background">
+                      <p>No pull requests were found.</p>
+                    </div>
+                  ) : null}
+
+                  {!githubError && filteredPullRequests.length > 0
+                    ? filteredPullRequests.map(pr => (
+                        <PullRequest key={pr.id} {...pr} />
+                      ))
+                    : null}
+                </div>
+              </>
             )}
           </div>
         </main>
@@ -167,34 +257,56 @@ const applyFilters = (pullRequests, filters) => {
     filtered = _.filter(filtered, pr => pr.reviewState === filters.reviewState);
   }
 
+  if (filters.searchQuery) {
+    filtered = _.filter(filtered, pr => {
+      const searchQuery = filters.searchQuery.toLowerCase();
+      const repoName = pr.repoName.toLowerCase();
+      const title = pr.title.toLowerCase();
+      const authorLogin = pr.author.login.toLowerCase();
+
+      return (
+        repoName.indexOf(searchQuery) > -1 ||
+        title.indexOf(searchQuery) > -1 ||
+        authorLogin.indexOf(searchQuery) > -1
+      );
+    });
+  }
+
   filtered = _.orderBy(filtered, filters.orderBy, "desc");
 
   return filtered;
 };
 
-const mapStateToProps = state => ({
-  selectedRepos: state.settings.selectedRepos,
-  token: state.settings.token,
-  autoRefreshEnabled: state.settings.autoRefreshEnabled,
-  autoRefreshInterval: state.settings.autoRefreshInterval,
-  githubError: state.dashboard.githubError,
-  loading: state.dashboard.loading,
-  pullRequests: state.dashboard.pullRequests,
-  filteredPullRequests: applyFilters(
-    state.dashboard.pullRequests,
-    _.extend(
-      {
-        hideOldEnabled: state.settings.hideOldEnabled,
-        hideOldThreshold: state.settings.hideOldThreshold
-      },
-      state.dashboard.filters
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    selectedRepos: state.settings.selectedRepos,
+    token: state.settings.token,
+    autoRefreshEnabled: state.settings.autoRefreshEnabled,
+    autoRefreshInterval: state.settings.autoRefreshInterval,
+    githubError: state.dashboard.githubError,
+    loading: state.dashboard.loading,
+    filters: state.dashboard.filters,
+    pullRequests: state.dashboard.pullRequests,
+    filteredPullRequests: applyFilters(
+      state.dashboard.pullRequests,
+      _.extend(
+        {
+          hideOldEnabled: state.settings.hideOldEnabled,
+          hideOldThreshold: state.settings.hideOldThreshold
+        },
+        state.dashboard.filters
+      )
     )
-  )
-});
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
   requestPullRequests: (repoIds, token) => {
     dispatch(actions.requestPullRequests(repoIds, token));
+  },
+  setFilters: filters => {
+    dispatch(actions.setFilters(filters));
   },
   dispatch
 });

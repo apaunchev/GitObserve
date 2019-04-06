@@ -34,8 +34,10 @@ const getReviewState = (reviews, reviewRequests) => {
   return formatReviewState(state);
 };
 
-const formatPrs = prs => {
-  return _.chain(prs.nodes)
+const formatPrs = (newPrs, oldPrs) => {
+  const oldPrsById = _.map(oldPrs, "id");
+
+  return _.chain(newPrs.nodes)
     .filter(node => node)
     .map(node => _.map(node.pullRequests.edges, "node"))
     .flatten()
@@ -46,7 +48,8 @@ const formatPrs = prs => {
         _.map(pr.reviews.edges, "node"),
         _.map(pr.reviewRequests.edges, "node")
       ),
-      assignees: _.map(pr.assignees.edges, "node")
+      assignees: _.map(pr.assignees.edges, "node"),
+      isNew: !oldPrsById.includes(pr.id)
     }))
     .orderBy("updatedAt")
     .reverse()
@@ -64,7 +67,7 @@ export default function(state = initialState, action) {
     case actions.REQUEST_PULL_REQUESTS_SUCCESS:
       return {
         ...state,
-        pullRequests: formatPrs(action.data),
+        pullRequests: formatPrs(action.newPrs, action.oldPrs),
         loading: false,
         githubError: null
       };

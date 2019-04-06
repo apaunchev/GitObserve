@@ -4,8 +4,6 @@ export const SELECT_ALL_REPOS = "SELECT_ALL_REPOS";
 export const RESET_SELECTED_REPOS = "RESET_SELECTED_REPOS";
 export const TOGGLE_AUTO_REFRESH = "TOGGLE_AUTO_REFRESH";
 export const SET_AUTO_REFRESH_INTERVAL = "SET_AUTO_REFRESH_INTERVAL";
-export const TOGGLE_MARK_AS_NEW = "TOGGLE_MARK_AS_NEW";
-export const SET_MARK_AS_NEW_INTERVAL = "SET_MARK_AS_NEW_INTERVAL";
 export const TOGGLE_HIDE_OLD = "TOGGLE_HIDE_OLD";
 export const SET_HIDE_OLD_THRESHOLD = "SET_HIDE_OLD_THRESHOLD";
 
@@ -34,15 +32,6 @@ export const toggleAutoRefresh = () => ({
 
 export const setAutoRefreshInterval = interval => ({
   type: SET_AUTO_REFRESH_INTERVAL,
-  interval
-});
-
-export const toggleMarkAsNew = () => ({
-  type: TOGGLE_MARK_AS_NEW
-});
-
-export const setMarkAsNewInterval = interval => ({
-  type: SET_MARK_AS_NEW_INTERVAL,
   interval
 });
 

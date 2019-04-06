@@ -10,10 +10,10 @@ export const requestPullRequestsLoading = () => ({
   type: REQUEST_PULL_REQUESTS_LOADING
 });
 
-export const requestPullRequestsSuccess = (data, watchedRepos) => ({
+export const requestPullRequestsSuccess = (newPrs, oldPrs) => ({
   type: REQUEST_PULL_REQUESTS_SUCCESS,
-  data,
-  watchedRepos
+  newPrs,
+  oldPrs
 });
 
 export const requestPullRequestsFailure = error => ({
@@ -25,12 +25,12 @@ export const requestPullRequests = (repoIds, token) => async (
   dispatch,
   getState
 ) => {
-  const watchedRepos = getState().watchedRepos.repos;
+  const oldPrs = getState().dashboard.pullRequests;
   try {
     dispatch(requestPullRequestsLoading());
     const query = queries.pullRequestsForRepos(repoIds);
-    const results = await get(query, token);
-    dispatch(requestPullRequestsSuccess(results, watchedRepos));
+    const newPrs = await get(query, token);
+    dispatch(requestPullRequestsSuccess(newPrs, oldPrs));
   } catch (err) {
     dispatch(requestPullRequestsFailure(err));
   }

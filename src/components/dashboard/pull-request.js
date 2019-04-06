@@ -1,4 +1,4 @@
-import { formatDistance, differenceInDays, parseISO } from "date-fns";
+import { formatDistance, parseISO } from "date-fns";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -21,29 +21,16 @@ const PullRequest = ({
   assignees,
   repository,
   reviewState,
-  filters,
-  markAsNewEnabled,
-  markAsNewInterval
+  isNew,
+  filters
 }) => {
-  const now = new Date();
   const relativeTime = field =>
-    formatDistance(parseISO(field), now, { addSuffix: true });
-  const getNewClass = () => {
-    if (!markAsNewEnabled || !filters) {
-      return "";
-    }
-
-    const date = filters.orderBy === "updatedAt" ? updatedAt : createdAt;
-    const difference = differenceInDays(new Date(date), now);
-    if (difference > -markAsNewInterval) {
-      return " Box-row--unread";
-    }
-
-    return "";
-  };
+    formatDistance(parseISO(field), new Date(), { addSuffix: true });
+  let className = "Box-row Box-row--hover-gray d-flex";
+  if (isNew) className += " Box-row--unread";
 
   return (
-    <div className={`Box-row Box-row--hover-gray d-flex${getNewClass()}`}>
+    <div className={className}>
       {author.avatarUrl && (
         <div className="pr-3">
           <a
@@ -118,9 +105,7 @@ const PullRequest = ({
 };
 
 const mapStateToProps = state => ({
-  filters: state.dashboard.filters,
-  markAsNewEnabled: state.settings.markAsNewEnabled,
-  markAsNewInterval: state.settings.markAsNewInterval
+  filters: state.dashboard.filters
 });
 
 export default connect(mapStateToProps)(PullRequest);

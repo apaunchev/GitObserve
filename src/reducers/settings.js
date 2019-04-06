@@ -5,8 +5,6 @@ const initialState = {
   selectedRepos: [],
   autoRefreshEnabled: false,
   autoRefreshInterval: "5",
-  markAsNewEnabled: true,
-  markAsNewInterval: 5,
   hideOldEnabled: false,
   hideOldThreshold: 30
 };
@@ -49,16 +47,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         autoRefreshInterval: action.interval
-      };
-    case actions.TOGGLE_MARK_AS_NEW:
-      return {
-        ...state,
-        markAsNewEnabled: !state.markAsNewEnabled
-      };
-    case actions.SET_MARK_AS_NEW_INTERVAL:
-      return {
-        ...state,
-        markAsNewInterval: action.interval
       };
     case actions.TOGGLE_HIDE_OLD:
       return {

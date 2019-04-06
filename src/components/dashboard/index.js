@@ -144,8 +144,9 @@ class Dashboard extends React.PureComponent {
                     <input
                       type="search"
                       name="name"
-                      className="form-control"
+                      className="form-control input-contrast"
                       style={{ width: "100%", paddingLeft: 28 }}
+                      placeholder="Search pull requests..."
                       value={filters.searchQuery}
                       onChange={e =>
                         setFilters({

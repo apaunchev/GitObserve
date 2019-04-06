@@ -278,29 +278,26 @@ const applyFilters = (pullRequests, filters) => {
   return filtered;
 };
 
-const mapStateToProps = state => {
-  console.log(state);
-  return {
-    selectedRepos: state.settings.selectedRepos,
-    token: state.settings.token,
-    autoRefreshEnabled: state.settings.autoRefreshEnabled,
-    autoRefreshInterval: state.settings.autoRefreshInterval,
-    githubError: state.dashboard.githubError,
-    loading: state.dashboard.loading,
-    filters: state.dashboard.filters,
-    pullRequests: state.dashboard.pullRequests,
-    filteredPullRequests: applyFilters(
-      state.dashboard.pullRequests,
-      _.extend(
-        {
-          hideOldEnabled: state.settings.hideOldEnabled,
-          hideOldThreshold: state.settings.hideOldThreshold
-        },
-        state.dashboard.filters
-      )
+const mapStateToProps = state => ({
+  selectedRepos: state.settings.selectedRepos,
+  token: state.settings.token,
+  autoRefreshEnabled: state.settings.autoRefreshEnabled,
+  autoRefreshInterval: state.settings.autoRefreshInterval,
+  githubError: state.dashboard.githubError,
+  loading: state.dashboard.loading,
+  filters: state.dashboard.filters,
+  pullRequests: state.dashboard.pullRequests,
+  filteredPullRequests: applyFilters(
+    state.dashboard.pullRequests,
+    _.extend(
+      {
+        hideOldEnabled: state.settings.hideOldEnabled,
+        hideOldThreshold: state.settings.hideOldThreshold
+      },
+      state.dashboard.filters
     )
-  };
-};
+  )
+});
 
 const mapDispatchToProps = dispatch => ({
   requestPullRequests: (repoIds, token) => {

@@ -1,15 +1,16 @@
 import Octicon, {
+  Search as SearchIcon,
   Settings as SettingsIcon,
-  Sync as SyncIcon,
-  Search as SearchIcon
+  Sync as SyncIcon
 } from "@githubprimer/octicons-react";
-import { filter, orderBy, extend } from "lodash";
 import { differenceInDays } from "date-fns";
+import { extend, filter, orderBy } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as actions from "../../actions/dashboard";
+import Blankslate from "../common/blankslate";
 import Flash from "../common/flash";
 import Filters from "./filters";
 import PullRequest from "./pull-request";
@@ -187,19 +188,19 @@ class Dashboard extends React.PureComponent {
                   </div>
 
                   {githubError ? (
-                    <div className="blankslate blankslate-clean-background">
+                    <Blankslate>
                       <p>
                         Error fetching data from GitHub. Ensure your{" "}
                         <Link to="/settings/account">token</Link> is set
                         correctly and try again.
                       </p>
-                    </div>
+                    </Blankslate>
                   ) : null}
 
                   {!loading && !githubError && !filteredPullRequests.length ? (
-                    <div className="blankslate blankslate-clean-background">
+                    <Blankslate>
                       <p>No pull requests were found.</p>
-                    </div>
+                    </Blankslate>
                   ) : null}
 
                   {!githubError && filteredPullRequests.length > 0

@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as settingsActions from "../../actions/settings";
 import * as watchedReposActions from "../../actions/watchedRepos";
+import Blankslate from "../common/blankslate";
 
 class Repositories extends React.PureComponent {
   render() {
@@ -71,19 +72,19 @@ class Repositories extends React.PureComponent {
           </div>
 
           {githubError ? (
-            <div className="blankslate blankslate-clean-background">
+            <Blankslate>
               <p>
                 Error fetching data from GitHub. Ensure your{" "}
                 <Link to="/settings/account">token</Link> is set correctly and
                 try again.
               </p>
-            </div>
+            </Blankslate>
           ) : null}
 
           {!loading && !githubError && !watchedRepos.length ? (
-            <div className="blankslate blankslate-clean-background">
+            <Blankslate>
               <p>You are not watching any repositories currently.</p>
-            </div>
+            </Blankslate>
           ) : null}
 
           {!githubError && watchedRepos.length > 0

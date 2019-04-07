@@ -1,5 +1,4 @@
 import Octicon, {
-  Search as SearchIcon,
   Settings as SettingsIcon,
   Sync as SyncIcon
 } from "@githubprimer/octicons-react";
@@ -14,6 +13,7 @@ import Blankslate from "../common/blankslate";
 import Flash from "../common/flash";
 import Filters from "./filters";
 import PullRequest from "./pull-request";
+import SubNav from "./subnav";
 
 class Dashboard extends React.PureComponent {
   constructor(props) {
@@ -38,15 +38,6 @@ class Dashboard extends React.PureComponent {
     window.clearInterval(this.updateInterval);
   }
 
-  handleReviewStateChange = e => {
-    e.preventDefault();
-
-    this.props.setFilters({
-      ...this.props.filters,
-      reviewState: e.target.dataset.reviewState
-    });
-  };
-
   render() {
     const {
       selectedRepos,
@@ -56,9 +47,7 @@ class Dashboard extends React.PureComponent {
       githubError,
       requestPullRequests,
       token,
-      autoRefreshEnabled,
-      filters,
-      setFilters
+      autoRefreshEnabled
     } = this.props;
 
     return (
@@ -84,81 +73,7 @@ class Dashboard extends React.PureComponent {
               </Flash>
             ) : (
               <>
-                <div className="subnav d-flex">
-                  <nav className="subnav-links flex-auto">
-                    <a
-                      href="/"
-                      data-review-state=""
-                      onClick={this.handleReviewStateChange}
-                      className={`subnav-item${
-                        filters.reviewState === "" ? " selected" : ""
-                      }`}
-                    >
-                      All
-                    </a>
-                    <a
-                      href="/"
-                      data-review-state="review requested"
-                      onClick={this.handleReviewStateChange}
-                      className={`subnav-item${
-                        filters.reviewState === "review requested"
-                          ? " selected"
-                          : ""
-                      }`}
-                    >
-                      Review requested
-                    </a>
-                    <a
-                      href="/"
-                      data-review-state="changes requested"
-                      onClick={this.handleReviewStateChange}
-                      className={`subnav-item${
-                        filters.reviewState === "changes requested"
-                          ? " selected"
-                          : ""
-                      }`}
-                    >
-                      Changes requested
-                    </a>
-                    <a
-                      href="/"
-                      data-review-state="commented"
-                      onClick={this.handleReviewStateChange}
-                      className={`subnav-item${
-                        filters.reviewState === "commented" ? " selected" : ""
-                      }`}
-                    >
-                      Commented
-                    </a>
-                    <a
-                      href="/"
-                      data-review-state="approved"
-                      onClick={this.handleReviewStateChange}
-                      className={`subnav-item${
-                        filters.reviewState === "approved" ? " selected" : ""
-                      }`}
-                    >
-                      Approved
-                    </a>
-                  </nav>
-                  <div className="subnav-search col-3">
-                    <input
-                      type="search"
-                      name="name"
-                      className="form-control input-contrast"
-                      style={{ width: "100%", paddingLeft: 28 }}
-                      placeholder="Search pull requests..."
-                      value={filters.searchQuery}
-                      onChange={e =>
-                        setFilters({
-                          ...filters,
-                          searchQuery: e.target.value
-                        })
-                      }
-                    />
-                    <Octicon icon={SearchIcon} className="subnav-search-icon" />
-                  </div>
-                </div>
+                <SubNav />
                 <div className="Box">
                   <div className="Box-header d-flex flex-items-center">
                     <div className="flex-auto d-flex flex-items-center">
@@ -286,7 +201,6 @@ const mapStateToProps = state => ({
   autoRefreshInterval: state.settings.autoRefreshInterval,
   githubError: state.dashboard.githubError,
   loading: state.dashboard.loading,
-  filters: state.dashboard.filters,
   pullRequests: state.dashboard.pullRequests,
   filteredPullRequests: applyFilters(
     state.dashboard.pullRequests,
@@ -303,9 +217,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   requestPullRequests: (repoIds, token) => {
     dispatch(actions.requestPullRequests(repoIds, token));
-  },
-  setFilters: filters => {
-    dispatch(actions.setFilters(filters));
   },
   dispatch
 });

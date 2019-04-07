@@ -3,7 +3,7 @@ import Octicon, {
   Sync as SyncIcon,
   Search as SearchIcon
 } from "@githubprimer/octicons-react";
-import _ from "lodash";
+import { filter, orderBy, extend } from "lodash";
 import { differenceInDays } from "date-fns";
 import PropTypes from "prop-types";
 import React from "react";
@@ -238,7 +238,7 @@ const applyFilters = (pullRequests, filters) => {
   let filtered = pullRequests;
 
   if (filters.hideOldEnabled) {
-    filtered = _.filter(filtered, pr => {
+    filtered = filter(filtered, pr => {
       return (
         differenceInDays(new Date(pr[filters.orderBy]), new Date()) >
         -filters.hideOldThreshold
@@ -247,19 +247,19 @@ const applyFilters = (pullRequests, filters) => {
   }
 
   if (filters.repo) {
-    filtered = _.filter(filtered, pr => pr.repoName === filters.repo);
+    filtered = filter(filtered, pr => pr.repoName === filters.repo);
   }
 
   if (filters.author) {
-    filtered = _.filter(filtered, pr => pr.author.login === filters.author);
+    filtered = filter(filtered, pr => pr.author.login === filters.author);
   }
 
   if (filters.reviewState) {
-    filtered = _.filter(filtered, pr => pr.reviewState === filters.reviewState);
+    filtered = filter(filtered, pr => pr.reviewState === filters.reviewState);
   }
 
   if (filters.searchQuery) {
-    filtered = _.filter(filtered, pr => {
+    filtered = filter(filtered, pr => {
       const searchQuery = filters.searchQuery.toLowerCase();
       const repoName = pr.repoName.toLowerCase();
       const title = pr.title.toLowerCase();
@@ -273,7 +273,7 @@ const applyFilters = (pullRequests, filters) => {
     });
   }
 
-  filtered = _.orderBy(filtered, filters.orderBy, "desc");
+  filtered = orderBy(filtered, filters.orderBy, "desc");
 
   return filtered;
 };
@@ -289,7 +289,7 @@ const mapStateToProps = state => ({
   pullRequests: state.dashboard.pullRequests,
   filteredPullRequests: applyFilters(
     state.dashboard.pullRequests,
-    _.extend(
+    extend(
       {
         hideOldEnabled: state.settings.hideOldEnabled,
         hideOldThreshold: state.settings.hideOldThreshold

@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { chain } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
@@ -21,7 +21,7 @@ const Filters = props => {
   };
 
   const renderAuthorsSelect = () => {
-    const authors = _.chain(props.pullRequests)
+    const authors = chain(props.pullRequests)
       .map(pr => pr.author)
       .uniqBy("login")
       .value();
@@ -45,7 +45,7 @@ const Filters = props => {
   };
 
   const renderReposSelect = () => {
-    const repos = _.chain(props.pullRequests)
+    const repos = chain(props.pullRequests)
       .map(pr => pr.repoName)
       .uniqBy()
       .value();

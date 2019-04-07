@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { chain, map } from "lodash";
 import * as actions from "../actions/dashboard";
 
 const initialState = {
@@ -36,20 +36,20 @@ const getReviewState = (reviews, reviewRequests) => {
 };
 
 const formatPrs = (newPrs, oldPrs) => {
-  const oldPrsById = _.map(oldPrs, "id");
+  const oldPrsById = map(oldPrs, "id");
 
-  return _.chain(newPrs.nodes)
+  return chain(newPrs.nodes)
     .filter(node => node)
-    .map(node => _.map(node.pullRequests.edges, "node"))
+    .map(node => map(node.pullRequests.edges, "node"))
     .flatten()
     .map(pr => ({
       ...pr,
       repoName: pr.repository.nameWithOwner,
       reviewState: getReviewState(
-        _.map(pr.reviews.edges, "node"),
-        _.map(pr.reviewRequests.edges, "node")
+        map(pr.reviews.edges, "node"),
+        map(pr.reviewRequests.edges, "node")
       ),
-      assignees: _.map(pr.assignees.edges, "node"),
+      assignees: map(pr.assignees.edges, "node"),
       isNew: !oldPrsById.includes(pr.id)
     }))
     .orderBy("updatedAt")

@@ -3,6 +3,7 @@ import * as actions from "../actions/dashboard";
 
 const initialState = {
   pullRequests: [],
+  lastUpdated: null,
   filters: {
     repo: "",
     author: "",
@@ -69,6 +70,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         pullRequests: formatPrs(action.newPrs, action.oldPrs),
+        lastUpdated: Math.floor(Date.now() / 1000),
         loading: false,
         githubError: null
       };

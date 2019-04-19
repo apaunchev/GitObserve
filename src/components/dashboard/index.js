@@ -2,7 +2,7 @@ import Octicon, {
   Settings as SettingsIcon,
   Sync as SyncIcon
 } from "@githubprimer/octicons-react";
-import { differenceInDays } from "date-fns";
+import { differenceInDays, fromUnixTime, format } from "date-fns";
 import { extend, filter, orderBy } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
@@ -47,7 +47,8 @@ class Dashboard extends React.PureComponent {
       githubError,
       requestPullRequests,
       token,
-      autoRefreshEnabled
+      autoRefreshEnabled,
+      lastUpdated
     } = this.props;
 
     return (
@@ -90,7 +91,11 @@ class Dashboard extends React.PureComponent {
                         </span>
                       )}
                       <button
-                        className="btn btn-sm btn-primary"
+                        className="btn btn-sm btn-primary tooltipped tooltipped-sw"
+                        aria-label={`Last updated ${format(
+                          fromUnixTime(lastUpdated),
+                          "Pp"
+                        )}`}
                         onClick={() =>
                           requestPullRequests(selectedRepos, token)
                         }
@@ -201,6 +206,7 @@ const mapStateToProps = state => ({
   autoRefreshInterval: state.settings.autoRefreshInterval,
   githubError: state.dashboard.githubError,
   loading: state.dashboard.loading,
+  lastUpdated: state.dashboard.lastUpdated,
   pullRequests: state.dashboard.pullRequests,
   filteredPullRequests: applyFilters(
     state.dashboard.pullRequests,

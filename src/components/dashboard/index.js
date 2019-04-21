@@ -90,12 +90,16 @@ class Dashboard extends React.PureComponent {
                           <Link to={"/settings/dashboard"}>enabled</Link>.
                         </span>
                       )}
+                      <span className="text-gray mr-2 f6">
+                        {lastUpdated
+                          ? `Last updated: ${format(
+                              fromUnixTime(lastUpdated),
+                              "Pp"
+                            )}`
+                          : `Last updated: never.`}
+                      </span>
                       <button
-                        className="btn btn-sm btn-primary tooltipped tooltipped-sw"
-                        aria-label={`Last updated ${format(
-                          fromUnixTime(lastUpdated),
-                          "Pp"
-                        )}`}
+                        className="btn btn-sm btn-primary"
                         onClick={() =>
                           requestPullRequests(selectedRepos, token)
                         }

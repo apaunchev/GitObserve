@@ -26,6 +26,14 @@ export const get = async (query, token) => {
 };
 
 export const queries = {
+  viewerInfo: () => `
+    {
+      viewer {
+        login
+        avatarUrl(size: 96)
+      }
+    }
+  `,
   watchedRepos: (cursor = "") => {
     const afterParam = cursor ? `after: ${cursor}` : "";
     return `

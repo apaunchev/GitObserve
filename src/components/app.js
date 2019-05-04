@@ -4,6 +4,7 @@ import "../../node_modules/@primer/css/build/build.css";
 import NotFound from "./common/not-found";
 import Dashboard from "./dashboard";
 import Settings from "./settings";
+import Avatar from "./common/avatar";
 
 const App = () => (
   <div className="App">
@@ -14,6 +15,7 @@ const App = () => (
             GitObserve
           </Link>
         </h1>
+        <Avatar />
       </div>
     </header>
     <Switch>

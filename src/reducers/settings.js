@@ -6,7 +6,10 @@ const initialState = {
   autoRefreshEnabled: false,
   autoRefreshInterval: "5",
   hideOldEnabled: false,
-  hideOldThreshold: 30
+  hideOldThreshold: 30,
+  viewerInfo: {},
+  loading: false,
+  githubError: null
 };
 
 export default function(state = initialState, action) {
@@ -57,6 +60,31 @@ export default function(state = initialState, action) {
       return {
         ...state,
         hideOldThreshold: action.threshold
+      };
+    case actions.REQUEST_VIEWER_INFO_LOADING:
+      return {
+        ...state,
+        loading: true,
+        githubError: null
+      };
+    case actions.REQUEST_VIEWER_INFO_SUCCESS:
+      return {
+        ...state,
+        viewerInfo: action.viewerInfo,
+        loading: false,
+        githubError: null
+      };
+    case actions.REQUEST_VIEWER_INFO_FAILURE:
+      return {
+        ...state,
+        viewerInfo: {},
+        githubError: action.error,
+        loading: false
+      };
+    case actions.RESET_VIEWER_INFO:
+      return {
+        ...state,
+        viewerInfo: {}
       };
     default:
       return state;

@@ -11,7 +11,7 @@ const App = () => (
     <header className="App-header p-3 bg-gray-dark text-white">
       <div className="container-lg d-flex flex-items-center">
         <h1 className="flex-auto h2">
-          <Link to="/" className="text-white">
+          <Link to="/" className="text-white no-underline">
             GitObserve
           </Link>
         </h1>

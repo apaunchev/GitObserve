@@ -1,12 +1,23 @@
+import { isEmpty } from "lodash";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as settingsActions from "../../actions/settings";
+import * as actions from "../../actions/settings";
 
 class Account extends Component {
   constructor(props) {
     super(props);
     this.input = React.createRef();
+  }
+
+  componentWillUnmount() {
+    if (!this.props.token) {
+      this.props.resetViewerInfo();
+    }
+
+    if (this.props.token && isEmpty(this.props.viewerInfo)) {
+      this.props.requestViewerInfo(this.props.token);
+    }
   }
 
   render() {
@@ -56,7 +67,10 @@ class Account extends Component {
 
 Account.propTypes = {
   token: PropTypes.string,
-  setToken: PropTypes.func.isRequired
+  setToken: PropTypes.func.isRequired,
+  viewerInfo: PropTypes.object.isRequired,
+  requestViewerInfo: PropTypes.func.isRequired,
+  resetViewerInfo: PropTypes.func.isRequired
 };
 
 Account.defaultProps = {
@@ -64,11 +78,14 @@ Account.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  token: state.settings.token
+  token: state.settings.token,
+  viewerInfo: state.settings.viewerInfo
 });
 
 const mapDispatchToProps = dispatch => ({
-  setToken: value => dispatch(settingsActions.setToken(value)),
+  setToken: value => dispatch(actions.setToken(value)),
+  requestViewerInfo: token => dispatch(actions.requestViewerInfo(token)),
+  resetViewerInfo: () => dispatch(actions.resetViewerInfo()),
   dispatch
 });
 

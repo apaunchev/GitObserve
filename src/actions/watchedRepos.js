@@ -4,6 +4,7 @@ export const REQUEST_WATCHED_REPOS = "REQUEST_WATCHED_REPOS";
 export const REQUEST_WATCHED_REPOS_LOADING = "REQUEST_WATCHED_REPOS_LOADING";
 export const REQUEST_WATCHED_REPOS_SUCCESS = "REQUEST_WATCHED_REPOS_SUCCESS";
 export const REQUEST_WATCHED_REPOS_FAILURE = "REQUEST_WATCHED_REPOS_FAILURE";
+export const RESET_WATCHED_REPOS = "RESET_WATCHED_REPOS";
 
 export const requestWatchedReposLoading = () => ({
   type: REQUEST_WATCHED_REPOS_LOADING
@@ -46,3 +47,7 @@ export const requestWatchedRepos = token => async dispatch => {
     dispatch(requestWatchedReposFailure(err));
   }
 };
+
+export const resetWatchedRepos = () => ({
+  type: RESET_WATCHED_REPOS
+});

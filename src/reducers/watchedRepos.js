@@ -22,6 +22,7 @@ export default function(state = initialState, action) {
         loading: false
       };
     case actions.REQUEST_WATCHED_REPOS_FAILURE:
+    case actions.RESET_WATCHED_REPOS:
       return {
         ...state,
         repos: [],

@@ -11,6 +11,17 @@ import * as watchedReposActions from "../../actions/watchedRepos";
 import Blankslate from "../common/blankslate";
 
 class Repositories extends React.PureComponent {
+  componentDidMount() {
+    if (!this.props.token) {
+      this.props.resetSelectedRepos();
+      this.props.resetWatchedRepos();
+    }
+
+    if (this.props.token && !this.props.selectedRepos.length) {
+      this.props.requestWatchedRepos(this.props.token);
+    }
+  }
+
   render() {
     const {
       token,
@@ -127,7 +138,8 @@ Repositories.propTypes = {
   loading: PropTypes.bool,
   githubError: PropTypes.shape(),
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
-  token: PropTypes.string
+  token: PropTypes.string,
+  resetWatchedRepos: PropTypes.func
 };
 
 Repositories.defaultProps = {
@@ -152,6 +164,7 @@ const mapDispatchToProps = dispatch => ({
   toggleRepoSelection: id => dispatch(settingsActions.toggleRepoSelection(id)),
   selectAllRepos: repoIds => dispatch(settingsActions.selectAllRepos(repoIds)),
   resetSelectedRepos: () => dispatch(settingsActions.resetSelectedRepos()),
+  resetWatchedRepos: () => dispatch(watchedReposActions.resetWatchedRepos()),
   dispatch
 });
 

@@ -4,8 +4,8 @@ self.__precacheManifest = [
     "url": "/GitObserve/static/js/runtime~main.86b8849a.js"
   },
   {
-    "revision": "16f54867f3b4380cbbab",
-    "url": "/GitObserve/static/js/main.504c0a86.chunk.js"
+    "revision": "b382f80aced54644abac",
+    "url": "/GitObserve/static/js/main.5e986970.chunk.js"
   },
   {
     "revision": "3d4b0dd1ff51e9b8c4bd",
@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/GitObserve/static/css/2.ea1f527d.chunk.css"
   },
   {
-    "revision": "083bc2becf44910f1477d6161a0eccfd",
+    "revision": "fd0b6b2aae73768c74b82e9a6db374db",
     "url": "/GitObserve/index.html"
   }
 ];

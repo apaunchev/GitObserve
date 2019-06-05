@@ -6,9 +6,10 @@ const PR_STATE_CLASSES = {
   "review requested": "bg-blue text-white",
   "changes requested": "Label--orange",
   approved: "bg-green text-white",
-  commented: "Label--gray",
+  commented: "bg-yellow text-gray",
   pending: "Label--gray",
-  dismissed: "bg-red text-white"
+  dismissed: "bg-red text-white",
+  "no request": "Label--gray"
 };
 
 const PullRequest = ({

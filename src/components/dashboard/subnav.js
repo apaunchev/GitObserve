@@ -69,6 +69,26 @@ class SubNav extends React.PureComponent {
           >
             Approved
           </a>
+          <a
+            href="/"
+            data-review-state="dismissed"
+            onClick={this.handleReviewStateChange}
+            className={`subnav-item${
+              filters.reviewState === "dismissed" ? " selected" : ""
+            }`}
+          >
+            Dismissed
+          </a>
+          <a
+            href="/"
+            data-review-state="no request"
+            onClick={this.handleReviewStateChange}
+            className={`subnav-item${
+              filters.reviewState === "no request" ? " selected" : ""
+            }`}
+          >
+            No request
+          </a>
         </nav>
         <div className="subnav-search col-3">
           <input

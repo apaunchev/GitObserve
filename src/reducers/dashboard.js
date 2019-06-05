@@ -21,14 +21,18 @@ const formatReviewState = state => {
 };
 
 const getReviewState = (reviews, reviewRequests) => {
-  // Expected values: "PENDING", "COMMENTED", "APPROVED",
-  // "CHANGES_REQUESTED", "DISMISSED", or "REVIEW_REQUESTED" (custom).
-  // We take the last review's state, replace any underscores, and make it
-  // lowercase so it can be dispayed nicely to the user.
+  // Expected values from GitHub:
+  // "PENDING", "COMMENTED", "APPROVED", "CHANGES_REQUESTED", "DISMISSED".
+  // Additional (custom) values:
+  // "REVIEW_REQUESTED", "NO_REQUEST".
+  // Take the state from the last review, replace any underscores,
+  // and make it lowercase so it can be dispayed nicely to the user.
   let state = null;
   if (!reviews.length) {
     if (reviewRequests.length > 0) {
       state = "REVIEW_REQUESTED";
+    } else {
+      state = "NO_REQUEST";
     }
     return formatReviewState(state);
   }

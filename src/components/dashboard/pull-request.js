@@ -26,8 +26,10 @@ const PullRequest = ({
   isNew,
   filters
 }) => {
-  const relativeTime = field =>
-    formatDistance(parseISO(field), new Date(), { addSuffix: true });
+  const relativeTime = field => {
+    if (!field) return null;
+    return formatDistance(parseISO(field), new Date(), { addSuffix: true });
+  };
   let className = "Box-row Box-row--hover-gray d-flex";
   if (isNew) className += " Box-row--unread";
 
@@ -59,15 +61,15 @@ const PullRequest = ({
         </a>
         <div className="text-gray">
           <span>#{number} </span>
-          {filters && filters.orderBy === "updatedAt" ? (
+          {filters && filters.orderBy === "updatedAt" && updatedAt ? (
             <span>
               updated <span title={updatedAt}>{relativeTime(updatedAt)}</span>
             </span>
-          ) : filters && filters.orderBy === "createdAt" ? (
+          ) : filters && filters.orderBy === "createdAt" && createdAt ? (
             <span>
               created <span title={createdAt}>{relativeTime(createdAt)}</span>
             </span>
-          ) : filters && filters.orderBy === "reviewedAt" ? (
+          ) : filters && filters.orderBy === "reviewedAt" && reviewedAt ? (
             <span>
               reviewed{" "}
               <span title={reviewedAt}>{relativeTime(reviewedAt)}</span>

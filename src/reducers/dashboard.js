@@ -47,16 +47,20 @@ const formatPrs = (newPrs, oldPrs) => {
     .filter(node => node)
     .map(node => map(node.pullRequests.edges, "node"))
     .flatten()
-    .map(pr => ({
-      ...pr,
-      repoName: pr.repository.nameWithOwner,
-      reviewState: getReviewState(
-        map(pr.reviews.edges, "node"),
-        map(pr.reviewRequests.edges, "node")
-      ),
-      assignees: map(pr.assignees.edges, "node"),
-      isNew: !oldPrsById.includes(pr.id)
-    }))
+    .map(pr => {
+      const reviews = map(pr.reviews.edges, "node");
+      const reviewRequests = map(pr.reviewRequests.edges, "node");
+      return {
+        ...pr,
+        repoName: pr.repository.nameWithOwner,
+        reviewState: getReviewState(reviews, reviewRequests),
+        reviewedAt: reviews.length
+          ? reviews[reviews.length - 1].createdAt
+          : null,
+        assignees: map(pr.assignees.edges, "node"),
+        isNew: !oldPrsById.includes(pr.id)
+      };
+    })
     .orderBy("updatedAt")
     .reverse()
     .value();

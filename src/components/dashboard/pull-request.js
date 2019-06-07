@@ -22,6 +22,7 @@ const PullRequest = ({
   assignees,
   repository,
   reviewState,
+  reviewedAt,
   isNew,
   filters
 }) => {
@@ -62,11 +63,16 @@ const PullRequest = ({
             <span>
               updated <span title={updatedAt}>{relativeTime(updatedAt)}</span>
             </span>
-          ) : (
+          ) : filters && filters.orderBy === "createdAt" ? (
             <span>
-              opened <span title={createdAt}>{relativeTime(createdAt)}</span>
+              created <span title={createdAt}>{relativeTime(createdAt)}</span>
             </span>
-          )}
+          ) : filters && filters.orderBy === "reviewedAt" ? (
+            <span>
+              reviewed{" "}
+              <span title={reviewedAt}>{relativeTime(reviewedAt)}</span>
+            </span>
+          ) : null}
           <span> by </span>
           <span>
             <a href={author.url} className="muted-link">

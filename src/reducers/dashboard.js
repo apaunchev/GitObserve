@@ -55,6 +55,7 @@ const formatPrs = (newPrs, oldPrs) => {
         reviews,
         reviewRequests,
         repoName: pr.repository.nameWithOwner,
+        reviewCount: reviews.length,
         reviewState: getReviewState(reviews, reviewRequests),
         reviewedAt: reviews.length
           ? reviews[reviews.length - 1].createdAt

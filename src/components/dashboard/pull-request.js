@@ -21,6 +21,7 @@ const PullRequest = ({
   author,
   assignees,
   repository,
+  reviewCount,
   reviewState,
   reviewedAt,
   isNew,
@@ -81,6 +82,12 @@ const PullRequest = ({
               {author.login}
             </a>
           </span>
+          {reviewCount > 0 ? (
+            <span className="ml-2">
+              <Octicon icon={OrganizationIcon} /> {reviewCount}{" "}
+              {reviewCount === 1 ? "review" : "reviews"}
+            </span>
+          ) : null}
           {reviewState ? (
             <span className={`Label ml-2 ${PR_STATE_CLASSES[reviewState]}`}>
               {reviewState}

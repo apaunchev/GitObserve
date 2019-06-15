@@ -52,6 +52,8 @@ const formatPrs = (newPrs, oldPrs) => {
       const reviewRequests = map(pr.reviewRequests.edges, "node");
       return {
         ...pr,
+        reviews,
+        reviewRequests,
         repoName: pr.repository.nameWithOwner,
         reviewState: getReviewState(reviews, reviewRequests),
         reviewedAt: reviews.length

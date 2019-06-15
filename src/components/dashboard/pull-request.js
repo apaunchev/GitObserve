@@ -1,4 +1,4 @@
-import { formatDistance, parseISO } from "date-fns";
+import { formatDistanceToNow, parseISO } from "date-fns";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -28,7 +28,7 @@ const PullRequest = ({
 }) => {
   const relativeTime = field => {
     if (!field) return null;
-    return formatDistance(parseISO(field), new Date(), { addSuffix: true });
+    return formatDistanceToNow(parseISO(field), { addSuffix: true });
   };
   let className = "Box-row Box-row--hover-gray d-flex";
   if (isNew) className += " Box-row--unread";

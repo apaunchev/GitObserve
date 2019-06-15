@@ -92,7 +92,7 @@ class Repositories extends React.PureComponent {
             </Blankslate>
           ) : null}
 
-          {!loading && !githubError && !watchedRepos.length ? (
+          {!githubError && !watchedRepos.length ? (
             <Blankslate>
               <p>You are not watching any repositories currently.</p>
             </Blankslate>

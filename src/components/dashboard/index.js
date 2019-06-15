@@ -238,9 +238,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestPullRequests: (repoIds, token) => {
-    dispatch(actions.requestPullRequests(repoIds, token));
-  },
+  requestPullRequests: (repoIds, token) =>
+    dispatch(actions.requestPullRequests(repoIds, token)),
   resetPullRequests: () => dispatch(actions.resetPullRequests()),
   dispatch
 });

@@ -22,7 +22,16 @@ class Dashboard extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.selectedRepos.length > 0) {
+    if (!this.props.token) {
+      this.props.resetPullRequests();
+    }
+
+    if (this.props.token && this.props.selectedRepos.length) {
+      this.props.requestPullRequests(
+        this.props.selectedRepos,
+        this.props.token
+      );
+
       if (this.props.autoRefreshEnabled) {
         this.updateInterval = setInterval(() => {
           this.props.requestPullRequests(
@@ -232,6 +241,7 @@ const mapDispatchToProps = dispatch => ({
   requestPullRequests: (repoIds, token) => {
     dispatch(actions.requestPullRequests(repoIds, token));
   },
+  resetPullRequests: () => dispatch(actions.resetPullRequests()),
   dispatch
 });
 

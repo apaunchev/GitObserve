@@ -92,6 +92,13 @@ export default function(state = initialState, action) {
         githubError: action.error,
         loading: false
       };
+    case actions.RESET_PULL_REQUESTS:
+      return {
+        ...state,
+        pullRequests: [],
+        githubError: null,
+        loading: false
+      };
     case actions.SET_FILTERS:
       return {
         ...state,

@@ -121,7 +121,7 @@ class Dashboard extends React.PureComponent {
                     </Blankslate>
                   ) : null}
 
-                  {!loading && !githubError && !filteredPullRequests.length ? (
+                  {!githubError && !filteredPullRequests.length ? (
                     <Blankslate>
                       <p>No pull requests were found.</p>
                     </Blankslate>

@@ -1,3 +1,7 @@
+import Octicon, {
+  Clock as ClockIcon,
+  Organization as OrganizationIcon
+} from "@githubprimer/octicons-react";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import React from "react";
 import { connect } from "react-redux";
@@ -13,7 +17,6 @@ const PR_STATE_CLASSES = {
 };
 
 const PullRequest = ({
-  number,
   title,
   url,
   createdAt,
@@ -61,26 +64,22 @@ const PullRequest = ({
           {title}
         </a>
         <div className="text-gray">
-          <span>#{number} </span>
-          {filters && filters.orderBy === "updatedAt" && updatedAt ? (
-            <span>
-              updated <span title={updatedAt}>{relativeTime(updatedAt)}</span>
-            </span>
-          ) : filters && filters.orderBy === "createdAt" && createdAt ? (
-            <span>
-              created <span title={createdAt}>{relativeTime(createdAt)}</span>
-            </span>
-          ) : filters && filters.orderBy === "reviewedAt" && reviewedAt ? (
-            <span>
-              reviewed{" "}
-              <span title={reviewedAt}>{relativeTime(reviewedAt)}</span>
-            </span>
-          ) : null}
-          <span> by </span>
           <span>
-            <a href={author.url} className="muted-link">
-              {author.login}
-            </a>
+            <Octicon icon={ClockIcon} />{" "}
+            {filters && filters.orderBy === "updatedAt" && updatedAt ? (
+              <span>
+                Updated <span title={updatedAt}>{relativeTime(updatedAt)}</span>
+              </span>
+            ) : filters && filters.orderBy === "createdAt" && createdAt ? (
+              <span>
+                Created <span title={createdAt}>{relativeTime(createdAt)}</span>
+              </span>
+            ) : filters && filters.orderBy === "reviewedAt" && reviewedAt ? (
+              <span>
+                Reviewed{" "}
+                <span title={reviewedAt}>{relativeTime(reviewedAt)}</span>
+              </span>
+            ) : null}
           </span>
           {reviewCount > 0 ? (
             <span className="ml-2">

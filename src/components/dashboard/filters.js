@@ -22,8 +22,10 @@ const Filters = props => {
 
   const renderAuthorsSelect = () => {
     const authors = chain(props.pullRequests)
-      .map(pr => pr.author)
-      .uniqBy("login")
+      .countBy(pr => pr.author.login)
+      .toPairs()
+      .orderBy(1, "desc")
+      .fromPairs()
       .value();
 
     return (
@@ -35,9 +37,9 @@ const Filters = props => {
         style={{ width: "130px" }}
       >
         <option value="">all authors</option>
-        {authors.map(({ login }) => (
-          <option key={login} value={login}>
-            {login}
+        {Object.keys(authors).map(author => (
+          <option key={author} value={author}>
+            {author} ({authors[author]})
           </option>
         ))}
       </select>
@@ -46,8 +48,10 @@ const Filters = props => {
 
   const renderReposSelect = () => {
     const repos = chain(props.pullRequests)
-      .map(pr => pr.repoName)
-      .uniqBy()
+      .countBy(pr => pr.repoName)
+      .toPairs()
+      .orderBy(1, "desc")
+      .fromPairs()
       .value();
 
     return (
@@ -59,9 +63,9 @@ const Filters = props => {
         style={{ width: "130px" }}
       >
         <option value="">all repositories</option>
-        {repos.map(repo => (
+        {Object.keys(repos).map(repo => (
           <option key={repo} value={repo}>
-            {repo}
+            {repo} ({repos[repo]})
           </option>
         ))}
       </select>

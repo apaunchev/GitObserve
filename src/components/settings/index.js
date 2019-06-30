@@ -18,7 +18,10 @@ const Settings = ({ match }) => (
           <h1 className="h3">Settings</h1>
         </div>
         <div>
-          <Link to="/" className="btn btn-primary">
+          <Link
+            to={{ pathname: "/", state: { refresh: true } }}
+            className="btn btn-primary"
+          >
             <Octicon icon={CloudUploadIcon} /> Save
           </Link>
         </div>

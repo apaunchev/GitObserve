@@ -1,10 +1,10 @@
 import { isEmpty } from "lodash";
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/settings";
 
-class Account extends Component {
+class Account extends React.PureComponent {
   constructor(props) {
     super(props);
     this.input = React.createRef();

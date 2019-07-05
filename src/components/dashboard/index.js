@@ -194,6 +194,10 @@ const applyFilters = (pullRequests, filters) => {
     filtered = filter(filtered, pr => pr.reviewState === filters.reviewState);
   }
 
+  if (filters.hideWithoutRequestEnabled) {
+    filtered = filter(filtered, pr => pr.reviewState !== "no request");
+  }
+
   if (filters.searchQuery) {
     filtered = filter(filtered, pr => {
       const searchQuery = filters.searchQuery.toLowerCase();
@@ -232,7 +236,8 @@ const mapStateToProps = state => ({
     extend(
       {
         hideOldEnabled: state.settings.hideOldEnabled,
-        hideOldThreshold: state.settings.hideOldThreshold
+        hideOldThreshold: state.settings.hideOldThreshold,
+        hideWithoutRequestEnabled: state.settings.hideWithoutRequestEnabled
       },
       state.dashboard.filters
     )

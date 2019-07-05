@@ -46,6 +46,16 @@ const Dashboard = props => (
           days
         </label>
       </div>
+      <div className="form-checkbox">
+        <label>
+          <input
+            type="checkbox"
+            checked={props.hideWithoutRequestEnabled}
+            onChange={props.toggleHideWithoutRequest}
+          />
+          Hide pull requests without a review request
+        </label>
+      </div>
     </form>
   </>
 );
@@ -54,7 +64,8 @@ const mapStateToProps = state => ({
   autoRefreshEnabled: state.settings.autoRefreshEnabled,
   autoRefreshInterval: state.settings.autoRefreshInterval,
   hideOldEnabled: state.settings.hideOldEnabled,
-  hideOldThreshold: state.settings.hideOldThreshold
+  hideOldThreshold: state.settings.hideOldThreshold,
+  hideWithoutRequestEnabled: state.settings.hideWithoutRequestEnabled
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -64,6 +75,7 @@ const mapDispatchToProps = dispatch => ({
   toggleHideOld: () => dispatch(actions.toggleHideOld()),
   setHideOldThreshold: interval =>
     dispatch(actions.setHideOldThreshold(interval)),
+  toggleHideWithoutRequest: () => dispatch(actions.toggleHideWithoutRequest()),
   dispatch
 });
 

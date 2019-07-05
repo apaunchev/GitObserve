@@ -41,6 +41,16 @@ class SubNav extends React.PureComponent {
           </a>
           <a
             href="/"
+            data-review-state="commented"
+            onClick={this.handleReviewStateChange}
+            className={`subnav-item${
+              filters.reviewState === "commented" ? " selected" : ""
+            }`}
+          >
+            Commented
+          </a>
+          <a
+            href="/"
             data-review-state="changes requested"
             onClick={this.handleReviewStateChange}
             className={`subnav-item${

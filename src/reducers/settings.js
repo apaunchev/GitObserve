@@ -7,6 +7,7 @@ const initialState = {
   autoRefreshInterval: "5",
   hideOldEnabled: false,
   hideOldThreshold: 30,
+  hideWithoutRequest: false,
   viewerInfo: {},
   loading: false,
   githubError: null
@@ -60,6 +61,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         hideOldThreshold: action.threshold
+      };
+    case actions.TOGGLE_HIDE_WITHOUT_REQUEST:
+      return {
+        ...state,
+        hideWithoutRequestEnabled: !state.hideWithoutRequestEnabled
       };
     case actions.REQUEST_VIEWER_INFO_LOADING:
       return {

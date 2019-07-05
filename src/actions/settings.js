@@ -8,6 +8,7 @@ export const TOGGLE_AUTO_REFRESH = "TOGGLE_AUTO_REFRESH";
 export const SET_AUTO_REFRESH_INTERVAL = "SET_AUTO_REFRESH_INTERVAL";
 export const TOGGLE_HIDE_OLD = "TOGGLE_HIDE_OLD";
 export const SET_HIDE_OLD_THRESHOLD = "SET_HIDE_OLD_THRESHOLD";
+export const TOGGLE_HIDE_WITHOUT_REQUEST = "TOGGLE_HIDE_WITHOUT_REQUEST";
 export const REQUEST_VIEWER_INFO = "REQUEST_VIEWER_INFO";
 export const REQUEST_VIEWER_INFO_LOADING = "REQUEST_VIEWER_INFO_LOADING";
 export const REQUEST_VIEWER_INFO_SUCCESS = "REQUEST_VIEWER_INFO_SUCCESS";
@@ -49,6 +50,10 @@ export const toggleHideOld = () => ({
 export const setHideOldThreshold = threshold => ({
   type: SET_HIDE_OLD_THRESHOLD,
   threshold
+});
+
+export const toggleHideWithoutRequest = () => ({
+  type: TOGGLE_HIDE_WITHOUT_REQUEST
 });
 
 export const requestViewerInfoLoading = () => ({

@@ -134,5 +134,32 @@ export const queries = {
         }
       }
     }
+  `,
+  releasesForRepos: repoIds => `
+    query {
+      nodes (ids: ${JSON.stringify(repoIds)}) {
+        id
+        ... on Repository {
+          name
+          url
+          releases(last: 5) {
+            edges {
+              node {
+                id
+                name
+                publishedAt
+                description
+                url
+                author {
+                  login
+                  avatarUrl(size: 96)
+                  url
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   `
 };

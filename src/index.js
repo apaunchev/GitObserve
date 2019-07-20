@@ -12,6 +12,7 @@ store.subscribe(
     saveState({
       settings: store.getState().settings,
       dashboard: store.getState().dashboard,
+      releases: store.getState().releases,
       watchedRepos: store.getState().watchedRepos
     });
   }),

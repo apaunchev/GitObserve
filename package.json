@@ -17,6 +17,7 @@
     "@primer/css": "^12.4.0",
     "date-fns": "2.0.0-alpha.34",
     "lodash": "^4.17.11",
+    "markdown-to-jsx": "^6.10.2",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

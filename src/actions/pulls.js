@@ -26,7 +26,7 @@ export const requestPullRequests = (repoIds, token) => async (
   dispatch,
   getState
 ) => {
-  const oldPrs = getState().dashboard.pullRequests;
+  const oldPrs = getState().pulls.pulls;
   try {
     dispatch(requestPullRequestsLoading());
     const query = queries.pullRequestsForRepos(repoIds);

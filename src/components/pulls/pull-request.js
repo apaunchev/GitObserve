@@ -118,7 +118,7 @@ const PullRequest = ({
 };
 
 const mapStateToProps = state => ({
-  filters: state.dashboard.filters
+  filters: state.pulls.filters
 });
 
 export default connect(mapStateToProps)(PullRequest);

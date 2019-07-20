@@ -1,8 +1,8 @@
 import React from "react";
-import { Link, NavLink, Route, Switch } from "react-router-dom";
+import { Link, NavLink, Route, Switch, Redirect } from "react-router-dom";
 import "../../node_modules/@primer/css/build/build.css";
 import NotFound from "./common/not-found";
-import Dashboard from "./dashboard";
+import PullRequests from "./pull-requests";
 import Releases from "./releases";
 import Settings from "./settings";
 import Avatar from "./common/avatar";
@@ -38,10 +38,10 @@ const App = () => (
       </div>
     </header>
     <Switch>
-      <Route path="/pulls" component={Dashboard} />
+      <Route path="/pulls" component={PullRequests} />
       <Route path="/releases" component={Releases} />
       <Route path="/settings" component={Settings} />
-      <Route exact path="/" component={Dashboard} />
+      <Route exact path="/" render={() => <Redirect to="/pulls" />} />
       <Route component={NotFound} />
     </Switch>
   </div>

@@ -2,7 +2,7 @@ import { chain } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
-import * as actions from "../../actions/dashboard";
+import * as actions from "../../actions/pulls";
 
 const DEFAULT_FILTERS = {
   repo: "",
@@ -108,7 +108,7 @@ Filters.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  filters: state.dashboard.filters
+  filters: state.pulls.filters
 });
 
 const mapDispatchToProps = dispatch => ({

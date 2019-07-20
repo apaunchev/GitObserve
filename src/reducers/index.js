@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
-import dashboard from "./dashboard";
+import pulls from "./pulls";
 import releases from "./releases";
 import settings from "./settings";
 import watchedRepos from "./watchedRepos";
 
 const rootReducer = combineReducers({
-  dashboard,
+  pulls,
   releases,
   watchedRepos,
   settings

@@ -2,10 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/settings";
 
-const Dashboard = props => (
+const PullRequests = props => (
   <>
     <div className="Subhead">
-      <h2 className="Subhead-heading">Dashboard</h2>
+      <h2 className="Subhead-heading">Pull requests</h2>
     </div>
     <form>
       <div className="form-checkbox">
@@ -15,7 +15,7 @@ const Dashboard = props => (
             checked={props.autoRefreshEnabled}
             onChange={props.toggleAutoRefresh}
           />{" "}
-          Auto refresh dashboard every
+          Auto refresh pull requests every
           <select
             className="form-select select-sm ml-1"
             value={props.autoRefreshInterval}
@@ -82,4 +82,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Dashboard);
+)(PullRequests);

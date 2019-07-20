@@ -1,7 +1,7 @@
 import Octicon, { Search as SearchIcon } from "@githubprimer/octicons-react";
 import React from "react";
 import { connect } from "react-redux";
-import * as actions from "../../actions/dashboard";
+import * as actions from "../../actions/pulls";
 
 class SubNav extends React.PureComponent {
   handleReviewStateChange = e => {
@@ -93,7 +93,7 @@ class SubNav extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  filters: state.dashboard.filters
+  filters: state.pulls.filters
 });
 
 const mapDispatchToProps = dispatch => ({

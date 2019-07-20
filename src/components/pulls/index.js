@@ -8,14 +8,14 @@ import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import * as actions from "../../actions/dashboard";
+import * as actions from "../../actions/pulls";
 import Blankslate from "../common/blankslate";
 import Flash from "../common/flash";
 import Filters from "./filters";
 import PullRequest from "./pull-request";
 import SubNav from "./subnav";
 
-class Dashboard extends React.PureComponent {
+class PullRequests extends React.PureComponent {
   constructor(props) {
     super(props);
     this.updateInterval = null;
@@ -67,7 +67,7 @@ class Dashboard extends React.PureComponent {
         <div className="App-menu p-3 bg-gray-light border-bottom">
           <div className="container-lg d-flex flex-items-center">
             <div className="flex-auto">
-              <h1 className="h3">Dashboard</h1>
+              <h1 className="h3">Pull requests</h1>
             </div>
             <div>
               <Link to="/settings" className="btn mr-2">
@@ -98,7 +98,7 @@ class Dashboard extends React.PureComponent {
                       {autoRefreshEnabled && (
                         <span className="text-gray mr-2 f6">
                           Auto refresh{" "}
-                          <Link to={"/settings/dashboard"}>enabled</Link>.
+                          <Link to={"/settings/pull-requests"}>enabled</Link>.
                         </span>
                       )}
                       <span className="text-gray mr-2 f6">
@@ -153,7 +153,7 @@ class Dashboard extends React.PureComponent {
   }
 }
 
-Dashboard.propTypes = {
+PullRequests.propTypes = {
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
   githubError: PropTypes.shape(),
   loading: PropTypes.bool,
@@ -162,7 +162,7 @@ Dashboard.propTypes = {
   requestPullRequests: PropTypes.func
 };
 
-Dashboard.defaultProps = {
+PullRequests.defaultProps = {
   selectedRepos: [],
   token: null,
   pullRequests: [],
@@ -227,19 +227,19 @@ const mapStateToProps = state => ({
   token: state.settings.token,
   autoRefreshEnabled: state.settings.autoRefreshEnabled,
   autoRefreshInterval: state.settings.autoRefreshInterval,
-  githubError: state.dashboard.githubError,
-  loading: state.dashboard.loading,
-  lastUpdated: state.dashboard.lastUpdated,
-  pullRequests: state.dashboard.pullRequests,
+  githubError: state.pulls.githubError,
+  loading: state.pulls.loading,
+  lastUpdated: state.pulls.lastUpdated,
+  pullRequests: state.pulls.pulls,
   filteredPullRequests: applyFilters(
-    state.dashboard.pullRequests,
+    state.pulls.pulls,
     extend(
       {
         hideOldEnabled: state.settings.hideOldEnabled,
         hideOldThreshold: state.settings.hideOldThreshold,
         hideWithoutRequestEnabled: state.settings.hideWithoutRequestEnabled
       },
-      state.dashboard.filters
+      state.pulls.filters
     )
   )
 });
@@ -254,4 +254,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Dashboard);
+)(PullRequests);

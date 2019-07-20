@@ -1,8 +1,8 @@
 import { chain, map } from "lodash";
-import * as actions from "../actions/dashboard";
+import * as actions from "../actions/pulls";
 
 const initialState = {
-  pullRequests: [],
+  pulls: [],
   lastUpdated: null,
   filters: {
     repo: "",
@@ -80,7 +80,7 @@ export default function(state = initialState, action) {
     case actions.REQUEST_PULL_REQUESTS_SUCCESS:
       return {
         ...state,
-        pullRequests: formatPrs(action.newPrs, action.oldPrs),
+        pulls: formatPrs(action.newPrs, action.oldPrs),
         lastUpdated: Math.floor(Date.now() / 1000),
         loading: false,
         githubError: null
@@ -88,14 +88,14 @@ export default function(state = initialState, action) {
     case actions.REQUEST_PULL_REQUESTS_FAILURE:
       return {
         ...state,
-        pullRequests: [],
+        pulls: [],
         githubError: action.error,
         loading: false
       };
     case actions.RESET_PULL_REQUESTS:
       return {
         ...state,
-        pullRequests: [],
+        pulls: [],
         githubError: null,
         loading: false
       };

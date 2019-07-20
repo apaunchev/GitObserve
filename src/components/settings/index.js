@@ -1,13 +1,13 @@
 import Octicon, {
   CloudUpload as CloudUploadIcon,
-  Dashboard as DashboardIcon,
+  GitPullRequest as GitPullRequestIcon,
   Person as PersonIcon,
   Repo as RepoIcon
 } from "@githubprimer/octicons-react";
 import React from "react";
 import { Link, NavLink, Redirect, Route, Switch } from "react-router-dom";
 import Account from "./account";
-import Dashboard from "./dashboard";
+import PullRequests from "./pulls";
 import Repositories from "./repositories";
 
 const Settings = ({ match }) => (
@@ -32,18 +32,18 @@ const Settings = ({ match }) => (
         <div className="col-3 pr-4">
           <nav className="menu">
             <NavLink
-              to={`${match.url}/dashboard`}
-              className="menu-item"
-              activeClassName="selected"
-            >
-              <Octicon icon={DashboardIcon} /> Dashboard
-            </NavLink>
-            <NavLink
               to={`${match.url}/account`}
               className="menu-item"
               activeClassName="selected"
             >
               <Octicon icon={PersonIcon} /> Account
+            </NavLink>
+            <NavLink
+              to={`${match.url}/pulls`}
+              className="menu-item"
+              activeClassName="selected"
+            >
+              <Octicon icon={GitPullRequestIcon} /> Pull requests
             </NavLink>
             <NavLink
               to={`${match.url}/repositories`}
@@ -56,7 +56,7 @@ const Settings = ({ match }) => (
         </div>
         <div className="col-9">
           <Switch>
-            <Route path={`${match.url}/dashboard`} component={Dashboard} />
+            <Route path={`${match.url}/pulls`} component={PullRequests} />
             <Route path={`${match.url}/account`} component={Account} />
             <Route
               path={`${match.url}/repositories`}
@@ -65,7 +65,7 @@ const Settings = ({ match }) => (
             <Route
               exact
               path={`${match.url}`}
-              render={() => <Redirect to={`${match.url}/dashboard`} />}
+              render={() => <Redirect to={`${match.url}/pulls`} />}
             />
           </Switch>
         </div>

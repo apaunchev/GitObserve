@@ -41,7 +41,7 @@ class Repositories extends React.PureComponent {
           <h2 className="Subhead-heading">Repositories</h2>
         </div>
         <p className="mb-4">
-          Select the repositories you wish to monitor on the dashboard.{" "}
+          Select the repositories you wish to track.{" "}
           <strong>
             Only repositories you are{" "}
             <a href="https://github.com/watching">watching</a> are listed here.

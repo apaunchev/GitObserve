@@ -11,7 +11,7 @@ store.subscribe(
   throttle(() => {
     saveState({
       settings: store.getState().settings,
-      dashboard: store.getState().dashboard,
+      pulls: store.getState().pulls,
       releases: store.getState().releases,
       watchedRepos: store.getState().watchedRepos
     });

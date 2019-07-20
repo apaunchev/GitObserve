@@ -52,7 +52,6 @@ class Releases extends React.PureComponent {
         </div>
         <main className="App-main">
           <div className="container-lg py-4">
-            <h1 />
             {releases.map(
               ({
                 id,

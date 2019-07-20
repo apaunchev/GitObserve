@@ -8,9 +8,17 @@ import "./style.css";
 
 class Releases extends React.PureComponent {
   componentDidMount() {
-    if (this.props.token && this.props.selectedRepos.length) {
-      if (((this.props.location || {}).state || {}).refresh) {
-        this.props.requestReleases(this.props.selectedRepos, this.props.token);
+    const {
+      token,
+      selectedRepos,
+      location,
+      releases,
+      requestReleases
+    } = this.props;
+
+    if (token && selectedRepos.length) {
+      if (((location || {}).state || {}).refresh || !releases.length) {
+        requestReleases(selectedRepos, token);
       }
     }
   }

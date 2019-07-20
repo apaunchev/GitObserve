@@ -2,7 +2,7 @@ import Octicon, {
   Clock as ClockIcon,
   Organization as OrganizationIcon
 } from "@githubprimer/octicons-react";
-import { formatDistanceToNow, parseISO } from "date-fns";
+import { isoToRelative } from "../../utils";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -30,10 +30,6 @@ const PullRequest = ({
   isNew,
   filters
 }) => {
-  const relativeTime = field => {
-    if (!field) return null;
-    return formatDistanceToNow(parseISO(field), { addSuffix: true });
-  };
   let className = "Box-row Box-row--hover-gray d-flex";
   if (isNew) className += " Box-row--unread";
 
@@ -68,16 +64,18 @@ const PullRequest = ({
             <Octicon icon={ClockIcon} />{" "}
             {filters && filters.orderBy === "updatedAt" && updatedAt ? (
               <span>
-                Updated <span title={updatedAt}>{relativeTime(updatedAt)}</span>
+                Updated{" "}
+                <span title={updatedAt}>{isoToRelative(updatedAt)}</span>
               </span>
             ) : filters && filters.orderBy === "createdAt" && createdAt ? (
               <span>
-                Created <span title={createdAt}>{relativeTime(createdAt)}</span>
+                Created{" "}
+                <span title={createdAt}>{isoToRelative(createdAt)}</span>
               </span>
             ) : filters && filters.orderBy === "reviewedAt" && reviewedAt ? (
               <span>
                 Reviewed{" "}
-                <span title={reviewedAt}>{relativeTime(reviewedAt)}</span>
+                <span title={reviewedAt}>{isoToRelative(reviewedAt)}</span>
               </span>
             ) : null}
           </span>

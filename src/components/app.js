@@ -2,7 +2,7 @@ import React from "react";
 import { Link, NavLink, Route, Switch, Redirect } from "react-router-dom";
 import "../../node_modules/@primer/css/build/build.css";
 import NotFound from "./common/not-found";
-import PullRequests from "./pull-requests";
+import PullRequests from "./pulls";
 import Releases from "./releases";
 import Settings from "./settings";
 import Avatar from "./common/avatar";

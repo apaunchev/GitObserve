@@ -41,7 +41,13 @@ const App = () => (
       <Route path="/pulls" component={PullRequests} />
       <Route path="/releases" component={Releases} />
       <Route path="/settings" component={Settings} />
-      <Route exact path="/" render={() => <Redirect to="/pulls" />} />
+      <Route
+        exact
+        path="/"
+        render={({ location: { state } }) => (
+          <Redirect to={{ pathname: "/pulls", state }} />
+        )}
+      />
       <Route component={NotFound} />
     </Switch>
   </div>

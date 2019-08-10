@@ -1,6 +1,6 @@
 import Octicon, {
   Clock as ClockIcon,
-  Organization as OrganizationIcon
+  Thumbsup as ThumbsupIcon
 } from "@githubprimer/octicons-react";
 import { isoToRelative } from "../../utils";
 import React from "react";
@@ -23,8 +23,8 @@ const PullRequest = ({
   updatedAt,
   author,
   repository,
-  reviewCount,
   reviewState,
+  approvals,
   isNew,
   filters
 }) => {
@@ -71,12 +71,10 @@ const PullRequest = ({
               </span>
             ) : null}
           </span>
-          {reviewCount > 0 ? (
-            <span className="ml-2">
-              <Octicon icon={OrganizationIcon} /> {reviewCount}{" "}
-              {reviewCount === 1 ? "review" : "reviews"}
-            </span>
-          ) : null}
+          <span className="ml-2">
+            <Octicon icon={ThumbsupIcon} /> {approvals}{" "}
+            {approvals === 1 ? "approval" : "approvals"}
+          </span>
           {reviewState ? (
             <span className={`Label ml-2 ${PR_STATE_CLASSES[reviewState]}`}>
               {reviewState}

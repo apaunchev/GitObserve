@@ -46,6 +46,14 @@ const getLatestReviewState = (reviews, reviewRequests) => {
   return formatReviewState(state);
 };
 
+const getApprovalsCount = reviews => {
+  let count = 0;
+  if (reviews.length) {
+    count = reviews.filter(r => r.state === REVIEW_STATES.APPROVED).length;
+  }
+  return count;
+};
+
 const formatPrs = (newPrs, oldPrs) => {
   const oldPrsById = map(oldPrs, "id");
 
@@ -61,8 +69,8 @@ const formatPrs = (newPrs, oldPrs) => {
         reviews,
         reviewRequests,
         repoName: pr.repository.nameWithOwner,
-        reviewCount: reviews.length,
         reviewState: getLatestReviewState(reviews, reviewRequests),
+        approvals: getApprovalsCount(reviews),
         isNew: !oldPrsById.includes(pr.id)
       };
     })

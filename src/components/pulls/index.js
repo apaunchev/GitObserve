@@ -52,7 +52,6 @@ class PullRequests extends React.PureComponent {
   render() {
     const {
       selectedRepos,
-      pullRequests,
       filteredPullRequests,
       loading,
       githubError,
@@ -89,10 +88,7 @@ class PullRequests extends React.PureComponent {
                 <div className="Box">
                   <div className="Box-header d-flex flex-items-center">
                     <div className="flex-auto d-flex flex-items-center">
-                      <Filters
-                        pullRequests={pullRequests}
-                        filteredCount={filteredPullRequests.length}
-                      />
+                      <Filters pullRequests={filteredPullRequests} />
                     </div>
                     <div className="d-flex flex-items-center">
                       {autoRefreshEnabled && (
@@ -226,7 +222,6 @@ const mapStateToProps = state => ({
   githubError: state.pulls.githubError,
   loading: state.pulls.loading,
   lastUpdated: state.pulls.lastUpdated,
-  pullRequests: state.pulls.pulls,
   filteredPullRequests: applyFilters(
     state.pulls.pulls,
     extend(

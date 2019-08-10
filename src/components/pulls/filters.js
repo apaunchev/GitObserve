@@ -87,7 +87,9 @@ const Filters = props => {
 
   return (
     <>
-      <span className="text-gray mr-2">Show ({props.filteredCount}):</span>
+      <span className="text-gray mr-2">
+        Show ({props.pullRequests.length}):
+      </span>
       {renderAuthorsSelect()}
       {renderReposSelect()}
       <span className="text-gray mr-2">Order by:</span>

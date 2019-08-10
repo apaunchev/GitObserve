@@ -15,24 +15,30 @@ const initialState = {
   githubError: null
 };
 
+const REVIEW_STATES = {
+  // Expected values from GitHub:
+  PENDING: "PENDING",
+  COMMENTED: "COMMENTED",
+  APPROVED: "APPROVED",
+  CHANGES_REQUESTED: "CHANGES_REQUESTED",
+  DISMISSED: "DISMISSED",
+  // Additional (custom) values:
+  REVIEW_REQUESTED: "REVIEW_REQUESTED",
+  NO_REQUEST: "NO_REQUEST"
+};
+
 const formatReviewState = state => {
   if (typeof state !== "string") return;
   return state.replace(/_/g, " ").toLowerCase();
 };
 
-const getReviewState = (reviews, reviewRequests) => {
-  // Expected values from GitHub:
-  // "PENDING", "COMMENTED", "APPROVED", "CHANGES_REQUESTED", "DISMISSED".
-  // Additional (custom) values:
-  // "REVIEW_REQUESTED", "NO_REQUEST".
-  // Take the state from the last review, replace any underscores,
-  // and make it lowercase so it can be dispayed nicely to the user.
+const getLatestReviewState = (reviews, reviewRequests) => {
   let state = null;
   if (!reviews.length) {
     if (reviewRequests.length > 0) {
-      state = "REVIEW_REQUESTED";
+      state = REVIEW_STATES.REVIEW_REQUESTED;
     } else {
-      state = "NO_REQUEST";
+      state = REVIEW_STATES.NO_REQUEST;
     }
     return formatReviewState(state);
   }
@@ -56,7 +62,7 @@ const formatPrs = (newPrs, oldPrs) => {
         reviewRequests,
         repoName: pr.repository.nameWithOwner,
         reviewCount: reviews.length,
-        reviewState: getReviewState(reviews, reviewRequests),
+        reviewState: getLatestReviewState(reviews, reviewRequests),
         isNew: !oldPrsById.includes(pr.id)
       };
     })

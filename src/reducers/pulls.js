@@ -57,7 +57,6 @@ const formatPrs = (newPrs, oldPrs) => {
         repoName: pr.repository.nameWithOwner,
         reviewCount: reviews.length,
         reviewState: getReviewState(reviews, reviewRequests),
-        assignees: map(pr.assignees.edges, "node"),
         isNew: !oldPrsById.includes(pr.id)
       };
     })

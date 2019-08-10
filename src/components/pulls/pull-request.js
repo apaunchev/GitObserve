@@ -67,8 +67,7 @@ const PullRequest = ({
               </span>
             ) : filters && filters.orderBy === "createdAt" && createdAt ? (
               <span>
-                Created{" "}
-                <span title={createdAt}>{isoToRelative(createdAt)}</span>
+                Opened <span title={createdAt}>{isoToRelative(createdAt)}</span>
               </span>
             ) : null}
           </span>

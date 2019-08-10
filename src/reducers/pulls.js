@@ -57,9 +57,6 @@ const formatPrs = (newPrs, oldPrs) => {
         repoName: pr.repository.nameWithOwner,
         reviewCount: reviews.length,
         reviewState: getReviewState(reviews, reviewRequests),
-        reviewedAt: reviews.length
-          ? reviews[reviews.length - 1].createdAt
-          : null,
         assignees: map(pr.assignees.edges, "node"),
         isNew: !oldPrsById.includes(pr.id)
       };

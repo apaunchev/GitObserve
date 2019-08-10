@@ -213,10 +213,6 @@ const applyFilters = (pullRequests, filters) => {
     });
   }
 
-  if (filters.orderBy === "reviewedAt") {
-    filtered = filter(filtered, pr => pr.reviewedAt);
-  }
-
   filtered = orderBy(filtered, filters.orderBy, "desc");
 
   return filtered;

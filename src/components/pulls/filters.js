@@ -81,7 +81,6 @@ const Filters = props => {
       style={{ width: "130px" }}
     >
       <option value={"updatedAt"}>recently updated</option>
-      <option value={"reviewedAt"}>recently reviewed</option>
       <option value={"createdAt"}>recently created</option>
     </select>
   );

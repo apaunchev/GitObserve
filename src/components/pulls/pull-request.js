@@ -26,7 +26,6 @@ const PullRequest = ({
   repository,
   reviewCount,
   reviewState,
-  reviewedAt,
   isNew,
   filters
 }) => {
@@ -71,11 +70,6 @@ const PullRequest = ({
               <span>
                 Created{" "}
                 <span title={createdAt}>{isoToRelative(createdAt)}</span>
-              </span>
-            ) : filters && filters.orderBy === "reviewedAt" && reviewedAt ? (
-              <span>
-                Reviewed{" "}
-                <span title={reviewedAt}>{isoToRelative(reviewedAt)}</span>
               </span>
             ) : null}
           </span>

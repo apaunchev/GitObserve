@@ -15,7 +15,7 @@
   "dependencies": {
     "@githubprimer/octicons-react": "^8.5.0",
     "@primer/css": "^12.4.0",
-    "date-fns": "2.0.0-alpha.34",
+    "date-fns": "^2.0.0-beta.4",
     "lodash": "^4.17.11",
     "markdown-to-jsx": "^6.10.2",
     "prop-types": "^15.7.2",

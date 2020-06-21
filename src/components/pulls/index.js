@@ -18,7 +18,6 @@ import SubNav from "./subnav";
 class PullRequests extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.updateInterval = null;
   }
 
   componentDidMount() {
@@ -33,20 +32,7 @@ class PullRequests extends React.PureComponent {
           this.props.token
         );
       }
-
-      if (this.props.autoRefreshEnabled) {
-        this.updateInterval = setInterval(() => {
-          this.props.requestPullRequests(
-            this.props.selectedRepos,
-            this.props.token
-          );
-        }, this.props.autoRefreshInterval * 60 * 1000);
-      }
     }
-  }
-
-  componentWillUnmount() {
-    window.clearInterval(this.updateInterval);
   }
 
   render() {
@@ -57,7 +43,6 @@ class PullRequests extends React.PureComponent {
       githubError,
       requestPullRequests,
       token,
-      autoRefreshEnabled,
       lastUpdated
     } = this.props;
 
@@ -91,22 +76,13 @@ class PullRequests extends React.PureComponent {
                       <Filters pullRequests={filteredPullRequests} />
                     </div>
                     <div className="d-flex flex-items-center">
-                      {autoRefreshEnabled && (
-                        <span className="text-gray mr-2 f6">
-                          Auto refresh{" "}
-                          <Link to={"/settings/pull-requests"}>enabled</Link>.
-                        </span>
-                      )}
-                      <span className="text-gray mr-2 f6">
-                        {lastUpdated
-                          ? `Last updated: ${format(
-                              fromUnixTime(lastUpdated),
-                              "Pp"
-                            )}`
-                          : `Last updated: never.`}
-                      </span>
                       <button
-                        className="btn btn-sm btn-primary"
+                        className="btn btn-sm btn-primary tooltipped tooltipped-sw"
+                        aria-label={`Last updated: ${
+                          lastUpdated
+                            ? `${format(fromUnixTime(lastUpdated), "Pp")}`
+                            : "never"
+                        }.`}
                         onClick={() =>
                           requestPullRequests(selectedRepos, token)
                         }
@@ -217,8 +193,6 @@ const applyFilters = (pullRequests, filters) => {
 const mapStateToProps = state => ({
   selectedRepos: state.settings.selectedRepos,
   token: state.settings.token,
-  autoRefreshEnabled: state.settings.autoRefreshEnabled,
-  autoRefreshInterval: state.settings.autoRefreshInterval,
   githubError: state.pulls.githubError,
   loading: state.pulls.loading,
   lastUpdated: state.pulls.lastUpdated,

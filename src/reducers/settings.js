@@ -3,8 +3,6 @@ import * as actions from "../actions/settings";
 const initialState = {
   token: "",
   selectedRepos: [],
-  autoRefreshEnabled: false,
-  autoRefreshInterval: "5",
   hideOldEnabled: false,
   hideOldThreshold: 30,
   hideWithoutRequest: false,
@@ -41,16 +39,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         selectedRepos: []
-      };
-    case actions.TOGGLE_AUTO_REFRESH:
-      return {
-        ...state,
-        autoRefreshEnabled: !state.autoRefreshEnabled
-      };
-    case actions.SET_AUTO_REFRESH_INTERVAL:
-      return {
-        ...state,
-        autoRefreshInterval: action.interval
       };
     case actions.TOGGLE_HIDE_OLD:
       return {

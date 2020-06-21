@@ -12,26 +12,6 @@ const PullRequests = props => (
         <label>
           <input
             type="checkbox"
-            checked={props.autoRefreshEnabled}
-            onChange={props.toggleAutoRefresh}
-          />{" "}
-          Auto refresh pull requests every
-          <select
-            className="form-select select-sm ml-1"
-            value={props.autoRefreshInterval}
-            onChange={e => props.setAutoRefreshInterval(e.target.value)}
-          >
-            <option value="1">1 minute</option>
-            <option value="5">5 minutes</option>
-            <option value="10">10 minutes</option>
-            <option value="30">30 minutes</option>
-          </select>
-        </label>
-      </div>
-      <div className="form-checkbox">
-        <label>
-          <input
-            type="checkbox"
             checked={props.hideOldEnabled}
             onChange={props.toggleHideOld}
           />{" "}
@@ -61,17 +41,12 @@ const PullRequests = props => (
 );
 
 const mapStateToProps = state => ({
-  autoRefreshEnabled: state.settings.autoRefreshEnabled,
-  autoRefreshInterval: state.settings.autoRefreshInterval,
   hideOldEnabled: state.settings.hideOldEnabled,
   hideOldThreshold: state.settings.hideOldThreshold,
   hideWithoutRequestEnabled: state.settings.hideWithoutRequestEnabled
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleAutoRefresh: () => dispatch(actions.toggleAutoRefresh()),
-  setAutoRefreshInterval: interval =>
-    dispatch(actions.setAutoRefreshInterval(interval)),
   toggleHideOld: () => dispatch(actions.toggleHideOld()),
   setHideOldThreshold: interval =>
     dispatch(actions.setHideOldThreshold(interval)),

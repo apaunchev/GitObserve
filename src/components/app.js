@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, NavLink, Route, Switch, Redirect } from "react-router-dom";
-import "../../node_modules/@primer/css/build/build.css";
+import "../../node_modules/@primer/css/dist/primer.css";
 import NotFound from "./common/not-found";
 import PullRequests from "./pulls";
 import Settings from "./settings";

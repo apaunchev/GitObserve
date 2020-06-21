@@ -16,10 +16,6 @@ import PullRequest from "./pull-request";
 import SubNav from "./subnav";
 
 class PullRequests extends React.PureComponent {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     if (!this.props.token) {
       this.props.resetPullRequests();

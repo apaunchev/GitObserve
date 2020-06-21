@@ -3,7 +3,6 @@ import { Link, NavLink, Route, Switch, Redirect } from "react-router-dom";
 import "../../node_modules/@primer/css/build/build.css";
 import NotFound from "./common/not-found";
 import PullRequests from "./pulls";
-import Releases from "./releases";
 import Settings from "./settings";
 import Avatar from "./common/avatar";
 
@@ -25,13 +24,6 @@ const App = () => (
             >
               Pull requests
             </NavLink>
-            <NavLink
-              to="/releases"
-              className="ml-3 f4 text-white"
-              activeClassName="text-underline"
-            >
-              Releases
-            </NavLink>
           </nav>
         </div>
         <Avatar />
@@ -39,7 +31,6 @@ const App = () => (
     </header>
     <Switch>
       <Route path="/pulls" component={PullRequests} />
-      <Route path="/releases" component={Releases} />
       <Route path="/settings" component={Settings} />
       <Route
         exact

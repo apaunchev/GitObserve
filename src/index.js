@@ -12,8 +12,7 @@ store.subscribe(
     saveState({
       settings: store.getState().settings,
       pulls: store.getState().pulls,
-      releases: store.getState().releases,
-      watchedRepos: store.getState().watchedRepos
+      watchedRepos: store.getState().watchedRepos,
     });
   }),
   1000

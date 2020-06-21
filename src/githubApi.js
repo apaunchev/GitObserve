@@ -5,9 +5,9 @@ export const get = async (query, token) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ query })
+    body: JSON.stringify({ query }),
   });
 
   if (response.ok) {
@@ -65,7 +65,7 @@ export const queries = {
       }
     `;
   },
-  pullRequestsForRepos: repoIds => `
+  pullRequestsForRepos: (repoIds) => `
     query {
       nodes (ids: ${JSON.stringify(repoIds)}) {
         id

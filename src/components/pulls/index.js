@@ -1,6 +1,6 @@
 import Octicon, {
   Settings as SettingsIcon,
-  Sync as SyncIcon
+  Sync as SyncIcon,
 } from "@githubprimer/octicons-react";
 import { differenceInDays, fromUnixTime, format } from "date-fns";
 import { extend, filter, orderBy } from "lodash";
@@ -39,7 +39,7 @@ class PullRequests extends React.PureComponent {
       githubError,
       requestPullRequests,
       token,
-      lastUpdated
+      lastUpdated,
     } = this.props;
 
     return (
@@ -107,7 +107,7 @@ class PullRequests extends React.PureComponent {
                   ) : null}
 
                   {!githubError && filteredPullRequests.length > 0
-                    ? filteredPullRequests.map(pr => (
+                    ? filteredPullRequests.map((pr) => (
                         <PullRequest key={pr.id} {...pr} />
                       ))
                     : null}
@@ -127,7 +127,7 @@ PullRequests.propTypes = {
   loading: PropTypes.bool,
   pullRequests: PropTypes.arrayOf(PropTypes.shape()),
   token: PropTypes.string,
-  requestPullRequests: PropTypes.func
+  requestPullRequests: PropTypes.func,
 };
 
 PullRequests.defaultProps = {
@@ -135,14 +135,14 @@ PullRequests.defaultProps = {
   token: null,
   pullRequests: [],
   loading: false,
-  githubError: null
+  githubError: null,
 };
 
 const applyFilters = (pullRequests, filters) => {
   let filtered = pullRequests;
 
   if (filters.hideOldEnabled) {
-    filtered = filter(filtered, pr => {
+    filtered = filter(filtered, (pr) => {
       return (
         differenceInDays(new Date(pr[filters.orderBy]), new Date()) >
         -filters.hideOldThreshold
@@ -151,23 +151,23 @@ const applyFilters = (pullRequests, filters) => {
   }
 
   if (filters.repo) {
-    filtered = filter(filtered, pr => pr.repoName === filters.repo);
+    filtered = filter(filtered, (pr) => pr.repoName === filters.repo);
   }
 
   if (filters.author) {
-    filtered = filter(filtered, pr => pr.author.login === filters.author);
+    filtered = filter(filtered, (pr) => pr.author.login === filters.author);
   }
 
   if (filters.reviewState) {
-    filtered = filter(filtered, pr => pr.reviewState === filters.reviewState);
+    filtered = filter(filtered, (pr) => pr.reviewState === filters.reviewState);
   }
 
   if (filters.hideWithoutRequestEnabled) {
-    filtered = filter(filtered, pr => pr.reviewState !== "no request");
+    filtered = filter(filtered, (pr) => pr.reviewState !== "no request");
   }
 
   if (filters.searchQuery) {
-    filtered = filter(filtered, pr => {
+    filtered = filter(filtered, (pr) => {
       const searchQuery = filters.searchQuery.toLowerCase();
       const repoName = pr.repoName.toLowerCase();
       const title = pr.title.toLowerCase();
@@ -186,7 +186,7 @@ const applyFilters = (pullRequests, filters) => {
   return filtered;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedRepos: state.settings.selectedRepos,
   token: state.settings.token,
   githubError: state.pulls.githubError,
@@ -198,21 +198,18 @@ const mapStateToProps = state => ({
       {
         hideOldEnabled: state.settings.hideOldEnabled,
         hideOldThreshold: state.settings.hideOldThreshold,
-        hideWithoutRequestEnabled: state.settings.hideWithoutRequestEnabled
+        hideWithoutRequestEnabled: state.settings.hideWithoutRequestEnabled,
       },
       state.pulls.filters
     )
-  )
+  ),
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   requestPullRequests: (repoIds, token) =>
     dispatch(actions.requestPullRequests(repoIds, token)),
   resetPullRequests: () => dispatch(actions.resetPullRequests()),
-  dispatch
+  dispatch,
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PullRequests);
+export default connect(mapStateToProps, mapDispatchToProps)(PullRequests);

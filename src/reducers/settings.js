@@ -8,77 +8,77 @@ const initialState = {
   hideWithoutRequest: false,
   viewerInfo: {},
   loading: false,
-  githubError: null
+  githubError: null,
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case actions.SET_TOKEN:
       return {
         ...state,
-        token: action.value
+        token: action.value,
       };
     case actions.TOGGLE_REPO_SELECTION:
       return state.selectedRepos.includes(action.id)
         ? {
             ...state,
             selectedRepos: state.selectedRepos.filter(
-              repoId => repoId !== action.id
-            )
+              (repoId) => repoId !== action.id
+            ),
           }
         : {
             ...state,
-            selectedRepos: [...state.selectedRepos, action.id]
+            selectedRepos: [...state.selectedRepos, action.id],
           };
     case actions.SELECT_ALL_REPOS:
       return {
         ...state,
-        selectedRepos: [...action.repoIds]
+        selectedRepos: [...action.repoIds],
       };
     case actions.RESET_SELECTED_REPOS:
       return {
         ...state,
-        selectedRepos: []
+        selectedRepos: [],
       };
     case actions.TOGGLE_HIDE_OLD:
       return {
         ...state,
-        hideOldEnabled: !state.hideOldEnabled
+        hideOldEnabled: !state.hideOldEnabled,
       };
     case actions.SET_HIDE_OLD_THRESHOLD:
       return {
         ...state,
-        hideOldThreshold: action.threshold
+        hideOldThreshold: action.threshold,
       };
     case actions.TOGGLE_HIDE_WITHOUT_REQUEST:
       return {
         ...state,
-        hideWithoutRequestEnabled: !state.hideWithoutRequestEnabled
+        hideWithoutRequestEnabled: !state.hideWithoutRequestEnabled,
       };
     case actions.REQUEST_VIEWER_INFO_LOADING:
       return {
         ...state,
         loading: true,
-        githubError: null
+        githubError: null,
       };
     case actions.REQUEST_VIEWER_INFO_SUCCESS:
       return {
         ...state,
         viewerInfo: action.viewerInfo,
         loading: false,
-        githubError: null
+        githubError: null,
       };
     case actions.REQUEST_VIEWER_INFO_FAILURE:
       return {
         ...state,
         viewerInfo: {},
         githubError: action.error,
-        loading: false
+        loading: false,
       };
     case actions.RESET_VIEWER_INFO:
       return {
         ...state,
-        viewerInfo: {}
+        viewerInfo: {},
       };
     default:
       return state;

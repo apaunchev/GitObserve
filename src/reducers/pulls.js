@@ -9,10 +9,10 @@ const initialState = {
     author: "",
     reviewState: "",
     orderBy: "updatedAt",
-    searchQuery: ""
+    searchQuery: "",
   },
   loading: false,
-  githubError: null
+  githubError: null,
 };
 
 const REVIEW_STATES = {
@@ -24,10 +24,10 @@ const REVIEW_STATES = {
   DISMISSED: "DISMISSED",
   // Additional (custom) values:
   REVIEW_REQUESTED: "REVIEW_REQUESTED",
-  NO_REQUEST: "NO_REQUEST"
+  NO_REQUEST: "NO_REQUEST",
 };
 
-const formatReviewState = state => {
+const formatReviewState = (state) => {
   if (typeof state !== "string") return;
   return state.replace(/_/g, " ").toLowerCase();
 };
@@ -46,10 +46,10 @@ const getLatestReviewState = (reviews, reviewRequests) => {
   return formatReviewState(state);
 };
 
-const getApprovalsCount = reviews => {
+const getApprovalsCount = (reviews) => {
   let count = 0;
   if (reviews.length) {
-    count = reviews.filter(r => r.state === REVIEW_STATES.APPROVED).length;
+    count = reviews.filter((r) => r.state === REVIEW_STATES.APPROVED).length;
   }
   return count;
 };
@@ -58,10 +58,10 @@ const formatPrs = (newPrs, oldPrs) => {
   const oldPrsById = map(oldPrs, "id");
 
   return chain(newPrs.nodes)
-    .filter(node => node)
-    .map(node => map(node.pullRequests.edges, "node"))
+    .filter((node) => node)
+    .map((node) => map(node.pullRequests.edges, "node"))
     .flatten()
-    .map(pr => {
+    .map((pr) => {
       const reviews = map(pr.reviews.edges, "node");
       const reviewRequests = map(pr.reviewRequests.edges, "node");
       return {
@@ -71,7 +71,7 @@ const formatPrs = (newPrs, oldPrs) => {
         repoName: pr.repository.nameWithOwner,
         reviewState: getLatestReviewState(reviews, reviewRequests),
         approvals: getApprovalsCount(reviews),
-        isNew: !oldPrsById.includes(pr.id)
+        isNew: !oldPrsById.includes(pr.id),
       };
     })
     .orderBy("updatedAt")
@@ -79,13 +79,13 @@ const formatPrs = (newPrs, oldPrs) => {
     .value();
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case actions.REQUEST_PULL_REQUESTS_LOADING:
       return {
         ...state,
         loading: true,
-        githubError: null
+        githubError: null,
       };
     case actions.REQUEST_PULL_REQUESTS_SUCCESS:
       return {
@@ -93,26 +93,26 @@ export default function(state = initialState, action) {
         pulls: formatPrs(action.newPrs, action.oldPrs),
         lastUpdated: Math.floor(Date.now() / 1000),
         loading: false,
-        githubError: null
+        githubError: null,
       };
     case actions.REQUEST_PULL_REQUESTS_FAILURE:
       return {
         ...state,
         pulls: [],
         githubError: action.error,
-        loading: false
+        loading: false,
       };
     case actions.RESET_PULL_REQUESTS:
       return {
         ...state,
         pulls: [],
         githubError: null,
-        loading: false
+        loading: false,
       };
     case actions.SET_FILTERS:
       return {
         ...state,
-        filters: action.filters
+        filters: action.filters,
       };
     default:
       return state;

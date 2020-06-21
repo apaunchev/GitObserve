@@ -13,53 +13,53 @@ export const REQUEST_VIEWER_INFO_SUCCESS = "REQUEST_VIEWER_INFO_SUCCESS";
 export const REQUEST_VIEWER_INFO_FAILURE = "REQUEST_VIEWER_INFO_FAILURE";
 export const RESET_VIEWER_INFO = "RESET_VIEWER_INFO";
 
-export const setToken = value => ({
+export const setToken = (value) => ({
   type: SET_TOKEN,
-  value
+  value,
 });
 
-export const toggleRepoSelection = id => ({
+export const toggleRepoSelection = (id) => ({
   type: TOGGLE_REPO_SELECTION,
-  id
+  id,
 });
 
-export const selectAllRepos = repoIds => ({
+export const selectAllRepos = (repoIds) => ({
   type: SELECT_ALL_REPOS,
-  repoIds
+  repoIds,
 });
 
 export const resetSelectedRepos = () => ({
-  type: RESET_SELECTED_REPOS
+  type: RESET_SELECTED_REPOS,
 });
 
 export const toggleHideOld = () => ({
-  type: TOGGLE_HIDE_OLD
+  type: TOGGLE_HIDE_OLD,
 });
 
-export const setHideOldThreshold = threshold => ({
+export const setHideOldThreshold = (threshold) => ({
   type: SET_HIDE_OLD_THRESHOLD,
-  threshold
+  threshold,
 });
 
 export const toggleHideWithoutRequest = () => ({
-  type: TOGGLE_HIDE_WITHOUT_REQUEST
+  type: TOGGLE_HIDE_WITHOUT_REQUEST,
 });
 
 export const requestViewerInfoLoading = () => ({
-  type: REQUEST_VIEWER_INFO_LOADING
+  type: REQUEST_VIEWER_INFO_LOADING,
 });
 
-export const requestViewerInfoSuccess = viewerInfo => ({
+export const requestViewerInfoSuccess = (viewerInfo) => ({
   type: REQUEST_VIEWER_INFO_SUCCESS,
-  viewerInfo
+  viewerInfo,
 });
 
-export const requestViewerInfoFailure = error => ({
+export const requestViewerInfoFailure = (error) => ({
   type: REQUEST_VIEWER_INFO_FAILURE,
-  error
+  error,
 });
 
-export const requestViewerInfo = token => async dispatch => {
+export const requestViewerInfo = (token) => async (dispatch) => {
   try {
     dispatch(requestViewerInfoLoading());
     const query = queries.viewerInfo();
@@ -71,5 +71,5 @@ export const requestViewerInfo = token => async dispatch => {
 };
 
 export const resetViewerInfo = () => ({
-  type: RESET_VIEWER_INFO
+  type: RESET_VIEWER_INFO,
 });

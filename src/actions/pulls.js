@@ -8,18 +8,18 @@ export const RESET_PULL_REQUESTS = "RESET_PULL_REQUESTS";
 export const SET_FILTERS = "SET_FILTERS";
 
 export const requestPullRequestsLoading = () => ({
-  type: REQUEST_PULL_REQUESTS_LOADING
+  type: REQUEST_PULL_REQUESTS_LOADING,
 });
 
 export const requestPullRequestsSuccess = (newPrs, oldPrs) => ({
   type: REQUEST_PULL_REQUESTS_SUCCESS,
   newPrs,
-  oldPrs
+  oldPrs,
 });
 
-export const requestPullRequestsFailure = error => ({
+export const requestPullRequestsFailure = (error) => ({
   type: REQUEST_PULL_REQUESTS_FAILURE,
-  error
+  error,
 });
 
 export const requestPullRequests = (repoIds, token) => async (
@@ -38,10 +38,10 @@ export const requestPullRequests = (repoIds, token) => async (
 };
 
 export const resetPullRequests = () => ({
-  type: RESET_PULL_REQUESTS
+  type: RESET_PULL_REQUESTS,
 });
 
-export const setFilters = filters => ({
+export const setFilters = (filters) => ({
   type: SET_FILTERS,
-  filters
+  filters,
 });

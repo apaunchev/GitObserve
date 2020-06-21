@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/settings";
 
-const PullRequests = props => (
+const PullRequests = (props) => (
   <>
     <div className="Subhead">
       <h2 className="Subhead-heading">Pull requests</h2>
@@ -21,7 +21,7 @@ const PullRequests = props => (
             className="form-control input-sm ml-1"
             style={{ width: "40px " }}
             value={props.hideOldThreshold}
-            onChange={e => props.setHideOldThreshold(e.target.value)}
+            onChange={(e) => props.setHideOldThreshold(e.target.value)}
           />{" "}
           days
         </label>
@@ -40,21 +40,18 @@ const PullRequests = props => (
   </>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   hideOldEnabled: state.settings.hideOldEnabled,
   hideOldThreshold: state.settings.hideOldThreshold,
-  hideWithoutRequestEnabled: state.settings.hideWithoutRequestEnabled
+  hideWithoutRequestEnabled: state.settings.hideWithoutRequestEnabled,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   toggleHideOld: () => dispatch(actions.toggleHideOld()),
-  setHideOldThreshold: interval =>
+  setHideOldThreshold: (interval) =>
     dispatch(actions.setHideOldThreshold(interval)),
   toggleHideWithoutRequest: () => dispatch(actions.toggleHideWithoutRequest()),
-  dispatch
+  dispatch,
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PullRequests);
+export default connect(mapStateToProps, mapDispatchToProps)(PullRequests);

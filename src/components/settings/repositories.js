@@ -1,6 +1,6 @@
 import Octicon, {
   LinkExternal as LinkExternalIcon,
-  Sync as SyncIcon
+  Sync as SyncIcon,
 } from "@githubprimer/octicons-react";
 import PropTypes from "prop-types";
 import React from "react";
@@ -32,7 +32,7 @@ class Repositories extends React.PureComponent {
       selectAllRepos,
       resetSelectedRepos,
       toggleRepoSelection,
-      requestWatchedRepos
+      requestWatchedRepos,
     } = this.props;
 
     return (
@@ -60,7 +60,7 @@ class Repositories extends React.PureComponent {
                 <button
                   className="BtnGroup-item btn btn-sm"
                   onClick={() =>
-                    selectAllRepos(watchedRepos.map(repo => repo.id))
+                    selectAllRepos(watchedRepos.map((repo) => repo.id))
                   }
                 >
                   Select all
@@ -139,7 +139,7 @@ Repositories.propTypes = {
   githubError: PropTypes.shape(),
   selectedRepos: PropTypes.arrayOf(PropTypes.string),
   token: PropTypes.string,
-  resetWatchedRepos: PropTypes.func
+  resetWatchedRepos: PropTypes.func,
 };
 
 Repositories.defaultProps = {
@@ -147,28 +147,27 @@ Repositories.defaultProps = {
   loading: false,
   githubError: null,
   selectedRepos: [],
-  token: null
+  token: null,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   watchedRepos: state.watchedRepos.repos,
   loading: state.watchedRepos.loading,
   githubError: state.watchedRepos.githubError,
   selectedRepos: state.settings.selectedRepos,
-  token: state.settings.token
+  token: state.settings.token,
 });
 
-const mapDispatchToProps = dispatch => ({
-  requestWatchedRepos: token =>
+const mapDispatchToProps = (dispatch) => ({
+  requestWatchedRepos: (token) =>
     dispatch(watchedReposActions.requestWatchedRepos(token)),
-  toggleRepoSelection: id => dispatch(settingsActions.toggleRepoSelection(id)),
-  selectAllRepos: repoIds => dispatch(settingsActions.selectAllRepos(repoIds)),
+  toggleRepoSelection: (id) =>
+    dispatch(settingsActions.toggleRepoSelection(id)),
+  selectAllRepos: (repoIds) =>
+    dispatch(settingsActions.selectAllRepos(repoIds)),
   resetSelectedRepos: () => dispatch(settingsActions.resetSelectedRepos()),
   resetWatchedRepos: () => dispatch(watchedReposActions.resetWatchedRepos()),
-  dispatch
+  dispatch,
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Repositories);
+export default connect(mapStateToProps, mapDispatchToProps)(Repositories);

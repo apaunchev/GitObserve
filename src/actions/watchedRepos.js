@@ -7,20 +7,20 @@ export const REQUEST_WATCHED_REPOS_FAILURE = "REQUEST_WATCHED_REPOS_FAILURE";
 export const RESET_WATCHED_REPOS = "RESET_WATCHED_REPOS";
 
 export const requestWatchedReposLoading = () => ({
-  type: REQUEST_WATCHED_REPOS_LOADING
+  type: REQUEST_WATCHED_REPOS_LOADING,
 });
 
-export const requestWatchedReposSuccess = data => ({
+export const requestWatchedReposSuccess = (data) => ({
   type: REQUEST_WATCHED_REPOS_SUCCESS,
-  data
+  data,
 });
 
-export const requestWatchedReposFailure = error => ({
+export const requestWatchedReposFailure = (error) => ({
   type: REQUEST_WATCHED_REPOS_FAILURE,
-  error
+  error,
 });
 
-export const requestWatchedRepos = token => async dispatch => {
+export const requestWatchedRepos = (token) => async (dispatch) => {
   try {
     dispatch(requestWatchedReposLoading());
     let query = queries.watchedRepos();
@@ -35,12 +35,12 @@ export const requestWatchedRepos = token => async dispatch => {
         paginate = paginatedResults.viewer.watching.pageInfo.hasNextPage;
       }
     }
-    reposArray = reposArray.map(repo => ({
+    reposArray = reposArray.map((repo) => ({
       id: repo.node.id,
       name: repo.node.name,
       url: repo.node.url,
       owner: repo.node.owner,
-      createdAt: repo.node.createdAt
+      createdAt: repo.node.createdAt,
     }));
     dispatch(requestWatchedReposSuccess(reposArray));
   } catch (err) {
@@ -49,5 +49,5 @@ export const requestWatchedRepos = token => async dispatch => {
 };
 
 export const resetWatchedRepos = () => ({
-  type: RESET_WATCHED_REPOS
+  type: RESET_WATCHED_REPOS,
 });

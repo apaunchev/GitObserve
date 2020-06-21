@@ -2,7 +2,7 @@ import Octicon, {
   CloudUpload as CloudUploadIcon,
   GitPullRequest as GitPullRequestIcon,
   Person as PersonIcon,
-  Repo as RepoIcon
+  Repo as RepoIcon,
 } from "@githubprimer/octicons-react";
 import React from "react";
 import { Link, NavLink, Redirect, Route, Switch } from "react-router-dom";

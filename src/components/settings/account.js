@@ -70,26 +70,23 @@ Account.propTypes = {
   setToken: PropTypes.func.isRequired,
   viewerInfo: PropTypes.object.isRequired,
   requestViewerInfo: PropTypes.func.isRequired,
-  resetViewerInfo: PropTypes.func.isRequired
+  resetViewerInfo: PropTypes.func.isRequired,
 };
 
 Account.defaultProps = {
-  token: null
+  token: null,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   token: state.settings.token,
-  viewerInfo: state.settings.viewerInfo
+  viewerInfo: state.settings.viewerInfo,
 });
 
-const mapDispatchToProps = dispatch => ({
-  setToken: value => dispatch(actions.setToken(value)),
-  requestViewerInfo: token => dispatch(actions.requestViewerInfo(token)),
+const mapDispatchToProps = (dispatch) => ({
+  setToken: (value) => dispatch(actions.setToken(value)),
+  requestViewerInfo: (token) => dispatch(actions.requestViewerInfo(token)),
   resetViewerInfo: () => dispatch(actions.resetViewerInfo()),
-  dispatch
+  dispatch,
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Account);
+export default connect(mapStateToProps, mapDispatchToProps)(Account);

@@ -9,20 +9,20 @@ const DEFAULT_FILTERS = {
   author: "",
   orderBy: "updatedAt",
   reviewState: "",
-  searchQuery: ""
+  searchQuery: "",
 };
 
-const Filters = props => {
-  const handleSelectChange = e => {
+const Filters = (props) => {
+  const handleSelectChange = (e) => {
     props.setFilters({
       ...props.filters,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const renderAuthorsSelect = () => {
     const authors = chain(props.pullRequests)
-      .countBy(pr => pr.author.login)
+      .countBy((pr) => pr.author.login)
       .toPairs()
       .orderBy(1, "desc")
       .fromPairs()
@@ -37,7 +37,7 @@ const Filters = props => {
         style={{ width: "130px" }}
       >
         <option value="">all authors</option>
-        {Object.keys(authors).map(author => (
+        {Object.keys(authors).map((author) => (
           <option key={author} value={author}>
             {author} ({authors[author]})
           </option>
@@ -48,7 +48,7 @@ const Filters = props => {
 
   const renderReposSelect = () => {
     const repos = chain(props.pullRequests)
-      .countBy(pr => pr.repoName)
+      .countBy((pr) => pr.repoName)
       .toPairs()
       .orderBy(1, "desc")
       .fromPairs()
@@ -63,7 +63,7 @@ const Filters = props => {
         style={{ width: "130px" }}
       >
         <option value="">all repositories</option>
-        {Object.keys(repos).map(repo => (
+        {Object.keys(repos).map((repo) => (
           <option key={repo} value={repo}>
             {repo} ({repos[repo]})
           </option>
@@ -105,21 +105,18 @@ const Filters = props => {
 };
 
 Filters.propTypes = {
-  pullRequests: PropTypes.arrayOf(PropTypes.object)
+  pullRequests: PropTypes.arrayOf(PropTypes.object),
 };
 
-const mapStateToProps = state => ({
-  filters: state.pulls.filters
+const mapStateToProps = (state) => ({
+  filters: state.pulls.filters,
 });
 
-const mapDispatchToProps = dispatch => ({
-  setFilters: filters => {
+const mapDispatchToProps = (dispatch) => ({
+  setFilters: (filters) => {
     dispatch(actions.setFilters(filters));
   },
-  dispatch
+  dispatch,
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Filters);
+export default connect(mapStateToProps, mapDispatchToProps)(Filters);

@@ -1,6 +1,6 @@
 import Octicon, {
   Clock as ClockIcon,
-  Thumbsup as ThumbsupIcon
+  Thumbsup as ThumbsupIcon,
 } from "@githubprimer/octicons-react";
 import { isoToRelative } from "../../utils";
 import React from "react";
@@ -13,7 +13,7 @@ const PR_STATE_CLASSES = {
   commented: "bg-yellow text-gray",
   pending: "Label--gray",
   dismissed: "bg-red text-white",
-  "no request": "Label--gray"
+  "no request": "Label--gray",
 };
 
 const PullRequest = ({
@@ -26,7 +26,7 @@ const PullRequest = ({
   reviewState,
   approvals,
   isNew,
-  filters
+  filters,
 }) => {
   let className = "Box-row Box-row--hover-gray d-flex";
   if (isNew) className += " Box-row--unread";
@@ -86,8 +86,8 @@ const PullRequest = ({
   );
 };
 
-const mapStateToProps = state => ({
-  filters: state.pulls.filters
+const mapStateToProps = (state) => ({
+  filters: state.pulls.filters,
 });
 
 export default connect(mapStateToProps)(PullRequest);

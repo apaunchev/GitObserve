@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 import * as actions from "../../actions/pulls";
 
 class SubNav extends React.PureComponent {
-  handleReviewStateChange = e => {
+  handleReviewStateChange = (e) => {
     e.preventDefault();
 
     this.props.setFilters({
       ...this.props.filters,
-      reviewState: e.target.dataset.reviewState
+      reviewState: e.target.dataset.reviewState,
     });
   };
 
@@ -78,10 +78,10 @@ class SubNav extends React.PureComponent {
             style={{ width: "100%", paddingLeft: 28 }}
             placeholder="Search pull requests..."
             value={filters.searchQuery}
-            onChange={e =>
+            onChange={(e) =>
               setFilters({
                 ...filters,
-                searchQuery: e.target.value
+                searchQuery: e.target.value,
               })
             }
           />
@@ -92,18 +92,15 @@ class SubNav extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  filters: state.pulls.filters
+const mapStateToProps = (state) => ({
+  filters: state.pulls.filters,
 });
 
-const mapDispatchToProps = dispatch => ({
-  setFilters: filters => {
+const mapDispatchToProps = (dispatch) => ({
+  setFilters: (filters) => {
     dispatch(actions.setFilters(filters));
   },
-  dispatch
+  dispatch,
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SubNav);
+export default connect(mapStateToProps, mapDispatchToProps)(SubNav);

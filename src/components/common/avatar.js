@@ -35,19 +35,16 @@ class Avatar extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   token: state.settings.token,
   viewerInfo: state.settings.viewerInfo,
   githubError: state.settings.githubError,
-  loading: state.settings.loading
+  loading: state.settings.loading,
 });
 
-const mapDispatchToProps = dispatch => ({
-  requestViewerInfo: token => dispatch(actions.requestViewerInfo(token)),
-  dispatch
+const mapDispatchToProps = (dispatch) => ({
+  requestViewerInfo: (token) => dispatch(actions.requestViewerInfo(token)),
+  dispatch,
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Avatar);
+export default connect(mapStateToProps, mapDispatchToProps)(Avatar);

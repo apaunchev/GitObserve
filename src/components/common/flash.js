@@ -9,7 +9,7 @@ const Flash = ({ type, children }) => (
 
 Flash.propTypes = {
   type: PropTypes.string,
-  message: PropTypes.string
+  message: PropTypes.string,
 };
 
 export default Flash;
